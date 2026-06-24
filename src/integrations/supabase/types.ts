@@ -21,19 +21,24 @@ export type Database = {
           daily_return_pct: number | null
           daily_traded_value: number | null
           day_index: number | null
+          fwd_max_20d: number | null
           id: string
           kap_count: number
           last_kap_date: string | null
           market_value: number | null
           ret_10d: number | null
           ret_20d: number | null
+          ret_2d: number | null
           ret_30d: number | null
+          ret_3d: number | null
           ret_5d: number | null
           snapshot_date: string
           symbol: string
+          vol_ratio_1d: number | null
           vol_ratio_20d: number | null
           vol_ratio_2d: number | null
           vol_ratio_3d: number | null
+          vol_ratio_5d: number | null
           volume: number
         }
         Insert: {
@@ -42,19 +47,24 @@ export type Database = {
           daily_return_pct?: number | null
           daily_traded_value?: number | null
           day_index?: number | null
+          fwd_max_20d?: number | null
           id?: string
           kap_count?: number
           last_kap_date?: string | null
           market_value?: number | null
           ret_10d?: number | null
           ret_20d?: number | null
+          ret_2d?: number | null
           ret_30d?: number | null
+          ret_3d?: number | null
           ret_5d?: number | null
           snapshot_date: string
           symbol: string
+          vol_ratio_1d?: number | null
           vol_ratio_20d?: number | null
           vol_ratio_2d?: number | null
           vol_ratio_3d?: number | null
+          vol_ratio_5d?: number | null
           volume: number
         }
         Update: {
@@ -63,19 +73,24 @@ export type Database = {
           daily_return_pct?: number | null
           daily_traded_value?: number | null
           day_index?: number | null
+          fwd_max_20d?: number | null
           id?: string
           kap_count?: number
           last_kap_date?: string | null
           market_value?: number | null
           ret_10d?: number | null
           ret_20d?: number | null
+          ret_2d?: number | null
           ret_30d?: number | null
+          ret_3d?: number | null
           ret_5d?: number | null
           snapshot_date?: string
           symbol?: string
+          vol_ratio_1d?: number | null
           vol_ratio_20d?: number | null
           vol_ratio_2d?: number | null
           vol_ratio_3d?: number | null
+          vol_ratio_5d?: number | null
           volume?: number
         }
         Relationships: [
@@ -102,13 +117,17 @@ export type Database = {
           market_value: number | null
           ret_10d: number | null
           ret_20d: number | null
+          ret_2d: number | null
           ret_30d: number | null
+          ret_3d: number | null
           ret_5d: number | null
           sector: string | null
           symbol: string
+          vol_ratio_1d: number | null
           vol_ratio_20d: number | null
           vol_ratio_2d: number | null
           vol_ratio_3d: number | null
+          vol_ratio_5d: number | null
           volume: number | null
         }
         Insert: {
@@ -124,13 +143,17 @@ export type Database = {
           market_value?: number | null
           ret_10d?: number | null
           ret_20d?: number | null
+          ret_2d?: number | null
           ret_30d?: number | null
+          ret_3d?: number | null
           ret_5d?: number | null
           sector?: string | null
           symbol: string
+          vol_ratio_1d?: number | null
           vol_ratio_20d?: number | null
           vol_ratio_2d?: number | null
           vol_ratio_3d?: number | null
+          vol_ratio_5d?: number | null
           volume?: number | null
         }
         Update: {
@@ -146,13 +169,17 @@ export type Database = {
           market_value?: number | null
           ret_10d?: number | null
           ret_20d?: number | null
+          ret_2d?: number | null
           ret_30d?: number | null
+          ret_3d?: number | null
           ret_5d?: number | null
           sector?: string | null
           symbol?: string
+          vol_ratio_1d?: number | null
           vol_ratio_20d?: number | null
           vol_ratio_2d?: number | null
           vol_ratio_3d?: number | null
+          vol_ratio_5d?: number | null
           volume?: number | null
         }
         Relationships: [
@@ -171,6 +198,7 @@ export type Database = {
           daily_return_pct: number
           event_date: string
           event_type: string
+          fwd_ret_20d: number | null
           id: string
           is_limit_up: boolean
           sector: string | null
@@ -181,6 +209,7 @@ export type Database = {
           daily_return_pct: number
           event_date: string
           event_type: string
+          fwd_ret_20d?: number | null
           id?: string
           is_limit_up?: boolean
           sector?: string | null
@@ -191,6 +220,7 @@ export type Database = {
           daily_return_pct?: number
           event_date?: string
           event_type?: string
+          fwd_ret_20d?: number | null
           id?: string
           is_limit_up?: boolean
           sector?: string | null
@@ -290,6 +320,84 @@ export type Database = {
         }
         Relationships: []
       }
+      research_progress: {
+        Row: {
+          features_generated: number
+          id: number
+          limit_up_events: number
+          phase: string | null
+          rows_processed: number
+          run20_events: number
+          scope_end: string | null
+          scope_start: string | null
+          started_at: string | null
+          status: string
+          stocks_done: number
+          stocks_total: number
+          updated_at: string
+        }
+        Insert: {
+          features_generated?: number
+          id?: number
+          limit_up_events?: number
+          phase?: string | null
+          rows_processed?: number
+          run20_events?: number
+          scope_end?: string | null
+          scope_start?: string | null
+          started_at?: string | null
+          status?: string
+          stocks_done?: number
+          stocks_total?: number
+          updated_at?: string
+        }
+        Update: {
+          features_generated?: number
+          id?: number
+          limit_up_events?: number
+          phase?: string | null
+          rows_processed?: number
+          run20_events?: number
+          scope_end?: string | null
+          scope_start?: string | null
+          started_at?: string | null
+          status?: string
+          stocks_done?: number
+          stocks_total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      research_queue: {
+        Row: {
+          error: string | null
+          limit_up: number
+          n_rows: number
+          processed_at: string | null
+          run20: number
+          status: string
+          symbol: string
+        }
+        Insert: {
+          error?: string | null
+          limit_up?: number
+          n_rows?: number
+          processed_at?: string | null
+          run20?: number
+          status?: string
+          symbol: string
+        }
+        Update: {
+          error?: string | null
+          limit_up?: number
+          n_rows?: number
+          processed_at?: string | null
+          run20?: number
+          status?: string
+          symbol?: string
+        }
+        Relationships: []
+      }
       research_sectors: {
         Row: {
           count: number
@@ -308,6 +416,60 @@ export type Database = {
           label?: string
           ord?: number
           pct?: number
+        }
+        Relationships: []
+      }
+      research_signals: {
+        Row: {
+          avg_fwd_max20: number | null
+          base_hits: number
+          base_rate_pct: number | null
+          base_support: number
+          event_type: string
+          hits: number
+          horizon: number
+          id: number
+          lift: number | null
+          precision_pct: number | null
+          rank: number | null
+          signal_key: string
+          signal_label: string
+          support: number
+          updated_at: string
+        }
+        Insert: {
+          avg_fwd_max20?: number | null
+          base_hits?: number
+          base_rate_pct?: number | null
+          base_support?: number
+          event_type: string
+          hits?: number
+          horizon: number
+          id?: never
+          lift?: number | null
+          precision_pct?: number | null
+          rank?: number | null
+          signal_key: string
+          signal_label: string
+          support?: number
+          updated_at?: string
+        }
+        Update: {
+          avg_fwd_max20?: number | null
+          base_hits?: number
+          base_rate_pct?: number | null
+          base_support?: number
+          event_type?: string
+          hits?: number
+          horizon?: number
+          id?: never
+          lift?: number | null
+          precision_pct?: number | null
+          rank?: number | null
+          signal_key?: string
+          signal_label?: string
+          support?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -367,8 +529,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      recompute_research: { Args: never; Returns: undefined }
-      run_recompute_once: { Args: never; Returns: undefined }
+      build_research_aggregates: { Args: never; Returns: undefined }
+      process_stock: {
+        Args: { _symbol: string }
+        Returns: {
+          feats: number
+          lu: number
+          rows_done: number
+          run20: number
+        }[]
+      }
+      research_drive: {
+        Args: { _batch?: number }
+        Returns: {
+          done: boolean
+          processed: number
+          remaining: number
+        }[]
+      }
+      research_reset: { Args: { _scope?: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
