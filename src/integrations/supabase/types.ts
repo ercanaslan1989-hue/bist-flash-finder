@@ -368,6 +368,7 @@ export type Database = {
     }
     Functions: {
       recompute_research: { Args: never; Returns: undefined }
+      run_recompute_once: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
