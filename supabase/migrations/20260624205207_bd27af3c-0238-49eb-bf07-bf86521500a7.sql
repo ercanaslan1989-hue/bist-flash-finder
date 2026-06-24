@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.recompute_research() FROM anon, authenticated, PUBLIC;

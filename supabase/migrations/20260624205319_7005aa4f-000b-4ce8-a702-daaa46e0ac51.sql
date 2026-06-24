@@ -1,0 +1,1 @@
+TRUNCATE public.event_features, public.events, public.daily_snapshots, public.stocks RESTART IDENTITY CASCADE;
