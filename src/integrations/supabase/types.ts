@@ -539,6 +539,14 @@ export type Database = {
           run20: number
         }[]
       }
+      research_drive: {
+        Args: { _batch?: number }
+        Returns: {
+          done: boolean
+          processed: number
+          remaining: number
+        }[]
+      }
       research_reset: { Args: { _scope?: string }; Returns: undefined }
     }
     Enums: {
