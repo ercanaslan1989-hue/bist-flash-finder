@@ -14,7 +14,222 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      daily_snapshots: {
+        Row: {
+          close: number
+          created_at: string
+          daily_return_pct: number | null
+          daily_traded_value: number | null
+          day_index: number | null
+          id: string
+          kap_count: number
+          last_kap_date: string | null
+          market_value: number | null
+          ret_10d: number | null
+          ret_20d: number | null
+          ret_30d: number | null
+          ret_5d: number | null
+          snapshot_date: string
+          symbol: string
+          vol_ratio_20d: number | null
+          vol_ratio_2d: number | null
+          vol_ratio_3d: number | null
+          volume: number
+        }
+        Insert: {
+          close: number
+          created_at?: string
+          daily_return_pct?: number | null
+          daily_traded_value?: number | null
+          day_index?: number | null
+          id?: string
+          kap_count?: number
+          last_kap_date?: string | null
+          market_value?: number | null
+          ret_10d?: number | null
+          ret_20d?: number | null
+          ret_30d?: number | null
+          ret_5d?: number | null
+          snapshot_date: string
+          symbol: string
+          vol_ratio_20d?: number | null
+          vol_ratio_2d?: number | null
+          vol_ratio_3d?: number | null
+          volume: number
+        }
+        Update: {
+          close?: number
+          created_at?: string
+          daily_return_pct?: number | null
+          daily_traded_value?: number | null
+          day_index?: number | null
+          id?: string
+          kap_count?: number
+          last_kap_date?: string | null
+          market_value?: number | null
+          ret_10d?: number | null
+          ret_20d?: number | null
+          ret_30d?: number | null
+          ret_5d?: number | null
+          snapshot_date?: string
+          symbol?: string
+          vol_ratio_20d?: number | null
+          vol_ratio_2d?: number | null
+          vol_ratio_3d?: number | null
+          volume?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_snapshots_symbol_fkey"
+            columns: ["symbol"]
+            isOneToOne: false
+            referencedRelation: "stocks"
+            referencedColumns: ["symbol"]
+          },
+        ]
+      }
+      event_features: {
+        Row: {
+          close: number | null
+          created_at: string
+          daily_return_pct: number | null
+          daily_traded_value: number | null
+          days_before: number
+          event_id: string
+          feature_date: string
+          id: string
+          kap_count: number | null
+          market_value: number | null
+          ret_10d: number | null
+          ret_20d: number | null
+          ret_30d: number | null
+          ret_5d: number | null
+          sector: string | null
+          symbol: string
+          vol_ratio_20d: number | null
+          vol_ratio_2d: number | null
+          vol_ratio_3d: number | null
+          volume: number | null
+        }
+        Insert: {
+          close?: number | null
+          created_at?: string
+          daily_return_pct?: number | null
+          daily_traded_value?: number | null
+          days_before: number
+          event_id: string
+          feature_date: string
+          id?: string
+          kap_count?: number | null
+          market_value?: number | null
+          ret_10d?: number | null
+          ret_20d?: number | null
+          ret_30d?: number | null
+          ret_5d?: number | null
+          sector?: string | null
+          symbol: string
+          vol_ratio_20d?: number | null
+          vol_ratio_2d?: number | null
+          vol_ratio_3d?: number | null
+          volume?: number | null
+        }
+        Update: {
+          close?: number | null
+          created_at?: string
+          daily_return_pct?: number | null
+          daily_traded_value?: number | null
+          days_before?: number
+          event_id?: string
+          feature_date?: string
+          id?: string
+          kap_count?: number | null
+          market_value?: number | null
+          ret_10d?: number | null
+          ret_20d?: number | null
+          ret_30d?: number | null
+          ret_5d?: number | null
+          sector?: string | null
+          symbol?: string
+          vol_ratio_20d?: number | null
+          vol_ratio_2d?: number | null
+          vol_ratio_3d?: number | null
+          volume?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_features_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string
+          daily_return_pct: number
+          event_date: string
+          event_type: string
+          id: string
+          is_limit_up: boolean
+          sector: string | null
+          symbol: string
+        }
+        Insert: {
+          created_at?: string
+          daily_return_pct: number
+          event_date: string
+          event_type: string
+          id?: string
+          is_limit_up?: boolean
+          sector?: string | null
+          symbol: string
+        }
+        Update: {
+          created_at?: string
+          daily_return_pct?: number
+          event_date?: string
+          event_type?: string
+          id?: string
+          is_limit_up?: boolean
+          sector?: string | null
+          symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_symbol_fkey"
+            columns: ["symbol"]
+            isOneToOne: false
+            referencedRelation: "stocks"
+            referencedColumns: ["symbol"]
+          },
+        ]
+      }
+      stocks: {
+        Row: {
+          company_name: string
+          created_at: string
+          sector: string
+          shares_outstanding: number
+          symbol: string
+        }
+        Insert: {
+          company_name: string
+          created_at?: string
+          sector: string
+          shares_outstanding?: number
+          symbol: string
+        }
+        Update: {
+          company_name?: string
+          created_at?: string
+          sector?: string
+          shares_outstanding?: number
+          symbol?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
