@@ -16,10 +16,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link to="/" className="flex items-center gap-2.5">
             <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/15 text-primary signal-glow">
-              <Flame className="h-4.5 w-4.5" strokeWidth={2.5} />
+              <Flame className="h-4 w-4" strokeWidth={2.5} />
             </span>
             <span className="flex flex-col leading-none">
-              <span className="font-display text-sm font-700 tracking-tight text-foreground">
+              <span className="font-display text-sm font-bold tracking-tight text-foreground">
                 BIST Signal Lab
               </span>
               <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -34,13 +34,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={item.to}
                 to={item.to}
                 activeOptions={{ exact: item.to === "/" }}
-                activeProps={{
-                  className: "bg-secondary text-foreground",
-                }}
+                activeProps={{ className: "bg-secondary text-foreground" }}
                 inactiveProps={{
                   className: "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
                 }}
-                className="rounded-md px-3 py-1.5 text-sm font-500 transition-colors"
+                className="rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors sm:px-3 sm:text-sm"
               >
                 {item.label}
               </Link>
@@ -54,7 +52,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <footer className="border-t border-border">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
           <p className="max-w-3xl text-xs leading-relaxed text-muted-foreground">
-            <span className="font-600 text-foreground">Research only — not investment advice.</span>{" "}
+            <span className="font-semibold text-foreground">Research only — not investment advice.</span>{" "}
             This lab does not generate buy or sell signals. It collects daily snapshots, flags large
             moves as events, and measures which conditions recurred before those moves. Sample data
             is synthetic for demonstration; connect a live BIST feed to study real patterns.
