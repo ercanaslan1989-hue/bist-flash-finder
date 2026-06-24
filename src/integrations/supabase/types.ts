@@ -206,6 +206,138 @@ export type Database = {
           },
         ]
       }
+      ingestion_meta: {
+        Row: {
+          data_source: string
+          history_start: string | null
+          id: number
+          last_ingest_at: string | null
+          notes: string | null
+        }
+        Insert: {
+          data_source?: string
+          history_start?: string | null
+          id?: number
+          last_ingest_at?: string | null
+          notes?: string | null
+        }
+        Update: {
+          data_source?: string
+          history_start?: string | null
+          id?: number
+          last_ingest_at?: string | null
+          notes?: string | null
+        }
+        Relationships: []
+      }
+      research_meta: {
+        Row: {
+          event_count: number
+          first_date: string | null
+          id: number
+          last_date: string | null
+          limit_up_count: number
+          snapshot_count: number
+          stock_count: number
+          updated_at: string
+        }
+        Insert: {
+          event_count?: number
+          first_date?: string | null
+          id?: number
+          last_date?: string | null
+          limit_up_count?: number
+          snapshot_count?: number
+          stock_count?: number
+          updated_at?: string
+        }
+        Update: {
+          event_count?: number
+          first_date?: string | null
+          id?: number
+          last_date?: string | null
+          limit_up_count?: number
+          snapshot_count?: number
+          stock_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      research_profile: {
+        Row: {
+          average: number | null
+          days_before: number
+          median: number | null
+          metric: string
+          ord: number
+          unit: string
+        }
+        Insert: {
+          average?: number | null
+          days_before: number
+          median?: number | null
+          metric: string
+          ord: number
+          unit: string
+        }
+        Update: {
+          average?: number | null
+          days_before?: number
+          median?: number | null
+          metric?: string
+          ord?: number
+          unit?: string
+        }
+        Relationships: []
+      }
+      research_sectors: {
+        Row: {
+          count: number
+          label: string
+          ord: number
+          pct: number
+        }
+        Insert: {
+          count: number
+          label: string
+          ord: number
+          pct: number
+        }
+        Update: {
+          count?: number
+          label?: string
+          ord?: number
+          pct?: number
+        }
+        Relationships: []
+      }
+      research_window_stats: {
+        Row: {
+          chart: string
+          count: number
+          days_before: number
+          label: string
+          ord: number
+          pct: number
+        }
+        Insert: {
+          chart: string
+          count?: number
+          days_before: number
+          label: string
+          ord: number
+          pct?: number
+        }
+        Update: {
+          chart?: string
+          count?: number
+          days_before?: number
+          label?: string
+          ord?: number
+          pct?: number
+        }
+        Relationships: []
+      }
       stocks: {
         Row: {
           company_name: string
@@ -235,7 +367,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      recompute_research: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
