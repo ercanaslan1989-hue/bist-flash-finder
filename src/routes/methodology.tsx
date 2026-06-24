@@ -73,7 +73,7 @@ function MethodologyPage() {
         {STEPS.map((s) => (
           <div key={s.title} className="rounded-xl border border-border bg-card p-5">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
-              <s.icon className="h-4.5 w-4.5" />
+              <s.icon className="h-5 w-5" />
             </span>
             <h2 className="mt-3 font-display text-base font-semibold text-foreground">{s.title}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
@@ -96,7 +96,7 @@ function MethodologyPage() {
 
         <div className="rounded-xl border border-primary/30 bg-primary/5 p-5">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
-            <ShieldAlert className="h-4.5 w-4.5" />
+            <ShieldAlert className="h-5 w-5" />
           </span>
           <h2 className="mt-3 font-display text-base font-semibold text-foreground">
             What this lab does not do
