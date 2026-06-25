@@ -160,7 +160,7 @@ function BacktestPage() {
           <div className="flex items-center gap-2">
             <LineChart className="h-5 w-5 text-primary" />
             <h2 className="font-display text-xl font-bold text-foreground">
-              Walk-forward (all watchlist signals)
+              Walk-forward (tüm izleme listesi sinyalleri)
             </h2>
           </div>
           <WalkforwardTable rows={walkforward} />
@@ -169,28 +169,28 @@ function BacktestPage() {
 
       {summary && (
         <section className="mt-8 rounded-xl border border-border bg-card p-5">
-          <h3 className="font-display text-sm font-semibold text-foreground">Calibration</h3>
+          <h3 className="font-display text-sm font-semibold text-foreground">Kalibrasyon</h3>
           <p className="mt-2 text-sm text-muted-foreground">
-            Best month{" "}
+            En iyi ay{" "}
             <span className="font-semibold text-foreground">
               {summary.best_month ? monthLabel(summary.best_month) : "—"}
             </span>{" "}
-            ({fmtNum(summary.best_month_precision, 1)}%) · Worst month{" "}
+            (%{fmtNum(summary.best_month_precision, 1)}) · En kötü ay{" "}
             <span className="font-semibold text-foreground">
               {summary.worst_month ? monthLabel(summary.worst_month) : "—"}
             </span>{" "}
-            ({fmtNum(summary.worst_month_precision, 1)}%).
+            (%{fmtNum(summary.worst_month_precision, 1)}).
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Calibration: predicted{" "}
-            <span className="font-mono text-foreground">{fmtNum(summary.calib_low_pred, 1)}%</span> →
-            actual{" "}
-            <span className="font-mono text-foreground">{fmtNum(summary.calib_low_actual, 1)}%</span>;
-            predicted{" "}
-            <span className="font-mono text-foreground">{fmtNum(summary.calib_high_pred, 1)}%</span> →
-            actual{" "}
+            Kalibrasyon: tahmin{" "}
+            <span className="font-mono text-foreground">%{fmtNum(summary.calib_low_pred, 1)}</span> →
+            gerçek{" "}
+            <span className="font-mono text-foreground">%{fmtNum(summary.calib_low_actual, 1)}</span>;
+            tahmin{" "}
+            <span className="font-mono text-foreground">%{fmtNum(summary.calib_high_pred, 1)}</span> →
+            gerçek{" "}
             <span className="font-mono text-foreground">
-              {fmtNum(summary.calib_high_actual, 1)}%
+              %{fmtNum(summary.calib_high_actual, 1)}
             </span>
             .
           </p>
