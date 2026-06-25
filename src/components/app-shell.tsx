@@ -27,10 +27,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             </span>
             <span className="flex flex-col leading-none">
               <span className="font-display text-sm font-bold tracking-tight text-foreground">
-                BIST Signal Lab
+                BIST Sinyal Lab
               </span>
               <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                Research Mode
+                Araştırma Modu
               </span>
             </span>
           </Link>
