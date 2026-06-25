@@ -176,16 +176,16 @@ function CoverageTable({ rows }: { rows: CoverageSymbolRow[] }) {
               <td className="px-3 py-2.5 text-center">
                 {r.has_data ? (
                   <span className="rounded bg-success/15 px-2 py-0.5 text-[10px] font-semibold uppercase text-success">
-                    data
+                    veri var
                   </span>
                 ) : (
                   <span className="rounded bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase text-accent">
-                    missing
+                    eksik
                   </span>
                 )}
                 {r.in_universe === false && (
                   <span className="ml-1 rounded bg-secondary px-2 py-0.5 text-[10px] font-semibold uppercase text-muted-foreground">
-                    not listed
+                    listede değil
                   </span>
                 )}
               </td>
@@ -197,7 +197,7 @@ function CoverageTable({ rows }: { rows: CoverageSymbolRow[] }) {
           {rows.length === 0 && (
             <tr>
               <td colSpan={6} className="px-3 py-6 text-center text-muted-foreground">
-                No companies to show.
+                Gösterilecek şirket yok.
               </td>
             </tr>
           )}
