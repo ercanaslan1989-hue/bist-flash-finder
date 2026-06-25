@@ -401,13 +401,13 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
 
 function Legend() {
   const items: [string, string][] = [
-    ["Pattern", "An AND-combination of 1–3 binarized features the engine discovered automatically."],
-    ["Precision / 95% CI", "Share of occurrences followed by the target move, with Wilson confidence interval."],
-    ["Recall", "Share of all target moves this pattern caught."],
-    ["FPR", "False positive rate — share of non-move days that still fired the pattern."],
-    ["Lift", "Precision ÷ base rate — predictive edge over the unconditional probability."],
-    ["Quality", "Robust = stable in/out-of-sample. Overfit = flagged for in-sample over-precision."],
-    ["p", "Two-sided p-value vs base rate. 'sig' = passes significance and lift thresholds with adequate sample."],
+    ["Kalıp", "Motorun otomatik keşfettiği 1–3 ikili göstergenin VE-kombinasyonu."],
+    ["İsabet / %95 GA", "Hedef hareketin izlediği görülme oranı ve Wilson güven aralığı."],
+    ["Geri çağırma", "Bu kalıbın yakaladığı tüm hedef hareketlerin oranı."],
+    ["YPO", "Yanlış pozitif oranı — kalıbı tetikleyen ancak hareket etmeyen günlerin oranı."],
+    ["Lift", "İsabet ÷ taban oran — koşulsuz olasılığa göre öngörü üstünlüğü."],
+    ["Kalite", "Sağlam = örneklem içi/dışı kararlı. Aşırı uyum = örneklem içi aşırı isabet için işaretli."],
+    ["p", "Taban orana göre çift yönlü p-değeri. 'anlamlı' = yeterli örneklemle anlamlılık ve lift eşiklerini geçer."],
   ];
   return (
     <div className="mt-4 grid gap-2 rounded-xl border border-border bg-card p-5 sm:grid-cols-2">
