@@ -225,17 +225,17 @@ function Dashboard() {
       {/* Sector + profile */}
       <section className="mt-10 grid gap-4 lg:grid-cols-2">
         <DistributionBars
-          title="Sectors before large moves"
-          subtitle="Share of events by sector"
+          title="Büyük hareketler öncesi sektörler"
+          subtitle="Olayların sektörlere göre dağılımı"
           buckets={sectors.slice(0, 8)}
           barClass="bg-chart-2"
           icon={<Layers className="h-4 w-4" />}
         />
 
         <div className="rounded-xl border border-border bg-card p-5">
-          <h3 className="font-display text-sm font-semibold text-foreground">Typical pre-event profile</h3>
+          <h3 className="font-display text-sm font-semibold text-foreground">Tipik olay öncesi profil</h3>
           <p className="mt-0.5 text-xs text-muted-foreground">
-            Median and average across the selected window
+            Seçili döneme ait medyan ve ortalama
           </p>
           <div className="mt-4 overflow-hidden rounded-lg border border-border">
             <table className="w-full text-sm">
