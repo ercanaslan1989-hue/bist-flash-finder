@@ -91,6 +91,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "BIST Signal Research Lab" },
+      { name: "description", content: "BIST Insight Engine analyzes BIST stock data to identify precursory patterns before significant price movements." },
+      { property: "og:description", content: "BIST Insight Engine analyzes BIST stock data to identify precursory patterns before significant price movements." },
+      { name: "twitter:description", content: "BIST Insight Engine analyzes BIST stock data to identify precursory patterns before significant price movements." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/09e129f3-4634-4bf3-bcf7-1a2cfb5cece1/id-preview-bc8a366b--1f231002-aa7a-4e31-bf81-18e9a93ae528.lovable.app-1782374556338.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/09e129f3-4634-4bf3-bcf7-1a2cfb5cece1/id-preview-bc8a366b--1f231002-aa7a-4e31-bf81-18e9a93ae528.lovable.app-1782374556338.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
