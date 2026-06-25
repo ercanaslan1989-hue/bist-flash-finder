@@ -102,17 +102,17 @@ function SignalsPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <FlaskConical className="h-3.5 w-3.5" /> Statistical Validation
+            <FlaskConical className="h-3.5 w-3.5" /> İstatistiksel Doğrulama
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Top 20 validated pre-move <span className="text-primary">signals</span>
+            Doğrulanmış en güçlü 20 hareket öncesi <span className="text-primary">sinyali</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The highest-confidence signals retained by the frozen{" "}
-            <span className="font-semibold text-foreground">{version?.version ?? "v1.0"}</span> engine,
-            tested against the modern BIST market (01 Jan 2025 → today). Rolling indicators use full
-            pre-2025 history; only post-2025 days count as outcomes. Ranked by Wilson confidence-interval
-            lower bound. Research only — no buy/sell signals.
+            Dondurulmuş{" "}
+            <span className="font-semibold text-foreground">{version?.version ?? "v1.0"}</span> motorunun
+            sakladığı en yüksek güvenli sinyaller; modern BIST piyasasına karşı test edildi (01 Oca 2025 → bugün).
+            Hareketli göstergeler 2025 öncesi tüm geçmişi kullanır; yalnızca 2025 sonrası günler sonuç olarak
+            sayılır. Wilson güven aralığı alt sınırına göre sıralanmıştır. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
         </div>
       </section>
