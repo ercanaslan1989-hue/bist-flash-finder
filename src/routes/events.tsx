@@ -142,12 +142,12 @@ function EventsPage() {
                     <table className="w-full min-w-[640px] text-sm">
                       <thead>
                         <tr className="text-left text-xs uppercase tracking-wider text-muted-foreground">
-                          <th className="px-2 py-1.5 font-medium">Days before</th>
-                          <th className="px-2 py-1.5 text-right font-medium">Close</th>
-                          <th className="px-2 py-1.5 text-right font-medium">Vol ×20d</th>
-                          <th className="px-2 py-1.5 text-right font-medium">Vol ×3d</th>
-                          <th className="px-2 py-1.5 text-right font-medium">5d ret</th>
-                          <th className="px-2 py-1.5 text-right font-medium">10d ret</th>
+                          <th className="px-2 py-1.5 font-medium">Önceki gün</th>
+                          <th className="px-2 py-1.5 text-right font-medium">Kapanış</th>
+                          <th className="px-2 py-1.5 text-right font-medium">Hac ×20g</th>
+                          <th className="px-2 py-1.5 text-right font-medium">Hac ×3g</th>
+                          <th className="px-2 py-1.5 text-right font-medium">5g get.</th>
+                          <th className="px-2 py-1.5 text-right font-medium">10g get.</th>
                           <th className="px-2 py-1.5 text-right font-medium">KAP</th>
                         </tr>
                       </thead>
