@@ -389,7 +389,7 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
           {rows.length === 0 && (
             <tr>
               <td colSpan={14} className="px-3 py-6 text-center text-muted-foreground">
-                No patterns match these filters.
+                Bu filtrelerle eşleşen kalıp yok.
               </td>
             </tr>
           )}
