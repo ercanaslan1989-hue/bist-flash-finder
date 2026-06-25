@@ -134,3 +134,81 @@ export const latestSnapshotsQueryOptions = () =>
     queryFn: fetchLatestSnapshots,
     staleTime: 60_000,
   });
+
+// ===== Validated research signals =====
+
+export interface SignalRow {
+  id: string;
+  event_type: "limit_up" | "run_20" | string;
+  horizon: number;
+  signal_key: string;
+  signal_label: string;
+  occurrences: number | null;
+  successes: number | null;
+  failures: number | null;
+  precision_pct: number | null;
+  recall_pct: number | null;
+  fpr_pct: number | null;
+  base_rate_pct: number | null;
+  lift: number | null;
+  avg_fwd_max20: number | null;
+  median_fwd_max20: number | null;
+  avg_days_to_target: number | null;
+  rank: number | null;
+}
+
+export interface SignalsMeta {
+  stockCount: number;
+  snapshotCount: number;
+  eventCount: number;
+  limitUpCount: number;
+  run20Count: number;
+  firstDate: string | null;
+  lastDate: string | null;
+  updatedAt: string | null;
+}
+
+export interface SignalsData {
+  signals: SignalRow[];
+  meta: SignalsMeta | null;
+}
+
+async function fetchSignals(): Promise<SignalsData> {
+  const [sigRes, metaRes, run20Res] = await Promise.all([
+    sb
+      .from("research_signals")
+      .select("*")
+      .order("event_type", { ascending: true })
+      .order("horizon", { ascending: true })
+      .order("rank", { ascending: true }),
+    sb.from("research_meta").select("*").eq("id", 1).limit(1),
+    sb
+      .from("events")
+      .select("id", { count: "exact", head: true })
+      .eq("event_type", "run_20"),
+  ]);
+
+  const m = metaRes.data?.[0];
+  return {
+    signals: (sigRes.data ?? []) as SignalRow[],
+    meta: m
+      ? {
+          stockCount: m.stock_count ?? 0,
+          snapshotCount: m.snapshot_count ?? 0,
+          eventCount: m.event_count ?? 0,
+          limitUpCount: m.limit_up_count ?? 0,
+          run20Count: run20Res.count ?? 0,
+          firstDate: m.first_date ?? null,
+          lastDate: m.last_date ?? null,
+          updatedAt: m.updated_at ?? null,
+        }
+      : null,
+  };
+}
+
+export const signalsQueryOptions = () =>
+  queryOptions({
+    queryKey: ["research-signals"],
+    queryFn: fetchSignals,
+    staleTime: 60_000,
+  });
