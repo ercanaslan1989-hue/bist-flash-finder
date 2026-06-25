@@ -99,7 +99,7 @@ function OosPage() {
               {rows.length === 0 && (
                 <tr>
                   <td colSpan={8} className="px-3 py-6 text-center text-muted-foreground">
-                    No out-of-sample rows yet.
+                    Henüz canlı doğrulama satırı yok.
                   </td>
                 </tr>
               )}
