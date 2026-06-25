@@ -206,10 +206,10 @@ function BacktestTable({ rows }: { rows: BacktestMonthRow[] }) {
       <table className="w-full min-w-[560px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-            <th className="px-3 py-2.5 font-medium">Month</th>
-            <th className="px-3 py-2.5 text-right font-medium">Occurrences</th>
-            <th className="px-3 py-2.5 text-right font-medium">Successes</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
+            <th className="px-3 py-2.5 font-medium">Ay</th>
+            <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarı</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
           </tr>
         </thead>
         <tbody>
