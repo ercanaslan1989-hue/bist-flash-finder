@@ -371,11 +371,11 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
               <td className="px-3 py-2.5 text-right font-mono text-xs tabular">
                 {r.overfit ? (
                   <span className="rounded bg-destructive/15 px-1.5 py-0.5 font-semibold uppercase text-destructive">
-                    overfit
+                    aşırı uyum
                   </span>
                 ) : r.robust ? (
                   <span className="rounded bg-success/15 px-1.5 py-0.5 font-semibold uppercase text-success">
-                    robust
+                    sağlam
                   </span>
                 ) : (
                   <span className="text-muted-foreground">—</span>
