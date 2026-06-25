@@ -82,16 +82,16 @@ function WatchlistPage() {
         <div className="rounded-xl border border-border bg-card p-10 text-center">
           <Radar className="mx-auto h-8 w-8 text-primary" />
           <h2 className="mt-3 font-display text-lg font-semibold text-foreground">
-            No watchlist scores yet
+            Henüz izleme listesi skoru yok
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            The daily scorer has not produced rows yet. It runs after each engine refresh.
+            Günlük puanlayıcı henüz satır üretmedi. Her motor yenilemesinden sonra çalışır.
           </p>
           <button
             onClick={() => router.invalidate()}
             className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
           >
-            Refresh
+            Yenile
           </button>
         </div>
       </AppShell>
