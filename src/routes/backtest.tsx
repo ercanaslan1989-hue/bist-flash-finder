@@ -246,11 +246,11 @@ function WalkforwardTable({ rows }: { rows: WalkforwardMonthRow[] }) {
       <table className="w-full min-w-[640px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-            <th className="px-3 py-2.5 font-medium">Month</th>
-            <th className="px-3 py-2.5 text-right font-medium">Signals</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
-            <th className="px-3 py-2.5 text-right font-medium">Avg fwd return</th>
-            <th className="px-3 py-2.5 text-right font-medium">Hit rate (+)</th>
+            <th className="px-3 py-2.5 font-medium">Ay</th>
+            <th className="px-3 py-2.5 text-right font-medium">Sinyaller</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
+            <th className="px-3 py-2.5 text-right font-medium">Ort. ileri getiri</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarı oranı (+)</th>
           </tr>
         </thead>
         <tbody>
