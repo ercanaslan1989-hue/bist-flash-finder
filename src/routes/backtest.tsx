@@ -83,15 +83,15 @@ function BacktestPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <LineChart className="h-3.5 w-3.5" /> Walk-Forward Replay
+            <LineChart className="h-3.5 w-3.5" /> Walk-Forward Tekrarı
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Monthly <span className="text-primary">backtest</span>
+            Aylık <span className="text-primary">geçmiş performans</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The engine replayed the market day-by-day from Jan 2025 using only same-day information.
-            Below is per-month precision and hit rate, plus the overall walk-forward calibration.
-            Research only — no buy/sell signals.
+            Motor, Ocak 2025'ten itibaren piyasayı yalnızca aynı gün bilgisini kullanarak gün gün
+            yeniden oynattı. Aşağıda aylık isabet ve başarı oranı ile genel walk-forward kalibrasyonu
+            yer alır. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
         </div>
       </section>
