@@ -83,7 +83,7 @@ function MethodologyPage() {
 
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
         <div className="rounded-xl border border-border bg-card p-5">
-          <h2 className="font-display text-base font-semibold text-foreground">Metrics stored daily</h2>
+          <h2 className="font-display text-base font-semibold text-foreground">Günlük saklanan veriler</h2>
           <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
             {METRICS.map((m) => (
               <li key={m} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -99,14 +99,13 @@ function MethodologyPage() {
             <ShieldAlert className="h-5 w-5" />
           </span>
           <h2 className="mt-3 font-display text-base font-semibold text-foreground">
-            What this lab does not do
+            Bu lab neleri yapmaz
           </h2>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-            It does <span className="font-semibold text-foreground">not</span> generate buy or sell
-            signals, recommend trades, or predict which stock will move next. It only collects data,
-            detects events that already happened, and reports the conditions that recurred before
-            them. Sample data shown is synthetic for demonstration; connect a live BIST feed to
-            research real market behaviour.
+            Al veya sat sinyali <span className="font-semibold text-foreground">üretmez</span>, işlem
+            önermez veya hangi hissenin hareket edeceğini tahmin etmez. Yalnızca veri toplar, halihazırda
+            gerçekleşmiş olayları tespit eder ve bunlardan önce tekrarlayan koşulları raporlar. Yalnızca
+            araştırma amaçlıdır, yatırım tavsiyesi değildir.
           </p>
         </div>
       </div>
