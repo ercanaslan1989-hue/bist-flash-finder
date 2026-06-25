@@ -11,16 +11,16 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Detected Events — BIST Signal Research Lab" },
+      { title: "Tespit Edilen Olaylar — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Every large-move event (+10/+15/+20% and limit-up) detected across BIST stocks, with the metrics captured 1, 2, 3, 5 and 10 trading days before.",
+          "BIST hisselerinde tespit edilen tüm büyük hareket olayları (+%10/+%15/+%20 ve tavan), hareketten 1, 2, 3, 5 ve 10 işlem günü önce ölçülen metriklerle birlikte.",
       },
-      { property: "og:title", content: "Detected Events — BIST Signal Research Lab" },
+      { property: "og:title", content: "Tespit Edilen Olaylar — BIST Sinyal Araştırma Lab" },
       {
         property: "og:description",
-        content: "Browse large-move events and the conditions that preceded each one.",
+        content: "Büyük hareket olaylarını ve her birinden önce oluşan koşulları inceleyin.",
       },
     ],
   }),
@@ -35,17 +35,17 @@ export const Route = createFileRoute("/events")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No events found.</p>
+      <p className="text-muted-foreground">Olay bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const FILTERS = [
-  { value: "all", label: "All" },
-  { value: "limit", label: "Limit-up" },
-  { value: "gain_10", label: "+10%" },
-  { value: "gain_15", label: "+15%" },
-  { value: "gain_20", label: "+20%" },
+  { value: "all", label: "Tümü" },
+  { value: "limit", label: "Tavan" },
+  { value: "gain_10", label: "+%10" },
+  { value: "gain_15", label: "+%15" },
+  { value: "gain_20", label: "+%20" },
 ] as const;
 
 function EventsPage() {
