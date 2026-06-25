@@ -59,10 +59,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <footer className="border-t border-border">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
           <p className="max-w-3xl text-xs leading-relaxed text-muted-foreground">
-            <span className="font-semibold text-foreground">Research only — not investment advice.</span>{" "}
-            This lab does not generate buy or sell signals. It collects daily snapshots, flags large
-            moves as events, and measures which conditions recurred before those moves. Sample data
-            is synthetic for demonstration; connect a live BIST feed to study real patterns.
+            <span className="font-semibold text-foreground">Yalnızca araştırma amaçlıdır — yatırım tavsiyesi değildir.</span>{" "}
+            Bu laboratuvar al/sat sinyali üretmez. Günlük verileri toplar, büyük hareketleri olay
+            olarak işaretler ve bu hareketlerden önce hangi koşulların tekrarlandığını ölçer. Gerçek
+            kalıpları incelemek için canlı bir BIST veri kaynağı bağlayın.
           </p>
         </div>
       </footer>
