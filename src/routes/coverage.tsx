@@ -126,7 +126,7 @@ function CoveragePage() {
 
       <section className="mt-10">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="font-display text-xl font-bold text-foreground">History per company</h2>
+          <h2 className="font-display text-xl font-bold text-foreground">Şirket bazında geçmiş</h2>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setOnlyMissing((v) => !v)}
@@ -137,13 +137,13 @@ function CoveragePage() {
                   : "border-border bg-secondary/40 text-muted-foreground")
               }
             >
-              {onlyMissing ? "Showing missing only" : "Show missing only"}
+              {onlyMissing ? "Sadece eksikler gösteriliyor" : "Sadece Eksikleri Göster"}
             </button>
             <button
               onClick={() => router.invalidate()}
               className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-3 py-1.5 text-xs font-medium text-muted-foreground"
             >
-              <RefreshCw className="h-3.5 w-3.5" /> Refresh
+              <RefreshCw className="h-3.5 w-3.5" /> Yenile
             </button>
           </div>
         </div>
