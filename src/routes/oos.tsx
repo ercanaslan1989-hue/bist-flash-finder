@@ -59,19 +59,19 @@ function OosPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <SplitSquareHorizontal className="h-3.5 w-3.5" /> Generalization Test
+            <SplitSquareHorizontal className="h-3.5 w-3.5" /> Genelleme Testi
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Out-of-sample <span className="text-primary">validation</span>
+            Canlı <span className="text-primary">doğrulama</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Patterns are discovered on the training window (2025) and then re-measured on unseen
-            out-of-sample data (2026+). Stable in-sample vs out-of-sample precision indicates the
-            patterns generalize rather than overfit. Research only — no buy/sell signals.
+            Kalıplar eğitim penceresinde (2025) keşfedilir, ardından görülmemiş örneklem dışı verilerde
+            (2026+) yeniden ölçülür. Eğitim ile örneklem dışı isabetin tutarlı olması, kalıpların aşırı
+            uyum yerine genellediğini gösterir. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
           {version?.frozen && (
             <span className="mt-4 inline-flex items-center gap-1 rounded-full border border-success/40 bg-success/10 px-2.5 py-1 text-xs font-medium text-success">
-              <ShieldCheck className="h-3.5 w-3.5" /> Engine {version.version} frozen
+              <ShieldCheck className="h-3.5 w-3.5" /> Motor {version.version} donduruldu
             </span>
           )}
         </div>
