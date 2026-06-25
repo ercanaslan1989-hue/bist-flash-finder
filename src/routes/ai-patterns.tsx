@@ -433,18 +433,18 @@ function EmptyState({
     <div className="mt-10 rounded-xl border border-border bg-card p-10 text-center">
       <BrainCircuit className="mx-auto h-8 w-8 text-primary" />
       <h2 className="mt-3 font-display text-lg font-semibold text-foreground">
-        {running ? "Discovery in progress…" : "No patterns yet"}
+        {running ? "Keşif sürüyor…" : "Henüz kalıp yok"}
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
         {running
-          ? `The engine is ${(phase ?? "working").toLowerCase()}. This first full run scores ~184k snapshots and tens of thousands of combinations — it can take a few minutes. Refresh shortly.`
-          : "The discovery engine has not produced patterns yet. It runs in the background and refreshes monthly."}
+          ? `Motor şu anda ${(phase ?? "çalışıyor").toLowerCase()} aşamasında. İlk tam çalıştırma ~184 bin veriyi ve on binlerce kombinasyonu puanlar — birkaç dakika sürebilir. Kısa süre sonra yenileyin.`
+          : "Keşif motoru henüz kalıp üretmedi. Arka planda çalışır ve aylık olarak yenilenir."}
       </p>
       <button
         onClick={onRefresh}
         className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
       >
-        <RefreshCw className="h-4 w-4" /> Refresh
+        <RefreshCw className="h-4 w-4" /> Yenile
       </button>
     </div>
   );
