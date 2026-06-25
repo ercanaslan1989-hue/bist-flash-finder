@@ -225,7 +225,7 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
                 </span>
               </td>
               <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
-                {r.horizon}d
+                {r.horizon}g
               </td>
               <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
                 {fmtNum(r.occurrences)}
