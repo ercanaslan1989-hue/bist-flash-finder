@@ -421,53 +421,74 @@ export type Database = {
       }
       research_signals: {
         Row: {
+          avg_days_to_target: number | null
           avg_fwd_max20: number | null
           base_hits: number
           base_rate_pct: number | null
           base_support: number
           event_type: string
+          failures: number | null
+          fpr_pct: number | null
           hits: number
           horizon: number
           id: number
           lift: number | null
+          median_fwd_max20: number | null
+          occurrences: number | null
           precision_pct: number | null
           rank: number | null
+          recall_pct: number | null
           signal_key: string
           signal_label: string
+          successes: number | null
           support: number
           updated_at: string
         }
         Insert: {
+          avg_days_to_target?: number | null
           avg_fwd_max20?: number | null
           base_hits?: number
           base_rate_pct?: number | null
           base_support?: number
           event_type: string
+          failures?: number | null
+          fpr_pct?: number | null
           hits?: number
           horizon: number
           id?: never
           lift?: number | null
+          median_fwd_max20?: number | null
+          occurrences?: number | null
           precision_pct?: number | null
           rank?: number | null
+          recall_pct?: number | null
           signal_key: string
           signal_label: string
+          successes?: number | null
           support?: number
           updated_at?: string
         }
         Update: {
+          avg_days_to_target?: number | null
           avg_fwd_max20?: number | null
           base_hits?: number
           base_rate_pct?: number | null
           base_support?: number
           event_type?: string
+          failures?: number | null
+          fpr_pct?: number | null
           hits?: number
           horizon?: number
           id?: never
           lift?: number | null
+          median_fwd_max20?: number | null
+          occurrences?: number | null
           precision_pct?: number | null
           rank?: number | null
+          recall_pct?: number | null
           signal_key?: string
           signal_label?: string
+          successes?: number | null
           support?: number
           updated_at?: string
         }
