@@ -119,6 +119,33 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_engine_version: {
+        Row: {
+          frozen: boolean
+          frozen_at: string
+          id: number
+          notes: string | null
+          stages: string
+          version: string
+        }
+        Insert: {
+          frozen?: boolean
+          frozen_at?: string
+          id?: number
+          notes?: string | null
+          stages: string
+          version: string
+        }
+        Update: {
+          frozen?: boolean
+          frozen_at?: string
+          id?: number
+          notes?: string | null
+          stages?: string
+          version?: string
+        }
+        Relationships: []
+      }
       ai_feature_importance: {
         Row: {
           appearances: number | null
@@ -701,6 +728,90 @@ export type Database = {
           pos?: number | null
           tk?: string
           tot?: number | null
+        }
+        Relationships: []
+      }
+      ai_walkforward_monthly: {
+        Row: {
+          avg_fwd_return: number | null
+          created_at: string
+          hit_rate_pos: number | null
+          id: number
+          month: string
+          n_signals: number
+          precision_pct: number | null
+        }
+        Insert: {
+          avg_fwd_return?: number | null
+          created_at?: string
+          hit_rate_pos?: number | null
+          id?: number
+          month: string
+          n_signals: number
+          precision_pct?: number | null
+        }
+        Update: {
+          avg_fwd_return?: number | null
+          created_at?: string
+          hit_rate_pos?: number | null
+          id?: number
+          month?: string
+          n_signals?: number
+          precision_pct?: number | null
+        }
+        Relationships: []
+      }
+      ai_walkforward_summary: {
+        Row: {
+          avg_fwd_return: number | null
+          avg_monthly_precision: number | null
+          best_month: string | null
+          best_month_precision: number | null
+          calib_high_actual: number | null
+          calib_high_pred: number | null
+          calib_low_actual: number | null
+          calib_low_pred: number | null
+          computed_at: string
+          hit_rate: number | null
+          id: number
+          overall_precision: number | null
+          total_signals: number | null
+          worst_month: string | null
+          worst_month_precision: number | null
+        }
+        Insert: {
+          avg_fwd_return?: number | null
+          avg_monthly_precision?: number | null
+          best_month?: string | null
+          best_month_precision?: number | null
+          calib_high_actual?: number | null
+          calib_high_pred?: number | null
+          calib_low_actual?: number | null
+          calib_low_pred?: number | null
+          computed_at?: string
+          hit_rate?: number | null
+          id?: number
+          overall_precision?: number | null
+          total_signals?: number | null
+          worst_month?: string | null
+          worst_month_precision?: number | null
+        }
+        Update: {
+          avg_fwd_return?: number | null
+          avg_monthly_precision?: number | null
+          best_month?: string | null
+          best_month_precision?: number | null
+          calib_high_actual?: number | null
+          calib_high_pred?: number | null
+          calib_low_actual?: number | null
+          calib_low_pred?: number | null
+          computed_at?: string
+          hit_rate?: number | null
+          id?: number
+          overall_precision?: number | null
+          total_signals?: number | null
+          worst_month?: string | null
+          worst_month_precision?: number | null
         }
         Relationships: []
       }
@@ -1639,6 +1750,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ai_build_walkforward: { Args: never; Returns: undefined }
       ai_discovery_run: { Args: never; Returns: undefined }
       ai_discovery_start: {
         Args: { _min_sample?: number; _min_support?: number; _scope?: string }
