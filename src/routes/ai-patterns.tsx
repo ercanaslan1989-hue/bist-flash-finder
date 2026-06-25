@@ -316,18 +316,18 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <th className="px-3 py-2.5 font-medium">#</th>
-            <th className="px-3 py-2.5 font-medium">Pattern</th>
-            <th className="px-3 py-2.5 text-right font-medium">Occur.</th>
-            <th className="px-3 py-2.5 text-right font-medium">Win</th>
-            <th className="px-3 py-2.5 text-right font-medium">Fail</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
-            <th className="px-3 py-2.5 text-right font-medium">95% CI</th>
-            <th className="px-3 py-2.5 text-right font-medium">Recall</th>
-            <th className="px-3 py-2.5 text-right font-medium">FPR</th>
+            <th className="px-3 py-2.5 font-medium">Kalıp</th>
+            <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarı</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarısız</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
+            <th className="px-3 py-2.5 text-right font-medium">%95 GA</th>
+            <th className="px-3 py-2.5 text-right font-medium">Geri çağırma</th>
+            <th className="px-3 py-2.5 text-right font-medium">YPO</th>
             <th className="px-3 py-2.5 text-right font-medium">Lift</th>
-            <th className="px-3 py-2.5 text-right font-medium">Avg fwd</th>
-            <th className="px-3 py-2.5 text-right font-medium">Days→</th>
-            <th className="px-3 py-2.5 text-right font-medium">Quality</th>
+            <th className="px-3 py-2.5 text-right font-medium">Ort. ileri</th>
+            <th className="px-3 py-2.5 text-right font-medium">Gün→</th>
+            <th className="px-3 py-2.5 text-right font-medium">Kalite</th>
             <th className="px-3 py-2.5 text-right font-medium">p</th>
           </tr>
         </thead>
