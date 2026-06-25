@@ -3,17 +3,17 @@ import { Flame } from "lucide-react";
 import type { ReactNode } from "react";
 
 const NAV = [
-  { to: "/", label: "Dashboard" },
-  { to: "/ai-patterns", label: "AI Patterns" },
-  { to: "/signals", label: "Top Signals" },
-  { to: "/feature-importance", label: "Features" },
-  { to: "/watchlist", label: "Watchlist" },
-  { to: "/backtest", label: "Backtest" },
-  { to: "/oos", label: "OOS" },
-  { to: "/events", label: "Events" },
-  { to: "/stocks", label: "Universe" },
-  { to: "/coverage", label: "Coverage" },
-  { to: "/methodology", label: "Methodology" },
+  { to: "/", label: "Ana Sayfa" },
+  { to: "/ai-patterns", label: "Yapay Zeka Analizi" },
+  { to: "/signals", label: "En Güçlü Sinyaller" },
+  { to: "/feature-importance", label: "Göstergeler" },
+  { to: "/watchlist", label: "İzleme Listesi" },
+  { to: "/backtest", label: "Geçmiş Performans" },
+  { to: "/oos", label: "Canlı Doğrulama" },
+  { to: "/events", label: "Olaylar" },
+  { to: "/stocks", label: "Evren" },
+  { to: "/coverage", label: "Veri Kapsamı" },
+  { to: "/methodology", label: "Yöntem" },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
