@@ -14,6 +14,288 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_meta: {
+        Row: {
+          current_run_id: number | null
+          id: number
+          last_run_at: string | null
+          matrix_rows: number | null
+          n_patterns: number | null
+          n_significant: number | null
+          phase: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          current_run_id?: number | null
+          id?: number
+          last_run_at?: string | null
+          matrix_rows?: number | null
+          n_patterns?: number | null
+          n_significant?: number | null
+          phase?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          current_run_id?: number | null
+          id?: number
+          last_run_at?: string | null
+          matrix_rows?: number | null
+          n_patterns?: number | null
+          n_significant?: number | null
+          phase?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_patterns: {
+        Row: {
+          avg_days_to_target: number | null
+          avg_fwd: number | null
+          base_rate_pct: number | null
+          ci_high: number | null
+          ci_low: number | null
+          created_at: string
+          failures: number | null
+          fpr_pct: number | null
+          horizon: number
+          id: number
+          label: string | null
+          lift: number | null
+          median_fwd: number | null
+          n_preds: number
+          occurrences: number | null
+          p_value: number | null
+          parent_precision: number | null
+          precision_gain: number | null
+          precision_pct: number | null
+          pred_keys: string[]
+          rank: number | null
+          recall_pct: number | null
+          run_id: number | null
+          significant: boolean | null
+          successes: number | null
+          target_key: string
+          z_score: number | null
+        }
+        Insert: {
+          avg_days_to_target?: number | null
+          avg_fwd?: number | null
+          base_rate_pct?: number | null
+          ci_high?: number | null
+          ci_low?: number | null
+          created_at?: string
+          failures?: number | null
+          fpr_pct?: number | null
+          horizon: number
+          id?: never
+          label?: string | null
+          lift?: number | null
+          median_fwd?: number | null
+          n_preds: number
+          occurrences?: number | null
+          p_value?: number | null
+          parent_precision?: number | null
+          precision_gain?: number | null
+          precision_pct?: number | null
+          pred_keys: string[]
+          rank?: number | null
+          recall_pct?: number | null
+          run_id?: number | null
+          significant?: boolean | null
+          successes?: number | null
+          target_key: string
+          z_score?: number | null
+        }
+        Update: {
+          avg_days_to_target?: number | null
+          avg_fwd?: number | null
+          base_rate_pct?: number | null
+          ci_high?: number | null
+          ci_low?: number | null
+          created_at?: string
+          failures?: number | null
+          fpr_pct?: number | null
+          horizon?: number
+          id?: never
+          label?: string | null
+          lift?: number | null
+          median_fwd?: number | null
+          n_preds?: number
+          occurrences?: number | null
+          p_value?: number | null
+          parent_precision?: number | null
+          precision_gain?: number | null
+          precision_pct?: number | null
+          pred_keys?: string[]
+          rank?: number | null
+          recall_pct?: number | null
+          run_id?: number | null
+          significant?: boolean | null
+          successes?: number | null
+          target_key?: string
+          z_score?: number | null
+        }
+        Relationships: []
+      }
+      ai_runs: {
+        Row: {
+          finished_at: string | null
+          id: number
+          n_patterns: number | null
+          n_significant: number | null
+          started_at: string
+          status: string | null
+        }
+        Insert: {
+          finished_at?: string | null
+          id?: never
+          n_patterns?: number | null
+          n_significant?: number | null
+          started_at?: string
+          status?: string | null
+        }
+        Update: {
+          finished_at?: string | null
+          id?: never
+          n_patterns?: number | null
+          n_significant?: number | null
+          started_at?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
+      ai_signal_quality: {
+        Row: {
+          best_label: string | null
+          created_at: string
+          id: number
+          n_patterns: number | null
+          n_significant: number | null
+          run_date: string | null
+          run_id: number | null
+          target_key: string | null
+          top_lift: number | null
+          top_precision: number | null
+        }
+        Insert: {
+          best_label?: string | null
+          created_at?: string
+          id?: never
+          n_patterns?: number | null
+          n_significant?: number | null
+          run_date?: string | null
+          run_id?: number | null
+          target_key?: string | null
+          top_lift?: number | null
+          top_precision?: number | null
+        }
+        Update: {
+          best_label?: string | null
+          created_at?: string
+          id?: never
+          n_patterns?: number | null
+          n_significant?: number | null
+          run_date?: string | null
+          run_id?: number | null
+          target_key?: string | null
+          top_lift?: number | null
+          top_precision?: number | null
+        }
+        Relationships: []
+      }
+      bist_active_universe: {
+        Row: {
+          company_name: string | null
+          ipo_date: string | null
+          is_active: boolean
+          source: string | null
+          symbol: string
+          updated_at: string
+        }
+        Insert: {
+          company_name?: string | null
+          ipo_date?: string | null
+          is_active?: boolean
+          source?: string | null
+          symbol: string
+          updated_at?: string
+        }
+        Update: {
+          company_name?: string | null
+          ipo_date?: string | null
+          is_active?: boolean
+          source?: string | null
+          symbol?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      coverage_by_symbol: {
+        Row: {
+          company_name: string | null
+          earliest_date: string | null
+          has_data: boolean | null
+          in_universe: boolean | null
+          latest_date: string | null
+          n_days: number | null
+          symbol: string
+        }
+        Insert: {
+          company_name?: string | null
+          earliest_date?: string | null
+          has_data?: boolean | null
+          in_universe?: boolean | null
+          latest_date?: string | null
+          n_days?: number | null
+          symbol: string
+        }
+        Update: {
+          company_name?: string | null
+          earliest_date?: string | null
+          has_data?: boolean | null
+          in_universe?: boolean | null
+          latest_date?: string | null
+          n_days?: number | null
+          symbol?: string
+        }
+        Relationships: []
+      }
+      coverage_report: {
+        Row: {
+          coverage_pct: number | null
+          generated_at: string | null
+          id: number
+          imported: number | null
+          missing: number | null
+          missing_symbols: string[] | null
+          total_active: number | null
+          universe_source: string | null
+        }
+        Insert: {
+          coverage_pct?: number | null
+          generated_at?: string | null
+          id?: number
+          imported?: number | null
+          missing?: number | null
+          missing_symbols?: string[] | null
+          total_active?: number | null
+          universe_source?: string | null
+        }
+        Update: {
+          coverage_pct?: number | null
+          generated_at?: string | null
+          id?: number
+          imported?: number | null
+          missing?: number | null
+          missing_symbols?: string[] | null
+          total_active?: number | null
+          universe_source?: string | null
+        }
+        Relationships: []
+      }
       daily_snapshots: {
         Row: {
           close: number
@@ -102,6 +384,192 @@ export type Database = {
             referencedColumns: ["symbol"]
           },
         ]
+      }
+      discovery_features: {
+        Row: {
+          close: number | null
+          day_index: number | null
+          dist_hi20: number | null
+          dist_lo20: number | null
+          dist_ma20: number | null
+          green_streak: number | null
+          hi20: number | null
+          kap_category: string | null
+          kap_count: number | null
+          lo20: number | null
+          ma20: number | null
+          mcap: number | null
+          range20: number | null
+          red_streak: number | null
+          ret: number | null
+          ret_10d: number | null
+          ret_20d: number | null
+          ret_2d: number | null
+          ret_3d: number | null
+          ret_5d: number | null
+          row_id: number
+          sec_med_ret20: number | null
+          sec_p75_ret20: number | null
+          sector: string | null
+          snap_id: string | null
+          snapshot_date: string | null
+          symbol: string | null
+          tv: number | null
+          vol20: number | null
+          vr1: number | null
+          vr2: number | null
+          vr20: number | null
+          vr3: number | null
+          vr5: number | null
+        }
+        Insert: {
+          close?: number | null
+          day_index?: number | null
+          dist_hi20?: number | null
+          dist_lo20?: number | null
+          dist_ma20?: number | null
+          green_streak?: number | null
+          hi20?: number | null
+          kap_category?: string | null
+          kap_count?: number | null
+          lo20?: number | null
+          ma20?: number | null
+          mcap?: number | null
+          range20?: number | null
+          red_streak?: number | null
+          ret?: number | null
+          ret_10d?: number | null
+          ret_20d?: number | null
+          ret_2d?: number | null
+          ret_3d?: number | null
+          ret_5d?: number | null
+          row_id: number
+          sec_med_ret20?: number | null
+          sec_p75_ret20?: number | null
+          sector?: string | null
+          snap_id?: string | null
+          snapshot_date?: string | null
+          symbol?: string | null
+          tv?: number | null
+          vol20?: number | null
+          vr1?: number | null
+          vr2?: number | null
+          vr20?: number | null
+          vr3?: number | null
+          vr5?: number | null
+        }
+        Update: {
+          close?: number | null
+          day_index?: number | null
+          dist_hi20?: number | null
+          dist_lo20?: number | null
+          dist_ma20?: number | null
+          green_streak?: number | null
+          hi20?: number | null
+          kap_category?: string | null
+          kap_count?: number | null
+          lo20?: number | null
+          ma20?: number | null
+          mcap?: number | null
+          range20?: number | null
+          red_streak?: number | null
+          ret?: number | null
+          ret_10d?: number | null
+          ret_20d?: number | null
+          ret_2d?: number | null
+          ret_3d?: number | null
+          ret_5d?: number | null
+          row_id?: number
+          sec_med_ret20?: number | null
+          sec_p75_ret20?: number | null
+          sector?: string | null
+          snap_id?: string | null
+          snapshot_date?: string | null
+          symbol?: string | null
+          tv?: number | null
+          vol20?: number | null
+          vr1?: number | null
+          vr2?: number | null
+          vr20?: number | null
+          vr3?: number | null
+          vr5?: number | null
+        }
+        Relationships: []
+      }
+      discovery_matrix: {
+        Row: {
+          eval_g10: boolean | null
+          eval_g15: boolean | null
+          eval_g20: boolean | null
+          eval_lu: boolean | null
+          g10_days: number | null
+          g10_fwd: number | null
+          g15_days: number | null
+          g15_fwd: number | null
+          g20_days: number | null
+          g20_fwd: number | null
+          lu_days: number | null
+          lu_fwd: number | null
+          market_value: number | null
+          row_id: number
+          sector: string | null
+          snap_id: string | null
+          snapshot_date: string | null
+          symbol: string | null
+          tgt_g10: boolean | null
+          tgt_g15: boolean | null
+          tgt_g20: boolean | null
+          tgt_lu: boolean | null
+        }
+        Insert: {
+          eval_g10?: boolean | null
+          eval_g15?: boolean | null
+          eval_g20?: boolean | null
+          eval_lu?: boolean | null
+          g10_days?: number | null
+          g10_fwd?: number | null
+          g15_days?: number | null
+          g15_fwd?: number | null
+          g20_days?: number | null
+          g20_fwd?: number | null
+          lu_days?: number | null
+          lu_fwd?: number | null
+          market_value?: number | null
+          row_id: number
+          sector?: string | null
+          snap_id?: string | null
+          snapshot_date?: string | null
+          symbol?: string | null
+          tgt_g10?: boolean | null
+          tgt_g15?: boolean | null
+          tgt_g20?: boolean | null
+          tgt_lu?: boolean | null
+        }
+        Update: {
+          eval_g10?: boolean | null
+          eval_g15?: boolean | null
+          eval_g20?: boolean | null
+          eval_lu?: boolean | null
+          g10_days?: number | null
+          g10_fwd?: number | null
+          g15_days?: number | null
+          g15_fwd?: number | null
+          g20_days?: number | null
+          g20_fwd?: number | null
+          lu_days?: number | null
+          lu_fwd?: number | null
+          market_value?: number | null
+          row_id?: number
+          sector?: string | null
+          snap_id?: string | null
+          snapshot_date?: string | null
+          symbol?: string | null
+          tgt_g10?: boolean | null
+          tgt_g15?: boolean | null
+          tgt_g20?: boolean | null
+          tgt_lu?: boolean | null
+        }
+        Relationships: []
       }
       event_features: {
         Row: {
@@ -257,6 +725,81 @@ export type Database = {
           id?: number
           last_ingest_at?: string | null
           notes?: string | null
+        }
+        Relationships: []
+      }
+      kap_disclosures: {
+        Row: {
+          category: string | null
+          company_name: string | null
+          created_at: string
+          disclosure_date: string
+          disclosure_time: string | null
+          disclosure_type: string | null
+          id: string
+          source_id: string | null
+          summary: string | null
+          symbol: string
+          title: string | null
+        }
+        Insert: {
+          category?: string | null
+          company_name?: string | null
+          created_at?: string
+          disclosure_date: string
+          disclosure_time?: string | null
+          disclosure_type?: string | null
+          id?: string
+          source_id?: string | null
+          summary?: string | null
+          symbol: string
+          title?: string | null
+        }
+        Update: {
+          category?: string | null
+          company_name?: string | null
+          created_at?: string
+          disclosure_date?: string
+          disclosure_time?: string | null
+          disclosure_type?: string | null
+          id?: string
+          source_id?: string | null
+          summary?: string | null
+          symbol?: string
+          title?: string | null
+        }
+        Relationships: []
+      }
+      matrix_flags: {
+        Row: {
+          pred_key: string
+          row_id: number
+        }
+        Insert: {
+          pred_key: string
+          row_id: number
+        }
+        Update: {
+          pred_key?: string
+          row_id?: number
+        }
+        Relationships: []
+      }
+      pred_catalog: {
+        Row: {
+          feature_group: string | null
+          label: string | null
+          pred_key: string
+        }
+        Insert: {
+          feature_group?: string | null
+          label?: string | null
+          pred_key: string
+        }
+        Update: {
+          feature_group?: string | null
+          label?: string | null
+          pred_key?: string
         }
         Relationships: []
       }
@@ -550,7 +1093,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ai_discovery_run: { Args: never; Returns: undefined }
+      build_coverage_report: { Args: never; Returns: undefined }
+      build_discovery_matrix: { Args: never; Returns: undefined }
       build_research_aggregates: { Args: never; Returns: undefined }
+      classify_kap: { Args: { _title: string; _type: string }; Returns: string }
+      normal_cdf: { Args: { x: number }; Returns: number }
       process_stock: {
         Args: { _symbol: string }
         Returns: {
@@ -560,6 +1108,7 @@ export type Database = {
           run20: number
         }[]
       }
+      refresh_kap_features: { Args: never; Returns: undefined }
       research_drive: {
         Args: { _batch?: number }
         Returns: {
@@ -569,6 +1118,10 @@ export type Database = {
         }[]
       }
       research_reset: { Args: { _scope?: string }; Returns: undefined }
+      run_ai_discovery: {
+        Args: { _min_sample?: number; _min_support?: number; _run_id?: number }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
