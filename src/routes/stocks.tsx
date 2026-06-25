@@ -11,16 +11,16 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/stocks")({
   head: () => ({
     meta: [
-      { title: "Stock Universe — BIST Signal Research Lab" },
+      { title: "Hisse Evreni — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "The latest daily snapshot for every tracked BIST stock: close, daily return, volume ratios, multi-day returns, market value, traded value and KAP activity.",
+          "Takip edilen her BIST hissesi için en güncel günlük veri: kapanış, günlük getiri, hacim oranları, çok günlük getiriler, piyasa değeri, işlem hacmi ve KAP aktivitesi.",
       },
-      { property: "og:title", content: "Stock Universe — BIST Signal Research Lab" },
+      { property: "og:title", content: "Hisse Evreni — BIST Sinyal Araştırma Lab" },
       {
         property: "og:description",
-        content: "Latest daily metrics across the tracked BIST universe.",
+        content: "Takip edilen BIST evreni için en güncel günlük metrikler.",
       },
     ],
   }),
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/stocks")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No stocks found.</p>
+      <p className="text-muted-foreground">Hisse bulunamadı.</p>
     </AppShell>
   ),
 });
