@@ -119,25 +119,25 @@ function WatchlistPage() {
 
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard
-          label="Stocks scored"
+          label="Analiz edilen hisseler"
           value={fmtNum(total)}
-          sub="latest trading day"
+          sub="en son işlem günü"
           icon={<Layers className="h-4 w-4" />}
         />
         <StatCard
-          label="Pattern-matched"
+          label="Eşleşen hisseler"
           value={fmtNum(elevated)}
           accent="primary"
-          sub="elevated above base rate"
+          sub="taban oranın üzerinde"
           icon={<ListChecks className="h-4 w-4" />}
         />
         <StatCard
-          label="Avg probability"
-          value={`${fmtNum(avgProb, 1)}%`}
+          label="Ortalama olasılık"
+          value={`%${fmtNum(avgProb, 1)}`}
           icon={<Gauge className="h-4 w-4" />}
         />
         <StatCard
-          label="Score date"
+          label="Analiz tarihi"
           value={<span className="text-base">{fmtDate(scoreDate)}</span>}
           icon={<CalendarDays className="h-4 w-4" />}
         />
