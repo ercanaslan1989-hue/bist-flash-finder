@@ -135,7 +135,7 @@ function FeatureImportancePage() {
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={7} className="px-3 py-6 text-center text-muted-foreground">
-                    No features for this target.
+                    Bu hedef için gösterge yok.
                   </td>
                 </tr>
               )}
