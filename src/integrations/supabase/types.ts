@@ -14,6 +14,153 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_backtest_monthly: {
+        Row: {
+          id: number
+          month: string | null
+          occurrences: number | null
+          precision_pct: number | null
+          successes: number | null
+          target_key: string | null
+        }
+        Insert: {
+          id?: number
+          month?: string | null
+          occurrences?: number | null
+          precision_pct?: number | null
+          successes?: number | null
+          target_key?: string | null
+        }
+        Update: {
+          id?: number
+          month?: string | null
+          occurrences?: number | null
+          precision_pct?: number | null
+          successes?: number | null
+          target_key?: string | null
+        }
+        Relationships: []
+      }
+      ai_combos: {
+        Row: {
+          ad_g10: number | null
+          ad_g15: number | null
+          ad_g20: number | null
+          ad_lu: number | null
+          af_g10: number | null
+          af_g15: number | null
+          af_g20: number | null
+          af_lu: number | null
+          id: number
+          keys: string[] | null
+          mf_g10: number | null
+          mf_g15: number | null
+          mf_g20: number | null
+          mf_lu: number | null
+          n_preds: number | null
+          occ_g10: number | null
+          occ_g15: number | null
+          occ_g20: number | null
+          occ_lu: number | null
+          s_g10: number | null
+          s_g15: number | null
+          s_g20: number | null
+          s_lu: number | null
+        }
+        Insert: {
+          ad_g10?: number | null
+          ad_g15?: number | null
+          ad_g20?: number | null
+          ad_lu?: number | null
+          af_g10?: number | null
+          af_g15?: number | null
+          af_g20?: number | null
+          af_lu?: number | null
+          id?: number
+          keys?: string[] | null
+          mf_g10?: number | null
+          mf_g15?: number | null
+          mf_g20?: number | null
+          mf_lu?: number | null
+          n_preds?: number | null
+          occ_g10?: number | null
+          occ_g15?: number | null
+          occ_g20?: number | null
+          occ_lu?: number | null
+          s_g10?: number | null
+          s_g15?: number | null
+          s_g20?: number | null
+          s_lu?: number | null
+        }
+        Update: {
+          ad_g10?: number | null
+          ad_g15?: number | null
+          ad_g20?: number | null
+          ad_lu?: number | null
+          af_g10?: number | null
+          af_g15?: number | null
+          af_g20?: number | null
+          af_lu?: number | null
+          id?: number
+          keys?: string[] | null
+          mf_g10?: number | null
+          mf_g15?: number | null
+          mf_g20?: number | null
+          mf_lu?: number | null
+          n_preds?: number | null
+          occ_g10?: number | null
+          occ_g15?: number | null
+          occ_g20?: number | null
+          occ_lu?: number | null
+          s_g10?: number | null
+          s_g15?: number | null
+          s_g20?: number | null
+          s_lu?: number | null
+        }
+        Relationships: []
+      }
+      ai_feature_importance: {
+        Row: {
+          appearances: number | null
+          avg_lift: number | null
+          avg_precision: number | null
+          best_precision: number | null
+          feature_group: string | null
+          id: number
+          importance: number | null
+          label: string | null
+          pred_key: string | null
+          rank: number | null
+          target_key: string | null
+        }
+        Insert: {
+          appearances?: number | null
+          avg_lift?: number | null
+          avg_precision?: number | null
+          best_precision?: number | null
+          feature_group?: string | null
+          id?: number
+          importance?: number | null
+          label?: string | null
+          pred_key?: string | null
+          rank?: number | null
+          target_key?: string | null
+        }
+        Update: {
+          appearances?: number | null
+          avg_lift?: number | null
+          avg_precision?: number | null
+          best_precision?: number | null
+          feature_group?: string | null
+          id?: number
+          importance?: number | null
+          label?: string | null
+          pred_key?: string | null
+          rank?: number | null
+          target_key?: string | null
+        }
+        Relationships: []
+      }
       ai_meta: {
         Row: {
           current_run_id: number | null
@@ -50,6 +197,102 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_mf: {
+        Row: {
+          pred_key: string | null
+          row_id: number | null
+        }
+        Insert: {
+          pred_key?: string | null
+          row_id?: number | null
+        }
+        Update: {
+          pred_key?: string | null
+          row_id?: number | null
+        }
+        Relationships: []
+      }
+      ai_oos_validation: {
+        Row: {
+          id: number
+          in_sample_n: number | null
+          in_sample_precision: number | null
+          note: string | null
+          oos_n: number | null
+          oos_precision: number | null
+          target_key: string | null
+          test_period: string | null
+          train_period: string | null
+        }
+        Insert: {
+          id?: number
+          in_sample_n?: number | null
+          in_sample_precision?: number | null
+          note?: string | null
+          oos_n?: number | null
+          oos_precision?: number | null
+          target_key?: string | null
+          test_period?: string | null
+          train_period?: string | null
+        }
+        Update: {
+          id?: number
+          in_sample_n?: number | null
+          in_sample_precision?: number | null
+          note?: string | null
+          oos_n?: number | null
+          oos_precision?: number | null
+          target_key?: string | null
+          test_period?: string | null
+          train_period?: string | null
+        }
+        Relationships: []
+      }
+      ai_params: {
+        Row: {
+          id: number
+          mcap_med: number | null
+          mcap_p20: number | null
+          tv80: number | null
+          tv90: number | null
+          vol25: number | null
+          vol75: number | null
+        }
+        Insert: {
+          id?: number
+          mcap_med?: number | null
+          mcap_p20?: number | null
+          tv80?: number | null
+          tv90?: number | null
+          vol25?: number | null
+          vol75?: number | null
+        }
+        Update: {
+          id?: number
+          mcap_med?: number | null
+          mcap_p20?: number | null
+          tv80?: number | null
+          tv90?: number | null
+          vol25?: number | null
+          vol75?: number | null
+        }
+        Relationships: []
+      }
+      ai_pattern_rows: {
+        Row: {
+          pattern_id: number | null
+          row_id: number | null
+        }
+        Insert: {
+          pattern_id?: number | null
+          row_id?: number | null
+        }
+        Update: {
+          pattern_id?: number | null
+          row_id?: number | null
+        }
+        Relationships: []
+      }
       ai_patterns: {
         Row: {
           avg_days_to_target: number | null
@@ -67,6 +310,7 @@ export type Database = {
           median_fwd: number | null
           n_preds: number
           occurrences: number | null
+          overfit: boolean | null
           p_value: number | null
           parent_precision: number | null
           precision_gain: number | null
@@ -74,6 +318,7 @@ export type Database = {
           pred_keys: string[]
           rank: number | null
           recall_pct: number | null
+          robust: boolean | null
           run_id: number | null
           significant: boolean | null
           successes: number | null
@@ -96,6 +341,7 @@ export type Database = {
           median_fwd?: number | null
           n_preds: number
           occurrences?: number | null
+          overfit?: boolean | null
           p_value?: number | null
           parent_precision?: number | null
           precision_gain?: number | null
@@ -103,6 +349,7 @@ export type Database = {
           pred_keys: string[]
           rank?: number | null
           recall_pct?: number | null
+          robust?: boolean | null
           run_id?: number | null
           significant?: boolean | null
           successes?: number | null
@@ -125,6 +372,7 @@ export type Database = {
           median_fwd?: number | null
           n_preds?: number
           occurrences?: number | null
+          overfit?: boolean | null
           p_value?: number | null
           parent_precision?: number | null
           precision_gain?: number | null
@@ -132,11 +380,99 @@ export type Database = {
           pred_keys?: string[]
           rank?: number | null
           recall_pct?: number | null
+          robust?: boolean | null
           run_id?: number | null
           significant?: boolean | null
           successes?: number | null
           target_key?: string
           z_score?: number | null
+        }
+        Relationships: []
+      }
+      ai_pred_list: {
+        Row: {
+          is_top: boolean | null
+          ord: number | null
+          ord_top: number | null
+          pred_key: string
+        }
+        Insert: {
+          is_top?: boolean | null
+          ord?: number | null
+          ord_top?: number | null
+          pred_key: string
+        }
+        Update: {
+          is_top?: boolean | null
+          ord?: number | null
+          ord_top?: number | null
+          pred_key?: string
+        }
+        Relationships: []
+      }
+      ai_progress: {
+        Row: {
+          combos_done: number
+          combos_total: number
+          cursor_pos: number
+          error: string | null
+          eta_seconds: number | null
+          id: number
+          min_sample: number
+          min_support: number
+          pct: number
+          phase: string | null
+          rows_done: number
+          rows_total: number
+          run_id: number | null
+          scope_start: string
+          stage: string
+          stage_started_at: string | null
+          started_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          combos_done?: number
+          combos_total?: number
+          cursor_pos?: number
+          error?: string | null
+          eta_seconds?: number | null
+          id?: number
+          min_sample?: number
+          min_support?: number
+          pct?: number
+          phase?: string | null
+          rows_done?: number
+          rows_total?: number
+          run_id?: number | null
+          scope_start?: string
+          stage?: string
+          stage_started_at?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          combos_done?: number
+          combos_total?: number
+          cursor_pos?: number
+          error?: string | null
+          eta_seconds?: number | null
+          id?: number
+          min_sample?: number
+          min_support?: number
+          pct?: number
+          phase?: string | null
+          rows_done?: number
+          rows_total?: number
+          run_id?: number | null
+          scope_start?: string
+          stage?: string
+          stage_started_at?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -203,6 +539,216 @@ export type Database = {
           target_key?: string | null
           top_lift?: number | null
           top_precision?: number | null
+        }
+        Relationships: []
+      }
+      ai_symbol_queue: {
+        Row: {
+          feat_done: boolean
+          matrix_done: boolean
+          symbol: string
+        }
+        Insert: {
+          feat_done?: boolean
+          matrix_done?: boolean
+          symbol: string
+        }
+        Update: {
+          feat_done?: boolean
+          matrix_done?: boolean
+          symbol?: string
+        }
+        Relationships: []
+      }
+      ai_top_patterns: {
+        Row: {
+          avg_days_to_target: number | null
+          avg_fwd: number | null
+          base_rate_pct: number | null
+          ci_high: number | null
+          ci_low: number | null
+          failures: number | null
+          fpr_pct: number | null
+          horizon: number | null
+          id: number
+          label: string | null
+          lift: number | null
+          median_fwd: number | null
+          n_preds: number | null
+          occurrences: number | null
+          overfit: boolean | null
+          p_value: number | null
+          precision_pct: number | null
+          pred_keys: string[] | null
+          rank: number | null
+          recall_pct: number | null
+          robust: boolean | null
+          successes: number | null
+          target_key: string | null
+          z_score: number | null
+        }
+        Insert: {
+          avg_days_to_target?: number | null
+          avg_fwd?: number | null
+          base_rate_pct?: number | null
+          ci_high?: number | null
+          ci_low?: number | null
+          failures?: number | null
+          fpr_pct?: number | null
+          horizon?: number | null
+          id?: number
+          label?: string | null
+          lift?: number | null
+          median_fwd?: number | null
+          n_preds?: number | null
+          occurrences?: number | null
+          overfit?: boolean | null
+          p_value?: number | null
+          precision_pct?: number | null
+          pred_keys?: string[] | null
+          rank?: number | null
+          recall_pct?: number | null
+          robust?: boolean | null
+          successes?: number | null
+          target_key?: string | null
+          z_score?: number | null
+        }
+        Update: {
+          avg_days_to_target?: number | null
+          avg_fwd?: number | null
+          base_rate_pct?: number | null
+          ci_high?: number | null
+          ci_low?: number | null
+          failures?: number | null
+          fpr_pct?: number | null
+          horizon?: number | null
+          id?: number
+          label?: string | null
+          lift?: number | null
+          median_fwd?: number | null
+          n_preds?: number | null
+          occurrences?: number | null
+          overfit?: boolean | null
+          p_value?: number | null
+          precision_pct?: number | null
+          pred_keys?: string[] | null
+          rank?: number | null
+          recall_pct?: number | null
+          robust?: boolean | null
+          successes?: number | null
+          target_key?: string | null
+          z_score?: number | null
+        }
+        Relationships: []
+      }
+      ai_top_signals: {
+        Row: {
+          ci_low: number | null
+          confidence: number | null
+          horizon: number | null
+          id: number
+          label: string | null
+          lift: number | null
+          occurrences: number | null
+          precision_pct: number | null
+          pred_keys: string[] | null
+          rank: number | null
+          target_key: string | null
+          z_score: number | null
+        }
+        Insert: {
+          ci_low?: number | null
+          confidence?: number | null
+          horizon?: number | null
+          id?: number
+          label?: string | null
+          lift?: number | null
+          occurrences?: number | null
+          precision_pct?: number | null
+          pred_keys?: string[] | null
+          rank?: number | null
+          target_key?: string | null
+          z_score?: number | null
+        }
+        Update: {
+          ci_low?: number | null
+          confidence?: number | null
+          horizon?: number | null
+          id?: number
+          label?: string | null
+          lift?: number | null
+          occurrences?: number | null
+          precision_pct?: number | null
+          pred_keys?: string[] | null
+          rank?: number | null
+          target_key?: string | null
+          z_score?: number | null
+        }
+        Relationships: []
+      }
+      ai_tstat: {
+        Row: {
+          pos: number | null
+          tk: string
+          tot: number | null
+        }
+        Insert: {
+          pos?: number | null
+          tk: string
+          tot?: number | null
+        }
+        Update: {
+          pos?: number | null
+          tk?: string
+          tot?: number | null
+        }
+        Relationships: []
+      }
+      ai_watchlist: {
+        Row: {
+          best_target: string | null
+          company_name: string | null
+          confidence: number | null
+          hist_success_pct: number | null
+          id: number
+          matched_labels: string[] | null
+          matched_patterns: number | null
+          probability: number | null
+          rank: number | null
+          score_date: string | null
+          sector: string | null
+          symbol: string | null
+          updated_at: string
+        }
+        Insert: {
+          best_target?: string | null
+          company_name?: string | null
+          confidence?: number | null
+          hist_success_pct?: number | null
+          id?: number
+          matched_labels?: string[] | null
+          matched_patterns?: number | null
+          probability?: number | null
+          rank?: number | null
+          score_date?: string | null
+          sector?: string | null
+          symbol?: string | null
+          updated_at?: string
+        }
+        Update: {
+          best_target?: string | null
+          company_name?: string | null
+          confidence?: number | null
+          hist_success_pct?: number | null
+          id?: number
+          matched_labels?: string[] | null
+          matched_patterns?: number | null
+          probability?: number | null
+          rank?: number | null
+          score_date?: string | null
+          sector?: string | null
+          symbol?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -443,7 +989,7 @@ export type Database = {
           ret_2d?: number | null
           ret_3d?: number | null
           ret_5d?: number | null
-          row_id: number
+          row_id?: number
           sec_med_ret20?: number | null
           sec_p75_ret20?: number | null
           sector?: string | null
@@ -1094,6 +1640,55 @@ export type Database = {
     }
     Functions: {
       ai_discovery_run: { Args: never; Returns: undefined }
+      ai_discovery_start: {
+        Args: { _min_sample?: number; _min_support?: number; _scope?: string }
+        Returns: undefined
+      }
+      ai_drive: {
+        Args: never
+        Returns: {
+          combos_done: number
+          combos_total: number
+          cursor_pos: number
+          error: string | null
+          eta_seconds: number | null
+          id: number
+          min_sample: number
+          min_support: number
+          pct: number
+          phase: string | null
+          rows_done: number
+          rows_total: number
+          run_id: number | null
+          scope_start: string
+          stage: string
+          stage_started_at: string | null
+          started_at: string | null
+          status: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "ai_progress"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      ai_score_daily: { Args: never; Returns: undefined }
+      ai_stage_backtest: { Args: never; Returns: undefined }
+      ai_stage_features: { Args: { _batch?: number }; Returns: undefined }
+      ai_stage_flags: { Args: { _step?: number }; Returns: undefined }
+      ai_stage_matrix: { Args: { _batch?: number }; Returns: undefined }
+      ai_stage_oos: { Args: never; Returns: undefined }
+      ai_stage_pair: { Args: { _pb?: number }; Returns: undefined }
+      ai_stage_params: { Args: never; Returns: undefined }
+      ai_stage_predcatalog: { Args: never; Returns: undefined }
+      ai_stage_quality: { Args: never; Returns: undefined }
+      ai_stage_reset: { Args: never; Returns: undefined }
+      ai_stage_secstats: { Args: never; Returns: undefined }
+      ai_stage_single: { Args: never; Returns: undefined }
+      ai_stage_triple: { Args: { _pb?: number }; Returns: undefined }
+      ai_stage_validate: { Args: never; Returns: undefined }
       build_coverage_report: { Args: never; Returns: undefined }
       build_discovery_matrix: { Args: never; Returns: undefined }
       build_research_aggregates: { Args: never; Returns: undefined }
