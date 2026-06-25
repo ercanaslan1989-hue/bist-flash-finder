@@ -95,7 +95,7 @@ function FeatureImportancePage() {
       <section className="mt-8">
         <div className="flex items-center gap-2">
           <BarChart3 className="h-5 w-5 text-primary" />
-          <h2 className="font-display text-xl font-bold text-foreground">Ranked features</h2>
+          <h2 className="font-display text-xl font-bold text-foreground">Sıralı göstergeler</h2>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1">
