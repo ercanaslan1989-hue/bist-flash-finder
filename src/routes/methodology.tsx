@@ -63,10 +63,10 @@ const STEPS = [
 function MethodologyPage() {
   return (
     <AppShell>
-      <h1 className="font-display text-2xl font-bold text-foreground">Methodology</h1>
+      <h1 className="font-display text-2xl font-bold text-foreground">Yöntem</h1>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        The objective is to discover the highest-probability setup that appears before a stock makes
-        a large move — by studying what happened beforehand, not by predicting the future.
+        Amaç, bir hisse büyük bir hareket yapmadan önce ortaya çıkan en yüksek olasılıklı kurulumu
+        keşfetmektir — geleceği tahmin ederek değil, öncesinde ne olduğunu inceleyerek.
       </p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
