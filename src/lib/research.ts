@@ -283,7 +283,7 @@ async function fetchAiPatterns(): Promise<AiPatternsData> {
   const patterns = ((patRes.data ?? []) as AiPatternRow[]).map((p) => ({
     ...p,
     // ai_top_patterns has no `significant` column; a robust (non-overfit) row is significant.
-    significant: p.robust ?? !p.overfit ?? true,
+    significant: p.robust ?? (p.overfit == null ? true : !p.overfit),
   }));
   return {
     patterns,
