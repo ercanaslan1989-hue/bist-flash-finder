@@ -160,12 +160,12 @@ function CoverageTable({ rows }: { rows: CoverageSymbolRow[] }) {
       <table className="w-full min-w-[720px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-            <th className="px-3 py-2.5 font-medium">Symbol</th>
-            <th className="px-3 py-2.5 font-medium">Company</th>
-            <th className="px-3 py-2.5 text-center font-medium">Status</th>
-            <th className="px-3 py-2.5 font-medium">Earliest</th>
-            <th className="px-3 py-2.5 font-medium">Latest</th>
-            <th className="px-3 py-2.5 text-right font-medium">Days</th>
+            <th className="px-3 py-2.5 font-medium">Hisse</th>
+            <th className="px-3 py-2.5 font-medium">Şirket</th>
+            <th className="px-3 py-2.5 text-center font-medium">Durum</th>
+            <th className="px-3 py-2.5 font-medium">İlk tarih</th>
+            <th className="px-3 py-2.5 font-medium">Son tarih</th>
+            <th className="px-3 py-2.5 text-right font-medium">Gün</th>
           </tr>
         </thead>
         <tbody>
