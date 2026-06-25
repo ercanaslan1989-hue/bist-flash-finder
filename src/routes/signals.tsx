@@ -56,18 +56,18 @@ export const Route = createFileRoute("/signals")({
 const TARGETS = [
   {
     value: "all",
-    label: "All targets",
-    blurb: "The strongest signals across every move target, ranked by statistical confidence.",
+    label: "Tümü",
+    blurb: "Tüm hareket hedeflerindeki en güçlü sinyaller, istatistiksel güvene göre sıralanmış.",
   },
   {
     value: "g20",
-    label: "+20% run",
-    blurb: "Signals that appeared before a stock gained ≥20% over the following 20 trading days.",
+    label: "+%20 yükseliş",
+    blurb: "Bir hissenin sonraki 20 işlem gününde ≥%20 kazandığı durumlardan önce ortaya çıkan sinyaller.",
   },
   {
     value: "lu",
-    label: "+10% limit-up",
-    blurb: "Signals that appeared before a BIST daily +10% limit-up day.",
+    label: "+%10 tavan",
+    blurb: "BIST'te günlük +%10 tavan gününden önce ortaya çıkan sinyaller.",
   },
 ] as const;
 
