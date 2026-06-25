@@ -130,7 +130,7 @@ function BacktestPage() {
         <div className="flex items-center gap-2">
           <Target className="h-5 w-5 text-primary" />
           <h2 className="font-display text-xl font-bold text-foreground">
-            Monthly precision by target
+            Hedefe göre aylık isabet
           </h2>
         </div>
 
