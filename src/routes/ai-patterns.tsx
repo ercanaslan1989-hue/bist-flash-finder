@@ -407,7 +407,7 @@ function Legend() {
     ["Recall", "Share of all target moves this pattern caught."],
     ["FPR", "False positive rate — share of non-move days that still fired the pattern."],
     ["Lift", "Precision ÷ base rate — predictive edge over the unconditional probability."],
-    ["Δ filter", "Precision gained vs the pattern's best simpler subset — how much the extra filter helped (false-signal analysis)."],
+    ["Quality", "Robust = stable in/out-of-sample. Overfit = flagged for in-sample over-precision."],
     ["p", "Two-sided p-value vs base rate. 'sig' = passes significance and lift thresholds with adequate sample."],
   ];
   return (
