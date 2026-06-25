@@ -212,3 +212,126 @@ export const signalsQueryOptions = () =>
     queryFn: fetchSignals,
     staleTime: 60_000,
   });
+
+// ===== AI pattern discovery =====
+
+export interface AiPatternRow {
+  id: number;
+  run_id: number | null;
+  target_key: "lu" | "g10" | "g15" | "g20" | string;
+  horizon: number;
+  n_preds: number;
+  pred_keys: string[];
+  label: string;
+  occurrences: number | null;
+  successes: number | null;
+  failures: number | null;
+  precision_pct: number | null;
+  recall_pct: number | null;
+  fpr_pct: number | null;
+  base_rate_pct: number | null;
+  lift: number | null;
+  avg_fwd: number | null;
+  median_fwd: number | null;
+  avg_days_to_target: number | null;
+  z_score: number | null;
+  p_value: number | null;
+  ci_low: number | null;
+  ci_high: number | null;
+  significant: boolean | null;
+  parent_precision: number | null;
+  precision_gain: number | null;
+  rank: number | null;
+}
+
+export interface AiMetaRow {
+  status: string | null;
+  phase: string | null;
+  last_run_at: string | null;
+  matrix_rows: number | null;
+  n_patterns: number | null;
+  n_significant: number | null;
+  updated_at: string | null;
+}
+
+export interface AiQualityRow {
+  run_id: number | null;
+  run_date: string | null;
+  target_key: string;
+  n_patterns: number | null;
+  n_significant: number | null;
+  top_precision: number | null;
+  top_lift: number | null;
+  best_label: string | null;
+}
+
+export interface AiPatternsData {
+  patterns: AiPatternRow[];
+  meta: AiMetaRow | null;
+  quality: AiQualityRow[];
+}
+
+async function fetchAiPatterns(): Promise<AiPatternsData> {
+  const [patRes, metaRes, qualRes] = await Promise.all([
+    sb.from("ai_patterns").select("*").order("target_key", { ascending: true }).order("rank", { ascending: true }),
+    sb.from("ai_meta").select("*").eq("id", 1).limit(1),
+    sb.from("ai_signal_quality").select("*").order("run_date", { ascending: true }),
+  ]);
+  return {
+    patterns: (patRes.data ?? []) as AiPatternRow[],
+    meta: (metaRes.data?.[0] ?? null) as AiMetaRow | null,
+    quality: (qualRes.data ?? []) as AiQualityRow[],
+  };
+}
+
+export const aiPatternsQueryOptions = () =>
+  queryOptions({
+    queryKey: ["ai-patterns"],
+    queryFn: fetchAiPatterns,
+    staleTime: 30_000,
+  });
+
+// ===== Data coverage =====
+
+export interface CoverageReportRow {
+  total_active: number | null;
+  imported: number | null;
+  missing: number | null;
+  coverage_pct: number | null;
+  missing_symbols: string[] | null;
+  universe_source: string | null;
+  generated_at: string | null;
+}
+
+export interface CoverageSymbolRow {
+  symbol: string;
+  company_name: string | null;
+  in_universe: boolean | null;
+  has_data: boolean | null;
+  earliest_date: string | null;
+  latest_date: string | null;
+  n_days: number | null;
+}
+
+export interface CoverageData {
+  report: CoverageReportRow | null;
+  symbols: CoverageSymbolRow[];
+}
+
+async function fetchCoverage(): Promise<CoverageData> {
+  const [repRes, symRes] = await Promise.all([
+    sb.from("coverage_report").select("*").eq("id", 1).limit(1),
+    sb.from("coverage_by_symbol").select("*").order("n_days", { ascending: true }),
+  ]);
+  return {
+    report: (repRes.data?.[0] ?? null) as CoverageReportRow | null,
+    symbols: (symRes.data ?? []) as CoverageSymbolRow[],
+  };
+}
+
+export const coverageQueryOptions = () =>
+  queryOptions({
+    queryKey: ["coverage"],
+    queryFn: fetchCoverage,
+    staleTime: 60_000,
+  });
