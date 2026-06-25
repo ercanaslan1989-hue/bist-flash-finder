@@ -170,7 +170,7 @@ function Dashboard() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-accent" />
-            <h2 className="font-display text-xl font-bold text-foreground">Pre-event distributions</h2>
+            <h2 className="font-display text-xl font-bold text-foreground">Olay öncesi dağılımlar</h2>
           </div>
           <div className="flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1">
             {WINDOWS.map((w) => (
