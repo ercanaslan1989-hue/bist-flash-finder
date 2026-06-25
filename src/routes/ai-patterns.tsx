@@ -340,7 +340,7 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
                   <span className="font-medium text-foreground">{r.label}</span>
                   {r.significant && (
                     <span className="rounded bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">
-                      sig
+                      anlamlı
                     </span>
                   )}
                 </span>
