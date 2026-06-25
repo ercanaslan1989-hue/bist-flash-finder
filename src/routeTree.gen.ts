@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StocksRouteImport } from './routes/stocks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,6 +24,11 @@ const StocksRoute = StocksRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignalsRoute = SignalsRouteImport.update({
+  id: '/signals',
+  path: '/signals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MethodologyRoute = MethodologyRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
+  '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
+  '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
 }
@@ -60,21 +68,36 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
+  '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/events' | '/methodology' | '/sitemap.xml' | '/stocks'
+  fullPaths:
+    | '/'
+    | '/events'
+    | '/methodology'
+    | '/signals'
+    | '/sitemap.xml'
+    | '/stocks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/events' | '/methodology' | '/sitemap.xml' | '/stocks'
-  id: '__root__' | '/' | '/events' | '/methodology' | '/sitemap.xml' | '/stocks'
+  to: '/' | '/events' | '/methodology' | '/signals' | '/sitemap.xml' | '/stocks'
+  id:
+    | '__root__'
+    | '/'
+    | '/events'
+    | '/methodology'
+    | '/signals'
+    | '/sitemap.xml'
+    | '/stocks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EventsRoute: typeof EventsRoute
   MethodologyRoute: typeof MethodologyRoute
+  SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StocksRoute: typeof StocksRoute
 }
@@ -93,6 +116,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signals': {
+      id: '/signals'
+      path: '/signals'
+      fullPath: '/signals'
+      preLoaderRoute: typeof SignalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/methodology': {
@@ -123,6 +153,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EventsRoute: EventsRoute,
   MethodologyRoute: MethodologyRoute,
+  SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StocksRoute: StocksRoute,
 }
