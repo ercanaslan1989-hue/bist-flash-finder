@@ -20,17 +20,17 @@ import { fmtDate, fmtNum, fmtPct } from "@/lib/format";
 export const Route = createFileRoute("/ai-patterns")({
   head: () => ({
     meta: [
-      { title: "Top AI-Discovered Pre-Move Patterns — BIST Signal Lab" },
+      { title: "Yapay Zeka ile Keşfedilen En Güçlü Hareket Öncesi Kalıplar — BIST Sinyal Lab" },
       {
         name: "description",
         content:
-          "Tens of thousands of feature combinations auto-tested against the modern BIST market. The strongest statistically validated patterns ranked by lift, precision, recall and confidence for four independent move targets.",
+          "On binlerce gösterge kombinasyonu modern BIST piyasasına karşı otomatik test edildi. Dört bağımsız hareket hedefi için lift, isabet, geri çağırma ve güvene göre sıralanan istatistiksel olarak doğrulanmış en güçlü kalıplar.",
       },
-      { property: "og:title", content: "AI Pattern Discovery — BIST Signal Lab" },
+      { property: "og:title", content: "Yapay Zeka Kalıp Keşfi — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Automatically discovered, statistically validated patterns that preceded large BIST moves (2025–today).",
+          "Büyük BIST hareketlerinden önce ortaya çıkan, otomatik keşfedilmiş ve istatistiksel olarak doğrulanmış kalıplar (2025–bugün).",
       },
     ],
   }),
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/ai-patterns")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load AI patterns
+          Yapay zeka kalıpları yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/ai-patterns")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No AI patterns found.</p>
+      <p className="text-muted-foreground">Yapay zeka kalıbı bulunamadı.</p>
     </AppShell>
   ),
 });
