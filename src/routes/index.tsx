@@ -241,9 +241,9 @@ function Dashboard() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-                  <th className="px-3 py-2 font-medium">Metric</th>
-                  <th className="px-3 py-2 text-right font-medium">Median</th>
-                  <th className="px-3 py-2 text-right font-medium">Average</th>
+                  <th className="px-3 py-2 font-medium">Metrik</th>
+                  <th className="px-3 py-2 text-right font-medium">Medyan</th>
+                  <th className="px-3 py-2 text-right font-medium">Ortalama</th>
                 </tr>
               </thead>
               <tbody>
