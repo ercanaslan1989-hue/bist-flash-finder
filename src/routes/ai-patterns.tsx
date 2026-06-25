@@ -176,7 +176,7 @@ function AiPatternsPage() {
         <section className="mt-10">
           <div className="flex items-center gap-2">
             <Target className="h-5 w-5 text-primary" />
-            <h2 className="font-display text-xl font-bold text-foreground">Ranked patterns</h2>
+            <h2 className="font-display text-xl font-bold text-foreground">Sıralı kalıplar</h2>
           </div>
 
           {/* Target tabs */}
