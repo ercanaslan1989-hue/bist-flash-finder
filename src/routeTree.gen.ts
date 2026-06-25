@@ -9,15 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as StocksRouteImport } from './routes/stocks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
+import { Route as OosRouteImport } from './routes/oos'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CoverageRouteImport } from './routes/coverage'
+import { Route as BacktestRouteImport } from './routes/backtest'
 import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WatchlistRoute = WatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StocksRoute = StocksRouteImport.update({
   id: '/stocks',
   path: '/stocks',
@@ -33,9 +42,19 @@ const SignalsRoute = SignalsRouteImport.update({
   path: '/signals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OosRoute = OosRouteImport.update({
+  id: '/oos',
+  path: '/oos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MethodologyRoute = MethodologyRouteImport.update({
   id: '/methodology',
   path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeatureImportanceRoute = FeatureImportanceRouteImport.update({
+  id: '/feature-importance',
+  path: '/feature-importance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -46,6 +65,11 @@ const EventsRoute = EventsRouteImport.update({
 const CoverageRoute = CoverageRouteImport.update({
   id: '/coverage',
   path: '/coverage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BacktestRoute = BacktestRouteImport.update({
+  id: '/backtest',
+  path: '/backtest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiPatternsRoute = AiPatternsRouteImport.update({
@@ -62,80 +86,115 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
+  '/backtest': typeof BacktestRoute
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
+  '/feature-importance': typeof FeatureImportanceRoute
   '/methodology': typeof MethodologyRoute
+  '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
+  '/watchlist': typeof WatchlistRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
+  '/backtest': typeof BacktestRoute
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
+  '/feature-importance': typeof FeatureImportanceRoute
   '/methodology': typeof MethodologyRoute
+  '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
+  '/watchlist': typeof WatchlistRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
+  '/backtest': typeof BacktestRoute
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
+  '/feature-importance': typeof FeatureImportanceRoute
   '/methodology': typeof MethodologyRoute
+  '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
+  '/watchlist': typeof WatchlistRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/ai-patterns'
+    | '/backtest'
     | '/coverage'
     | '/events'
+    | '/feature-importance'
     | '/methodology'
+    | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
+    | '/watchlist'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/ai-patterns'
+    | '/backtest'
     | '/coverage'
     | '/events'
+    | '/feature-importance'
     | '/methodology'
+    | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
+    | '/watchlist'
   id:
     | '__root__'
     | '/'
     | '/ai-patterns'
+    | '/backtest'
     | '/coverage'
     | '/events'
+    | '/feature-importance'
     | '/methodology'
+    | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
+    | '/watchlist'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiPatternsRoute: typeof AiPatternsRoute
+  BacktestRoute: typeof BacktestRoute
   CoverageRoute: typeof CoverageRoute
   EventsRoute: typeof EventsRoute
+  FeatureImportanceRoute: typeof FeatureImportanceRoute
   MethodologyRoute: typeof MethodologyRoute
+  OosRoute: typeof OosRoute
   SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StocksRoute: typeof StocksRoute
+  WatchlistRoute: typeof WatchlistRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/watchlist': {
+      id: '/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stocks': {
       id: '/stocks'
       path: '/stocks'
@@ -157,11 +216,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/oos': {
+      id: '/oos'
+      path: '/oos'
+      fullPath: '/oos'
+      preLoaderRoute: typeof OosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/methodology': {
       id: '/methodology'
       path: '/methodology'
       fullPath: '/methodology'
       preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feature-importance': {
+      id: '/feature-importance'
+      path: '/feature-importance'
+      fullPath: '/feature-importance'
+      preLoaderRoute: typeof FeatureImportanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -176,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/coverage'
       fullPath: '/coverage'
       preLoaderRoute: typeof CoverageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backtest': {
+      id: '/backtest'
+      path: '/backtest'
+      fullPath: '/backtest'
+      preLoaderRoute: typeof BacktestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-patterns': {
@@ -198,12 +278,16 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiPatternsRoute: AiPatternsRoute,
+  BacktestRoute: BacktestRoute,
   CoverageRoute: CoverageRoute,
   EventsRoute: EventsRoute,
+  FeatureImportanceRoute: FeatureImportanceRoute,
   MethodologyRoute: MethodologyRoute,
+  OosRoute: OosRoute,
   SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StocksRoute: StocksRoute,
+  WatchlistRoute: WatchlistRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

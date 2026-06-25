@@ -328,7 +328,7 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
             <th className="px-3 py-2.5 text-right font-medium">Lift</th>
             <th className="px-3 py-2.5 text-right font-medium">Avg fwd</th>
             <th className="px-3 py-2.5 text-right font-medium">Days→</th>
-            <th className="px-3 py-2.5 text-right font-medium">Δ filter</th>
+            <th className="px-3 py-2.5 text-right font-medium">Quality</th>
             <th className="px-3 py-2.5 text-right font-medium">p</th>
           </tr>
         </thead>
@@ -369,13 +369,18 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
               <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
                 {r.avg_days_to_target === null ? "—" : r.avg_days_to_target.toFixed(1)}
               </td>
-              <td
-                className={
-                  "px-3 py-2.5 text-right font-mono tabular " +
-                  ((r.precision_gain ?? 0) > 0 ? "text-success" : "text-muted-foreground")
-                }
-              >
-                {r.precision_gain === null ? "—" : `${r.precision_gain > 0 ? "+" : ""}${r.precision_gain.toFixed(1)}`}
+              <td className="px-3 py-2.5 text-right font-mono text-xs tabular">
+                {r.overfit ? (
+                  <span className="rounded bg-destructive/15 px-1.5 py-0.5 font-semibold uppercase text-destructive">
+                    overfit
+                  </span>
+                ) : r.robust ? (
+                  <span className="rounded bg-success/15 px-1.5 py-0.5 font-semibold uppercase text-success">
+                    robust
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground">—</span>
+                )}
               </td>
               <td className="px-3 py-2.5 text-right font-mono text-xs text-muted-foreground tabular">
                 {r.p_value === null ? "—" : r.p_value < 0.001 ? "<0.001" : r.p_value.toFixed(3)}
@@ -402,7 +407,7 @@ function Legend() {
     ["Recall", "Share of all target moves this pattern caught."],
     ["FPR", "False positive rate — share of non-move days that still fired the pattern."],
     ["Lift", "Precision ÷ base rate — predictive edge over the unconditional probability."],
-    ["Δ filter", "Precision gained vs the pattern's best simpler subset — how much the extra filter helped (false-signal analysis)."],
+    ["Quality", "Robust = stable in/out-of-sample. Overfit = flagged for in-sample over-precision."],
     ["p", "Two-sided p-value vs base rate. 'sig' = passes significance and lift thresholds with adequate sample."],
   ];
   return (
