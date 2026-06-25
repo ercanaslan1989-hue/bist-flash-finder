@@ -13,6 +13,7 @@ import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as StocksRouteImport } from './routes/stocks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
+import { Route as OosRouteImport } from './routes/oos'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
 import { Route as EventsRouteImport } from './routes/events'
@@ -39,6 +40,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SignalsRoute = SignalsRouteImport.update({
   id: '/signals',
   path: '/signals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OosRoute = OosRouteImport.update({
+  id: '/oos',
+  path: '/oos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MethodologyRoute = MethodologyRouteImport.update({
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/methodology': typeof MethodologyRoute
+  '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/methodology': typeof MethodologyRoute
+  '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/methodology': typeof MethodologyRoute
+  '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/feature-importance'
     | '/methodology'
+    | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/feature-importance'
     | '/methodology'
+    | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/feature-importance'
     | '/methodology'
+    | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   FeatureImportanceRoute: typeof FeatureImportanceRoute
   MethodologyRoute: typeof MethodologyRoute
+  OosRoute: typeof OosRoute
   SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StocksRoute: typeof StocksRoute
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/signals'
       fullPath: '/signals'
       preLoaderRoute: typeof SignalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oos': {
+      id: '/oos'
+      path: '/oos'
+      fullPath: '/oos'
+      preLoaderRoute: typeof OosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/methodology': {
@@ -263,6 +283,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   FeatureImportanceRoute: FeatureImportanceRoute,
   MethodologyRoute: MethodologyRoute,
+  OosRoute: OosRoute,
   SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StocksRoute: StocksRoute,

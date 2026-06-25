@@ -5,7 +5,11 @@ import type { ReactNode } from "react";
 const NAV = [
   { to: "/", label: "Dashboard" },
   { to: "/ai-patterns", label: "AI Patterns" },
-  { to: "/signals", label: "Signals" },
+  { to: "/signals", label: "Top Signals" },
+  { to: "/feature-importance", label: "Features" },
+  { to: "/watchlist", label: "Watchlist" },
+  { to: "/backtest", label: "Backtest" },
+  { to: "/oos", label: "OOS" },
   { to: "/events", label: "Events" },
   { to: "/stocks", label: "Universe" },
   { to: "/coverage", label: "Coverage" },
