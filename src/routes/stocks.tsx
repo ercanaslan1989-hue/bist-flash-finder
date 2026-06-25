@@ -62,10 +62,10 @@ function StocksPage() {
         <div>
           <div className="flex items-center gap-2">
             <Layers className="h-5 w-5 text-accent" />
-            <h1 className="font-display text-2xl font-bold text-foreground">Stock universe</h1>
+            <h1 className="font-display text-2xl font-bold text-foreground">Hisse evreni</h1>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            Latest snapshot for {fmtNum(data.length)} stocks · as of {fmtDate(asOf)}
+            {fmtNum(data.length)} hisse için en güncel veri · {fmtDate(asOf)} itibarıyla
           </p>
         </div>
         <div className="relative">
@@ -73,7 +73,7 @@ function StocksPage() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search symbol, name, sector…"
+            placeholder="Hisse kodu, ad veya sektör ara…"
             className="w-64 rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
           />
         </div>
