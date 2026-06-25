@@ -142,10 +142,10 @@ function Dashboard() {
       <section className="mt-10">
         <div className="flex items-center gap-2">
           <Flame className="h-5 w-5 text-primary" />
-          <h2 className="font-display text-xl font-bold text-foreground">Top recurring patterns</h2>
+          <h2 className="font-display text-xl font-bold text-foreground">En sık tekrarlayan kalıplar</h2>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-          How often each condition was present in the lead-up to large moves.
+          Büyük hareketler öncesinde her bir koşulun ne sıklıkta görüldüğü.
         </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {patterns.map((p, i) => (
