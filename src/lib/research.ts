@@ -241,6 +241,8 @@ export interface AiPatternRow {
   significant: boolean | null;
   parent_precision: number | null;
   precision_gain: number | null;
+  overfit: boolean | null;
+  robust: boolean | null;
   rank: number | null;
 }
 
