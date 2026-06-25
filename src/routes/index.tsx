@@ -112,28 +112,28 @@ function Dashboard() {
 
       {/* Coverage stats */}
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
-        <StatCard label="Tracked stocks" value={fmtNum(meta.stockCount)} icon={<Layers className="h-4 w-4" />} />
+        <StatCard label="Takip edilen hisseler" value={fmtNum(meta.stockCount)} icon={<Layers className="h-4 w-4" />} />
         <StatCard
-          label="Daily snapshots"
+          label="Günlük veriler"
           value={fmtNum(meta.snapshotCount)}
           icon={<Database className="h-4 w-4" />}
         />
         <StatCard
-          label="Events detected"
+          label="Tespit edilen hareketler"
           value={fmtNum(events.length)}
           accent="primary"
           icon={<Zap className="h-4 w-4" />}
         />
         <StatCard
-          label="Limit-up days"
+          label="Tavan günleri"
           value={fmtNum(limitUps)}
           accent="accent"
           icon={<TrendingUp className="h-4 w-4" />}
         />
         <StatCard
-          label="Date range"
+          label="Analiz dönemi"
           value={<span className="text-base">{fmtDate(meta.firstDate)}</span>}
-          sub={`through ${fmtDate(meta.lastDate)}`}
+          sub={`${fmtDate(meta.lastDate)} tarihine kadar`}
           icon={<CalendarDays className="h-4 w-4" />}
         />
       </section>
