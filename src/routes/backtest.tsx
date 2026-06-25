@@ -15,17 +15,17 @@ import { fmtNum, fmtPct } from "@/lib/format";
 export const Route = createFileRoute("/backtest")({
   head: () => ({
     meta: [
-      { title: "Monthly Backtest & Walk-Forward — BIST Signal Research Lab" },
+      { title: "Geçmiş Performans ve Walk-Forward — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Month-by-month replay of the v1.0 BIST research engine: precision, hit rate, signal counts and average forward returns from Jan 2025, with walk-forward calibration. Research only.",
+          "v1.0 BIST araştırma motorunun ay ay tekrarı: Ocak 2025'ten itibaren isabet, başarı oranı, sinyal sayıları ve ortalama ileri getiriler, walk-forward kalibrasyonuyla birlikte. Yalnızca araştırma amaçlıdır.",
       },
-      { property: "og:title", content: "Monthly Backtest — BIST Signal Lab" },
+      { property: "og:title", content: "Geçmiş Performans — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Walk-forward day-by-day replay of validated BIST pre-move patterns, month by month.",
+          "Doğrulanmış BIST hareket öncesi kalıplarının ay ay, gün gün walk-forward tekrarı.",
       },
     ],
   }),
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/backtest")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load the backtest
+          Geçmiş performans yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -43,20 +43,20 @@ export const Route = createFileRoute("/backtest")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No backtest data found.</p>
+      <p className="text-muted-foreground">Geçmiş performans verisi bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const TARGETS = [
-  { value: "g20", label: "+20% run" },
-  { value: "g15", label: "+15%" },
-  { value: "g10", label: "+10%" },
-  { value: "lu", label: "limit-up" },
+  { value: "g20", label: "+%20 yükseliş" },
+  { value: "g15", label: "+%15" },
+  { value: "g10", label: "+%10" },
+  { value: "lu", label: "tavan" },
 ] as const;
 
 const monthLabel = (d: string) =>
-  new Date(d).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+  new Date(d).toLocaleDateString("tr-TR", { month: "short", year: "numeric" });
 
 function BacktestPage() {
   const { data } = useSuspenseQuery(backtestQueryOptions());
