@@ -230,7 +230,7 @@ function BacktestTable({ rows }: { rows: BacktestMonthRow[] }) {
           {rows.length === 0 && (
             <tr>
               <td colSpan={4} className="px-3 py-6 text-center text-muted-foreground">
-                No months for this target.
+                Bu hedef için ay yok.
               </td>
             </tr>
           )}
