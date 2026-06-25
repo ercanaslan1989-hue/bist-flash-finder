@@ -83,15 +83,15 @@ function StocksPage() {
         <table className="w-full min-w-[860px] text-sm">
           <thead>
             <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-              <th className="px-3 py-2.5 font-medium">Symbol</th>
-              <th className="px-3 py-2.5 font-medium">Sector</th>
-              <th className="px-3 py-2.5 text-right font-medium">Close</th>
-              <th className="px-3 py-2.5 text-right font-medium">Daily</th>
-              <th className="px-3 py-2.5 text-right font-medium">Vol ×20d</th>
-              <th className="px-3 py-2.5 text-right font-medium">5d</th>
-              <th className="px-3 py-2.5 text-right font-medium">20d</th>
-              <th className="px-3 py-2.5 text-right font-medium">Mkt value</th>
-              <th className="px-3 py-2.5 text-right font-medium">Traded</th>
+              <th className="px-3 py-2.5 font-medium">Hisse</th>
+              <th className="px-3 py-2.5 font-medium">Sektör</th>
+              <th className="px-3 py-2.5 text-right font-medium">Kapanış</th>
+              <th className="px-3 py-2.5 text-right font-medium">Günlük</th>
+              <th className="px-3 py-2.5 text-right font-medium">Hac ×20g</th>
+              <th className="px-3 py-2.5 text-right font-medium">5g</th>
+              <th className="px-3 py-2.5 text-right font-medium">20g</th>
+              <th className="px-3 py-2.5 text-right font-medium">Piyasa değeri</th>
+              <th className="px-3 py-2.5 text-right font-medium">İşlem hacmi</th>
               <th className="px-3 py-2.5 text-right font-medium">KAP</th>
             </tr>
           </thead>
