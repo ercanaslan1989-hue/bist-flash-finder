@@ -203,15 +203,15 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <th className="px-3 py-2.5 font-medium">#</th>
-            <th className="px-3 py-2.5 font-medium">Signal</th>
-            <th className="px-3 py-2.5 font-medium">Target</th>
-            <th className="px-3 py-2.5 text-right font-medium">Within</th>
-            <th className="px-3 py-2.5 text-right font-medium">Occur.</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
-            <th className="px-3 py-2.5 text-right font-medium">CI-low</th>
+            <th className="px-3 py-2.5 font-medium">Sinyal</th>
+            <th className="px-3 py-2.5 font-medium">Hedef</th>
+            <th className="px-3 py-2.5 text-right font-medium">Süre</th>
+            <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
+            <th className="px-3 py-2.5 text-right font-medium">GA-alt</th>
             <th className="px-3 py-2.5 text-right font-medium">Lift</th>
             <th className="px-3 py-2.5 text-right font-medium">z</th>
-            <th className="px-3 py-2.5 text-right font-medium">Conf.</th>
+            <th className="px-3 py-2.5 text-right font-medium">Güven</th>
           </tr>
         </thead>
         <tbody>
