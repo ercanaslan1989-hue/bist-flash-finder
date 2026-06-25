@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
 
 const StocksRoute = StocksRouteImport.update({
@@ -41,6 +42,11 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiPatternsRoute = AiPatternsRouteImport.update({
+  id: '/ai-patterns',
+  path: '/ai-patterns',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,6 +55,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-patterns': typeof AiPatternsRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
   '/signals': typeof SignalsRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-patterns': typeof AiPatternsRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
   '/signals': typeof SignalsRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-patterns': typeof AiPatternsRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
   '/signals': typeof SignalsRoute
@@ -76,16 +85,25 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-patterns'
     | '/events'
     | '/methodology'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/events' | '/methodology' | '/signals' | '/sitemap.xml' | '/stocks'
+  to:
+    | '/'
+    | '/ai-patterns'
+    | '/events'
+    | '/methodology'
+    | '/signals'
+    | '/sitemap.xml'
+    | '/stocks'
   id:
     | '__root__'
     | '/'
+    | '/ai-patterns'
     | '/events'
     | '/methodology'
     | '/signals'
@@ -95,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiPatternsRoute: typeof AiPatternsRoute
   EventsRoute: typeof EventsRoute
   MethodologyRoute: typeof MethodologyRoute
   SignalsRoute: typeof SignalsRoute
@@ -139,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-patterns': {
+      id: '/ai-patterns'
+      path: '/ai-patterns'
+      fullPath: '/ai-patterns'
+      preLoaderRoute: typeof AiPatternsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -151,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiPatternsRoute: AiPatternsRoute,
   EventsRoute: EventsRoute,
   MethodologyRoute: MethodologyRoute,
   SignalsRoute: SignalsRoute,
