@@ -74,11 +74,11 @@ function EventsPage() {
     <AppShell>
       <div className="flex items-center gap-2">
         <Flame className="h-5 w-5 text-primary" />
-        <h1 className="font-display text-2xl font-bold text-foreground">Detected events</h1>
+        <h1 className="font-display text-2xl font-bold text-foreground">Tespit edilen olaylar</h1>
       </div>
       <p className="mt-1 text-sm text-muted-foreground">
-        {fmtNum(data.events.length)} large-move events. Expand any row to see metrics 1–10 trading
-        days before the move.
+        {fmtNum(data.events.length)} büyük hareket olayı. Hareketten 1–10 işlem günü önceki metrikleri
+        görmek için herhangi bir satırı genişletin.
       </p>
 
       <div className="mt-5 flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1">
