@@ -116,7 +116,7 @@ function EventsPage() {
                 <span className="ml-auto flex items-center gap-2">
                   {e.is_limit_up ? (
                     <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-accent">
-                      Limit-up
+                      Tavan
                     </span>
                   ) : (
                     <span className="rounded-full border border-border bg-secondary/50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
