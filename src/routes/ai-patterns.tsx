@@ -199,9 +199,9 @@ function AiPatternsPage() {
 
           {/* Filters */}
           <div className="mt-4 grid gap-4 rounded-xl border border-border bg-card p-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Field label="Sector">
+            <Field label="Sektör">
               <Select value={sector} onChange={setSector}>
-                <option value="any">All sectors</option>
+                <option value="any">Tüm sektörler</option>
                 {sectors.map((s) => (
                   <option key={s} value={s}>
                     {s}
@@ -209,7 +209,7 @@ function AiPatternsPage() {
                 ))}
               </Select>
             </Field>
-            <Field label="Market cap">
+            <Field label="Piyasa değeri">
               <Select value={mcap} onChange={setMcap}>
                 {MCAP_OPTIONS.map((o) => (
                   <option key={o.value} value={o.value}>
@@ -218,7 +218,7 @@ function AiPatternsPage() {
                 ))}
               </Select>
             </Field>
-            <Field label="Pattern size">
+            <Field label="Kalıp boyutu">
               <Select value={String(size)} onChange={(v) => setSize(Number(v))}>
                 {SIZE_OPTIONS.map((o) => (
                   <option key={o.value} value={o.value}>
@@ -227,7 +227,7 @@ function AiPatternsPage() {
                 ))}
               </Select>
             </Field>
-            <Field label="Significant only">
+            <Field label="Yalnızca anlamlı">
               <button
                 onClick={() => setSigOnly((s) => !s)}
                 className={
@@ -237,10 +237,10 @@ function AiPatternsPage() {
                     : "border-border bg-secondary/40 text-muted-foreground")
                 }
               >
-                {sigOnly ? "On (p < 0.05, lift ≥ 1.2)" : "Off"}
+                {sigOnly ? "Açık (p < 0.05, lift ≥ 1.2)" : "Kapalı"}
               </button>
             </Field>
-            <Field label={`Min precision — ${minPrecision}%`}>
+            <Field label={`Min. isabet — %${minPrecision}`}>
               <input
                 type="range"
                 min={0}
@@ -251,7 +251,7 @@ function AiPatternsPage() {
                 className="w-full accent-primary"
               />
             </Field>
-            <Field label={`Min lift — ${minLift.toFixed(1)}×`}>
+            <Field label={`Min. lift — ${minLift.toFixed(1)}×`}>
               <input
                 type="range"
                 min={0}
@@ -264,8 +264,8 @@ function AiPatternsPage() {
             </Field>
             <div className="flex items-end">
               <p className="text-xs text-muted-foreground">
-                Showing <span className="font-semibold text-foreground">{rows.length}</span> of top
-                100 for <span className="font-semibold text-foreground">{activeTarget.label}</span>.
+                <span className="font-semibold text-foreground">{activeTarget.label}</span> için ilk 100
+                kalıptan <span className="font-semibold text-foreground">{rows.length}</span> tanesi gösteriliyor.
               </p>
             </div>
           </div>
