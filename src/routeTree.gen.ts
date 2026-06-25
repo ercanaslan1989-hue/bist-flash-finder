@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as CoverageRouteImport } from './routes/coverage'
 import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -42,6 +43,11 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoverageRoute = CoverageRouteImport.update({
+  id: '/coverage',
+  path: '/coverage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AiPatternsRoute = AiPatternsRouteImport.update({
   id: '/ai-patterns',
   path: '/ai-patterns',
@@ -56,6 +62,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
+  '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
   '/signals': typeof SignalsRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
+  '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
   '/signals': typeof SignalsRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
+  '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/methodology': typeof MethodologyRoute
   '/signals': typeof SignalsRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/ai-patterns'
+    | '/coverage'
     | '/events'
     | '/methodology'
     | '/signals'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/ai-patterns'
+    | '/coverage'
     | '/events'
     | '/methodology'
     | '/signals'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/ai-patterns'
+    | '/coverage'
     | '/events'
     | '/methodology'
     | '/signals'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiPatternsRoute: typeof AiPatternsRoute
+  CoverageRoute: typeof CoverageRoute
   EventsRoute: typeof EventsRoute
   MethodologyRoute: typeof MethodologyRoute
   SignalsRoute: typeof SignalsRoute
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coverage': {
+      id: '/coverage'
+      path: '/coverage'
+      fullPath: '/coverage'
+      preLoaderRoute: typeof CoverageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ai-patterns': {
       id: '/ai-patterns'
       path: '/ai-patterns'
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiPatternsRoute: AiPatternsRoute,
+  CoverageRoute: CoverageRoute,
   EventsRoute: EventsRoute,
   MethodologyRoute: MethodologyRoute,
   SignalsRoute: SignalsRoute,
