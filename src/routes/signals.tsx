@@ -259,7 +259,7 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
           {rows.length === 0 && (
             <tr>
               <td colSpan={10} className="px-3 py-6 text-center text-muted-foreground">
-                No signals for this target.
+                Bu hedef için sinyal yok.
               </td>
             </tr>
           )}
