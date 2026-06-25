@@ -186,7 +186,7 @@ function WatchlistPage() {
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={9} className="px-3 py-6 text-center text-muted-foreground">
-                    No stocks match this filter.
+                    Bu filtreyle eşleşen hisse yok.
                   </td>
                 </tr>
               )}
