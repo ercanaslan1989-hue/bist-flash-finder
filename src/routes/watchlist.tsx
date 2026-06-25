@@ -104,15 +104,15 @@ function WatchlistPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <Radar className="h-3.5 w-3.5" /> Daily Scoring
+            <Radar className="h-3.5 w-3.5" /> Günlük Puanlama
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Daily AI <span className="text-primary">watchlist</span>
+            Günlük yapay zeka <span className="text-primary">izleme listesi</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Every active BIST stock scored for the latest trading day by the frozen v1.0 engine.
-            Stocks matching validated patterns are elevated above the base rate; the rest carry the
-            unconditional probability. This is pattern research, not a buy/sell signal.
+            Her aktif BIST hissesi, en son işlem günü için dondurulmuş v1.0 motoru tarafından puanlanır.
+            Doğrulanmış kalıplarla eşleşen hisseler taban oranın üzerine çıkarılır; geri kalanlar koşulsuz
+            olasılığı taşır. Bu bir al/sat sinyali değil, kalıp araştırmasıdır.
           </p>
         </div>
       </section>
