@@ -31,16 +31,16 @@ import { fmtDate, fmtNum, fmtPct, fmtRatio } from "@/lib/format";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BIST Signal Research Lab — Event Analysis Dashboard" },
+      { title: "BIST Sinyal Araştırma Lab — Olay Analizi Paneli" },
       {
         name: "description",
         content:
-          "Discover which signals appear before BIST stocks make large moves or hit limit-up. Volume, returns, KAP activity and sector patterns measured before every event.",
+          "BIST hisseleri büyük hareket yapmadan veya tavana ulaşmadan önce hangi sinyallerin ortaya çıktığını keşfedin. Her olaydan önce hacim, getiri, KAP hareketliliği ve sektör kalıpları ölçülür.",
       },
-      { property: "og:title", content: "BIST Signal Research Lab — Event Analysis" },
+      { property: "og:title", content: "BIST Sinyal Araştırma Lab — Olay Analizi" },
       {
         property: "og:description",
-        content: "The highest-probability setups that recur before large BIST price moves.",
+        content: "Büyük BIST fiyat hareketlerinden önce en sık tekrarlayan en yüksek olasılıklı kurulumlar.",
       },
     ],
   }),
@@ -49,14 +49,14 @@ export const Route = createFileRoute("/")({
   errorComponent: ({ error }) => (
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
-        <h2 className="font-display text-lg font-semibold text-foreground">Could not load research data</h2>
+        <h2 className="font-display text-lg font-semibold text-foreground">Araştırma verileri yüklenemedi</h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
     </AppShell>
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No research data found.</p>
+      <p className="text-muted-foreground">Araştırma verisi bulunamadı.</p>
     </AppShell>
   ),
 });
