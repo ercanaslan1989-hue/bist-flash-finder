@@ -120,32 +120,32 @@ function SignalsPage() {
       {/* Coverage */}
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
         <StatCard
-          label="Universe"
+          label="Evren"
           value={fmtNum(meta?.stockCount ?? 0)}
-          sub="active BIST equities"
+          sub="aktif BIST hisseleri"
           icon={<Layers className="h-4 w-4" />}
         />
         <StatCard
-          label="Snapshots (in scope)"
+          label="Veriler (kapsam içi)"
           value={fmtNum(meta?.snapshotCount ?? 0)}
           icon={<Database className="h-4 w-4" />}
         />
         <StatCard
-          label="+20% runs"
+          label="+%20 yükselişler"
           value={fmtNum(meta?.run20Count ?? 0)}
           accent="primary"
           icon={<TrendingUp className="h-4 w-4" />}
         />
         <StatCard
-          label="+10% limit-ups"
+          label="+%10 tavanlar"
           value={fmtNum(meta?.limitUpCount ?? 0)}
           accent="accent"
           icon={<Zap className="h-4 w-4" />}
         />
         <StatCard
-          label="Research window"
+          label="Analiz dönemi"
           value={<span className="text-base">{fmtDate(meta?.firstDate)}</span>}
-          sub={`through ${fmtDate(meta?.lastDate)}`}
+          sub={`${fmtDate(meta?.lastDate)} tarihine kadar`}
           icon={<CalendarDays className="h-4 w-4" />}
         />
       </section>
