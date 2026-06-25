@@ -120,12 +120,12 @@ function FeatureImportancePage() {
             <thead>
               <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
                 <th className="px-3 py-2.5 font-medium">#</th>
-                <th className="px-3 py-2.5 font-medium">Feature</th>
-                <th className="px-3 py-2.5 font-medium">Group</th>
-                <th className="px-3 py-2.5 text-right font-medium">Appears</th>
-                <th className="px-3 py-2.5 text-right font-medium">Avg prec.</th>
-                <th className="px-3 py-2.5 text-right font-medium">Avg lift</th>
-                <th className="px-3 py-2.5 font-medium">Importance</th>
+                <th className="px-3 py-2.5 font-medium">Gösterge</th>
+                <th className="px-3 py-2.5 font-medium">Grup</th>
+                <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+                <th className="px-3 py-2.5 text-right font-medium">Ort. isabet</th>
+                <th className="px-3 py-2.5 text-right font-medium">Ort. lift</th>
+                <th className="px-3 py-2.5 font-medium">Önem</th>
               </tr>
             </thead>
             <tbody>
