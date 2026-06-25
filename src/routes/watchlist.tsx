@@ -169,14 +169,14 @@ function WatchlistPage() {
             <thead>
               <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
                 <th className="px-3 py-2.5 font-medium">#</th>
-                <th className="px-3 py-2.5 font-medium">Symbol</th>
-                <th className="px-3 py-2.5 font-medium">Company</th>
-                <th className="px-3 py-2.5 font-medium">Sector</th>
-                <th className="px-3 py-2.5 text-right font-medium">Probability</th>
-                <th className="px-3 py-2.5 text-right font-medium">Conf.</th>
-                <th className="px-3 py-2.5 text-right font-medium">Patterns</th>
-                <th className="px-3 py-2.5 font-medium">Best target</th>
-                <th className="px-3 py-2.5 text-right font-medium">Hist. success</th>
+                <th className="px-3 py-2.5 font-medium">Hisse</th>
+                <th className="px-3 py-2.5 font-medium">Şirket</th>
+                <th className="px-3 py-2.5 font-medium">Sektör</th>
+                <th className="px-3 py-2.5 text-right font-medium">Olasılık</th>
+                <th className="px-3 py-2.5 text-right font-medium">Güven</th>
+                <th className="px-3 py-2.5 text-right font-medium">Kalıplar</th>
+                <th className="px-3 py-2.5 font-medium">En iyi hedef</th>
+                <th className="px-3 py-2.5 text-right font-medium">Geçmiş başarı</th>
               </tr>
             </thead>
             <tbody>
