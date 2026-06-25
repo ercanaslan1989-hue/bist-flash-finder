@@ -97,15 +97,15 @@ function Dashboard() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-14">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <Flame className="h-3.5 w-3.5" /> Event Analysis
+            <Flame className="h-3.5 w-3.5" /> Olay Analizi
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Which signals appear <span className="text-primary">before</span> a stock makes a large move?
+            Bir hisse büyük hareket yapmadan <span className="text-primary">önce</span> hangi sinyaller ortaya çıkıyor?
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            This lab collects daily data for every BIST stock, flags +10% / +15% / +20% moves and
-            limit-up days as <span className="text-foreground">events</span>, then measures the
-            conditions that recurred 1–10 trading days earlier. No buy/sell signals — only patterns.
+            Bu laboratuvar her BIST hissesi için günlük veri toplar; +%10 / +%15 / +%20 hareketleri
+            ve tavan günlerini <span className="text-foreground">olay</span> olarak işaretler, ardından
+            1–10 işlem günü öncesinde tekrarlayan koşulları ölçer. Al/sat sinyali yoktur — yalnızca kalıplar.
           </p>
         </div>
       </section>
