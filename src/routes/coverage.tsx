@@ -60,14 +60,14 @@ function CoveragePage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <ListChecks className="h-3.5 w-3.5" /> Data Coverage
+            <ListChecks className="h-3.5 w-3.5" /> Veri Kapsamı
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            BIST universe <span className="text-primary">coverage report</span>
+            BIST evreni <span className="text-primary">kapsama raporu</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Reconciles the active BIST common-equity universe against imported price history and
-            reports per-company depth, missing tickers and overall coverage.
+            Aktif BIST hisse senedi evrenini içe aktarılan fiyat geçmişiyle karşılaştırır; şirket bazında
+            derinliği, eksik kodları ve genel kapsamı raporlar.
           </p>
         </div>
       </section>
@@ -76,9 +76,10 @@ function CoveragePage() {
         <div className="mt-6 flex items-start gap-2 rounded-xl border border-accent/40 bg-accent/10 p-4 text-sm text-foreground">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
           <p>
-            The active universe is currently <strong>derived from imported tickers</strong>, not an
-            authoritative exchange list. Coverage shows 100% until a real current active list (and
-            recent IPOs) is supplied — at which point genuinely missing companies will surface here.
+            Aktif evren şu anda yetkili bir borsa listesinden değil,{" "}
+            <strong>içe aktarılan kodlardan türetilmiştir</strong>. Gerçek bir güncel aktif liste (ve
+            son halka arzlar) sağlanana kadar kapsam %100 görünür — o noktada gerçekten eksik olan
+            şirketler burada ortaya çıkacaktır.
           </p>
         </div>
       )}
