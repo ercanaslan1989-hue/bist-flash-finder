@@ -328,7 +328,7 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
             <th className="px-3 py-2.5 text-right font-medium">Lift</th>
             <th className="px-3 py-2.5 text-right font-medium">Avg fwd</th>
             <th className="px-3 py-2.5 text-right font-medium">Days→</th>
-            <th className="px-3 py-2.5 text-right font-medium">Δ filter</th>
+            <th className="px-3 py-2.5 text-right font-medium">Quality</th>
             <th className="px-3 py-2.5 text-right font-medium">p</th>
           </tr>
         </thead>
