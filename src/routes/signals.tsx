@@ -154,10 +154,10 @@ function SignalsPage() {
       <section className="mt-10">
         <div className="flex items-center gap-2">
           <Target className="h-5 w-5 text-primary" />
-          <h2 className="font-display text-xl font-bold text-foreground">Signal ranking</h2>
+          <h2 className="font-display text-xl font-bold text-foreground">Sinyal sıralaması</h2>
           {version?.frozen && (
             <span className="ml-1 inline-flex items-center gap-1 rounded-full border border-success/40 bg-success/10 px-2 py-0.5 text-[11px] font-medium text-success">
-              <ShieldCheck className="h-3 w-3" /> {version.version} frozen
+              <ShieldCheck className="h-3 w-3" /> {version.version} donduruldu
             </span>
           )}
         </div>
