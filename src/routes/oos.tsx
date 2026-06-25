@@ -9,17 +9,17 @@ import { fmtNum } from "@/lib/format";
 export const Route = createFileRoute("/oos")({
   head: () => ({
     meta: [
-      { title: "Out-of-Sample Validation — BIST Signal Research Lab" },
+      { title: "Canlı Doğrulama — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Train (2025) vs out-of-sample (2026+) precision for every move target, confirming the v1.0 BIST pattern engine holds up on unseen data with no overfitting. Research only.",
+          "Her hareket hedefi için eğitim (2025) ile örneklem dışı (2026+) isabet karşılaştırması; v1.0 BIST kalıp motorunun görülmemiş veride aşırı uyum olmadan dayandığını doğrular. Yalnızca araştırma amaçlıdır.",
       },
-      { property: "og:title", content: "Out-of-Sample Validation — BIST Signal Lab" },
+      { property: "og:title", content: "Canlı Doğrulama — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Chronological train/test split showing the validated BIST patterns generalize to unseen 2026 data.",
+          "Doğrulanmış BIST kalıplarının görülmemiş 2026 verisine genellendiğini gösteren kronolojik eğitim/test ayrımı.",
       },
     ],
   }),
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/oos")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load out-of-sample validation
+          Canlı doğrulama yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -37,16 +37,16 @@ export const Route = createFileRoute("/oos")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No out-of-sample data found.</p>
+      <p className="text-muted-foreground">Canlı doğrulama verisi bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const TARGET_LABELS: Record<string, string> = {
-  g20: "+20% run",
-  g15: "+15%",
-  g10: "+10%",
-  lu: "+10% limit-up",
+  g20: "+%20 yükseliş",
+  g15: "+%15",
+  g10: "+%10",
+  lu: "+%10 tavan",
 };
 
 function OosPage() {
