@@ -97,13 +97,13 @@ export function preEventProfile(features: FeatureRow[]): ProfileStat[] {
   const get = (k: keyof FeatureRow) =>
     features.map((f) => f[k] as number).filter((v) => v !== null && v !== undefined);
   return [
-    { metric: "Volume ratio (20d avg)", median: median(get("vol_ratio_20d")), average: avg(get("vol_ratio_20d")), unit: "ratio" },
-    { metric: "Volume ratio (prev 2d)", median: median(get("vol_ratio_2d")), average: avg(get("vol_ratio_2d")), unit: "ratio" },
-    { metric: "Volume ratio (prev 3d)", median: median(get("vol_ratio_3d")), average: avg(get("vol_ratio_3d")), unit: "ratio" },
-    { metric: "5-day return", median: median(get("ret_5d")), average: avg(get("ret_5d")), unit: "pct" },
-    { metric: "10-day return", median: median(get("ret_10d")), average: avg(get("ret_10d")), unit: "pct" },
-    { metric: "20-day return", median: median(get("ret_20d")), average: avg(get("ret_20d")), unit: "pct" },
-    { metric: "KAP announcements", median: median(get("kap_count")), average: avg(get("kap_count")), unit: "num" },
+    { metric: "Hacim oranı (20g ort.)", median: median(get("vol_ratio_20d")), average: avg(get("vol_ratio_20d")), unit: "ratio" },
+    { metric: "Hacim oranı (önceki 2g)", median: median(get("vol_ratio_2d")), average: avg(get("vol_ratio_2d")), unit: "ratio" },
+    { metric: "Hacim oranı (önceki 3g)", median: median(get("vol_ratio_3d")), average: avg(get("vol_ratio_3d")), unit: "ratio" },
+    { metric: "5 günlük getiri", median: median(get("ret_5d")), average: avg(get("ret_5d")), unit: "pct" },
+    { metric: "10 günlük getiri", median: median(get("ret_10d")), average: avg(get("ret_10d")), unit: "pct" },
+    { metric: "20 günlük getiri", median: median(get("ret_20d")), average: avg(get("ret_20d")), unit: "pct" },
+    { metric: "KAP bildirimleri", median: median(get("kap_count")), average: avg(get("kap_count")), unit: "num" },
   ];
 }
 
