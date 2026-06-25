@@ -20,17 +20,17 @@ import { fmtDate, fmtNum } from "@/lib/format";
 export const Route = createFileRoute("/signals")({
   head: () => ({
     meta: [
-      { title: "Top Validated Pre-Move Signals — BIST Signal Research Lab" },
+      { title: "En Güçlü Doğrulanmış Hareket Öncesi Sinyaller — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "The 20 strongest statistically validated BIST signals ranked by Wilson confidence: precision, lift, sample size and z-score measured before +20% runs and +10% limit-up moves (2025–today).",
+          "Wilson güvenine göre sıralanan, istatistiksel olarak doğrulanmış en güçlü 20 BIST sinyali: +%20 yükselişler ve +%10 tavan hareketleri öncesinde ölçülen isabet, lift, örneklem büyüklüğü ve z-skoru (2025–bugün).",
       },
-      { property: "og:title", content: "Top Validated Signals — BIST Signal Lab" },
+      { property: "og:title", content: "En Güçlü Doğrulanmış Sinyaller — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "The strongest signals that consistently appeared before large BIST moves, ranked by statistical confidence.",
+          "Büyük BIST hareketlerinden önce tutarlı şekilde ortaya çıkan en güçlü sinyaller, istatistiksel güvene göre sıralanmış.",
       },
     ],
   }),
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/signals")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load validated signals
+          Doğrulanmış sinyaller yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/signals")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No signal data found.</p>
+      <p className="text-muted-foreground">Sinyal verisi bulunamadı.</p>
     </AppShell>
   ),
 });
