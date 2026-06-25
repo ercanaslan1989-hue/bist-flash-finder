@@ -148,7 +148,7 @@ function WatchlistPage() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search symbol or company…"
+            placeholder="Hisse kodu veya şirket adı ara…"
             className="h-9 w-full rounded-md border border-border bg-secondary/40 px-3 text-sm text-foreground sm:max-w-xs"
           />
           <button
@@ -160,7 +160,7 @@ function WatchlistPage() {
                 : "border-border bg-secondary/40 text-muted-foreground")
             }
           >
-            {onlyElevated ? "Showing pattern-matched only" : "Show pattern-matched only"}
+            {onlyElevated ? "Sadece eşleşenler gösteriliyor" : "Sadece Eşleşenleri Göster"}
           </button>
         </div>
 
