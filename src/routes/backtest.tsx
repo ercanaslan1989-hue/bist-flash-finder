@@ -99,26 +99,26 @@ function BacktestPage() {
       {summary && (
         <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           <StatCard
-            label="Overall precision"
-            value={`${fmtNum(summary.overall_precision, 1)}%`}
-            sub={`avg monthly ${fmtNum(summary.avg_monthly_precision, 1)}%`}
+            label="Genel isabet"
+            value={`%${fmtNum(summary.overall_precision, 1)}`}
+            sub={`aylık ortalama %${fmtNum(summary.avg_monthly_precision, 1)}`}
             accent="primary"
             icon={<Target className="h-4 w-4" />}
           />
           <StatCard
-            label="Hit rate"
-            value={`${fmtNum(summary.hit_rate, 1)}%`}
-            sub="positive forward returns"
+            label="Başarı oranı"
+            value={`%${fmtNum(summary.hit_rate, 1)}`}
+            sub="pozitif ileri getiriler"
             icon={<Gauge className="h-4 w-4" />}
           />
           <StatCard
-            label="Avg forward return"
+            label="Ort. ileri getiri"
             value={fmtPct(summary.avg_fwd_return)}
             accent="success"
             icon={<TrendingUp className="h-4 w-4" />}
           />
           <StatCard
-            label="Signals replayed"
+            label="Tekrarlanan sinyaller"
             value={fmtNum(summary.total_signals)}
             icon={<CalendarRange className="h-4 w-4" />}
           />
