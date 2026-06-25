@@ -62,12 +62,12 @@ export const Route = createFileRoute("/")({
 });
 
 const WINDOWS = [
-  { value: 1, label: "1d before" },
-  { value: 2, label: "2d before" },
-  { value: 3, label: "3d before" },
-  { value: 5, label: "5d before" },
-  { value: 10, label: "10d before" },
-  { value: 0, label: "All windows" },
+  { value: 1, label: "1 gün önce" },
+  { value: 2, label: "2 gün önce" },
+  { value: 3, label: "3 gün önce" },
+  { value: 5, label: "5 gün önce" },
+  { value: 10, label: "10 gün önce" },
+  { value: 0, label: "Tüm dönemler" },
 ] as const;
 
 function Dashboard() {
