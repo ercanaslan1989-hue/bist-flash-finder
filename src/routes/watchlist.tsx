@@ -45,10 +45,10 @@ export const Route = createFileRoute("/watchlist")({
 });
 
 const TARGET_LABELS: Record<string, string> = {
-  g20: "+20% run",
-  g15: "+15%",
-  g10: "+10%",
-  lu: "limit-up",
+  g20: "+%20 yükseliş",
+  g15: "+%15",
+  g10: "+%10",
+  lu: "tavan",
 };
 
 function WatchlistPage() {
