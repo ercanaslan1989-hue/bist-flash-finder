@@ -295,16 +295,16 @@ function EmptyState({ onRefresh }: { onRefresh: () => void }) {
     <div className="rounded-xl border border-border bg-card p-10 text-center">
       <FlaskConical className="mx-auto h-8 w-8 text-primary" />
       <h2 className="mt-3 font-display text-lg font-semibold text-foreground">
-        No validated signals yet
+        Henüz doğrulanmış sinyal yok
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Once the research engine finishes signal validation, the ranked table appears here.
+        Araştırma motoru sinyal doğrulamasını tamamladığında, sıralı tablo burada görünür.
       </p>
       <button
         onClick={onRefresh}
         className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
       >
-        Refresh
+        Yenile
       </button>
     </div>
   );
