@@ -86,27 +86,27 @@ function CoveragePage() {
 
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard
-          label="Active companies"
+          label="Aktif şirketler"
           value={fmtNum(report?.total_active ?? 0)}
           icon={<Database className="h-4 w-4" />}
         />
         <StatCard
-          label="Imported"
+          label="İçe aktarılan"
           value={fmtNum(report?.imported ?? 0)}
           accent="success"
           icon={<CheckCircle2 className="h-4 w-4" />}
         />
         <StatCard
-          label="Missing"
+          label="Eksik"
           value={fmtNum(report?.missing ?? 0)}
           accent={(report?.missing ?? 0) > 0 ? "accent" : "default"}
           icon={<AlertTriangle className="h-4 w-4" />}
         />
         <StatCard
-          label="Coverage"
-          value={`${fmtNum(report?.coverage_pct ?? 0, 1)}%`}
+          label="Kapsam"
+          value={`%${fmtNum(report?.coverage_pct ?? 0, 1)}`}
           accent="primary"
-          sub={report?.generated_at ? `as of ${fmtDate(report.generated_at)}` : undefined}
+          sub={report?.generated_at ? `${fmtDate(report.generated_at)} itibarıyla` : undefined}
           icon={<PieChart className="h-4 w-4" />}
         />
       </section>
