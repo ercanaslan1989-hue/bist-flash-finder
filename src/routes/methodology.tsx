@@ -6,16 +6,16 @@ import { AppShell } from "@/components/app-shell";
 export const Route = createFileRoute("/methodology")({
   head: () => ({
     meta: [
-      { title: "Methodology — BIST Signal Research Lab" },
+      { title: "Yöntem — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "How the BIST Signal Research Lab collects daily snapshots, defines large-move events, captures pre-event features and builds pattern statistics.",
+          "BIST Sinyal Araştırma Lab'ın günlük verileri nasıl topladığı, büyük hareket olaylarını nasıl tanımladığı, hareket öncesi göstergeleri nasıl kaydettiği ve kalıp istatistiklerini nasıl oluşturduğu.",
       },
-      { property: "og:title", content: "Methodology — BIST Signal Research Lab" },
+      { property: "og:title", content: "Yöntem — BIST Sinyal Araştırma Lab" },
       {
         property: "og:description",
-        content: "The research process: collect, flag events, look back, and measure recurring conditions.",
+        content: "Araştırma süreci: veri topla, olayları işaretle, geriye bak ve tekrarlayan koşulları ölç.",
       },
     ],
   }),
@@ -23,50 +23,50 @@ export const Route = createFileRoute("/methodology")({
 });
 
 const METRICS = [
-  "Symbol & company name",
-  "Close price & daily return %",
-  "Volume",
-  "Volume ratio vs 20-day average",
-  "Volume ratio vs previous 2 days",
-  "Volume ratio vs previous 3 days",
-  "5 / 10 / 20 / 30-day returns",
-  "Market value",
-  "Daily traded value",
-  "Sector",
-  "KAP announcement count",
-  "Last KAP date",
+  "Hisse kodu ve şirket adı",
+  "Kapanış fiyatı ve günlük getiri %",
+  "Hacim",
+  "20 günlük ortalamaya göre hacim oranı",
+  "Önceki 2 güne göre hacim oranı",
+  "Önceki 3 güne göre hacim oranı",
+  "5 / 10 / 20 / 30 günlük getiriler",
+  "Piyasa değeri",
+  "Günlük işlem hacmi",
+  "Sektör",
+  "KAP bildirim sayısı",
+  "Son KAP tarihi",
 ];
 
 const STEPS = [
   {
     icon: Database,
-    title: "1 · Collect daily snapshots",
-    body: "Every trading day, a snapshot of all BIST stocks is stored — price, return, volume ratios, multi-day returns, market value, traded value, sector and KAP disclosure activity.",
+    title: "1 · Günlük veri topla",
+    body: "Her işlem gününde tüm BIST hisselerinin verisi saklanır — fiyat, getiri, hacim oranları, çok günlük getiriler, piyasa değeri, işlem hacmi, sektör ve KAP bildirim aktivitesi.",
   },
   {
     icon: GitBranch,
-    title: "2 · Flag events",
-    body: "A day is marked as an event when the stock gains +10%, +15% or +20%, or hits the BIST limit-up cap (~+10% in a single session).",
+    title: "2 · Olayları işaretle",
+    body: "Bir hisse +%10, +%15 veya +%20 kazandığında ya da BIST tavan sınırına ulaştığında (tek seansta ~+%10) o gün olay olarak işaretlenir.",
   },
   {
     icon: Microscope,
-    title: "3 · Look back",
-    body: "For each event, the lab captures the stock's full metric set 1, 2, 3, 5 and 10 trading days before the move — the conditions that existed beforehand.",
+    title: "3 · Geriye bak",
+    body: "Her olay için lab, hisseye ait tüm gösterge setini hareketten 1, 2, 3, 5 ve 10 işlem günü önce kaydeder — öncesinde var olan koşulları.",
   },
   {
     icon: Sigma,
-    title: "4 · Measure patterns",
-    body: "Across all events, it builds distributions: the most common volume ratios, 5- and 10-day returns, KAP activity and sectors that preceded large moves.",
+    title: "4 · Kalıpları ölç",
+    body: "Tüm olaylar genelinde dağılımlar oluşturur: büyük hareketlerden önce en sık görülen hacim oranları, 5 ve 10 günlük getiriler, KAP aktivitesi ve sektörler.",
   },
 ];
 
 function MethodologyPage() {
   return (
     <AppShell>
-      <h1 className="font-display text-2xl font-bold text-foreground">Methodology</h1>
+      <h1 className="font-display text-2xl font-bold text-foreground">Yöntem</h1>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        The objective is to discover the highest-probability setup that appears before a stock makes
-        a large move — by studying what happened beforehand, not by predicting the future.
+        Amaç, bir hisse büyük bir hareket yapmadan önce ortaya çıkan en yüksek olasılıklı kurulumu
+        keşfetmektir — geleceği tahmin ederek değil, öncesinde ne olduğunu inceleyerek.
       </p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -83,7 +83,7 @@ function MethodologyPage() {
 
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
         <div className="rounded-xl border border-border bg-card p-5">
-          <h2 className="font-display text-base font-semibold text-foreground">Metrics stored daily</h2>
+          <h2 className="font-display text-base font-semibold text-foreground">Günlük saklanan veriler</h2>
           <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
             {METRICS.map((m) => (
               <li key={m} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -99,14 +99,13 @@ function MethodologyPage() {
             <ShieldAlert className="h-5 w-5" />
           </span>
           <h2 className="mt-3 font-display text-base font-semibold text-foreground">
-            What this lab does not do
+            Bu lab neleri yapmaz
           </h2>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-            It does <span className="font-semibold text-foreground">not</span> generate buy or sell
-            signals, recommend trades, or predict which stock will move next. It only collects data,
-            detects events that already happened, and reports the conditions that recurred before
-            them. Sample data shown is synthetic for demonstration; connect a live BIST feed to
-            research real market behaviour.
+            Al veya sat sinyali <span className="font-semibold text-foreground">üretmez</span>, işlem
+            önermez veya hangi hissenin hareket edeceğini tahmin etmez. Yalnızca veri toplar, halihazırda
+            gerçekleşmiş olayları tespit eder ve bunlardan önce tekrarlayan koşulları raporlar. Yalnızca
+            araştırma amaçlıdır, yatırım tavsiyesi değildir.
           </p>
         </div>
       </div>

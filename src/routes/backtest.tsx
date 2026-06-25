@@ -15,17 +15,17 @@ import { fmtNum, fmtPct } from "@/lib/format";
 export const Route = createFileRoute("/backtest")({
   head: () => ({
     meta: [
-      { title: "Monthly Backtest & Walk-Forward — BIST Signal Research Lab" },
+      { title: "Geçmiş Performans ve Walk-Forward — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Month-by-month replay of the v1.0 BIST research engine: precision, hit rate, signal counts and average forward returns from Jan 2025, with walk-forward calibration. Research only.",
+          "v1.0 BIST araştırma motorunun ay ay tekrarı: Ocak 2025'ten itibaren isabet, başarı oranı, sinyal sayıları ve ortalama ileri getiriler, walk-forward kalibrasyonuyla birlikte. Yalnızca araştırma amaçlıdır.",
       },
-      { property: "og:title", content: "Monthly Backtest — BIST Signal Lab" },
+      { property: "og:title", content: "Geçmiş Performans — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Walk-forward day-by-day replay of validated BIST pre-move patterns, month by month.",
+          "Doğrulanmış BIST hareket öncesi kalıplarının ay ay, gün gün walk-forward tekrarı.",
       },
     ],
   }),
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/backtest")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load the backtest
+          Geçmiş performans yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -43,20 +43,20 @@ export const Route = createFileRoute("/backtest")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No backtest data found.</p>
+      <p className="text-muted-foreground">Geçmiş performans verisi bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const TARGETS = [
-  { value: "g20", label: "+20% run" },
-  { value: "g15", label: "+15%" },
-  { value: "g10", label: "+10%" },
-  { value: "lu", label: "limit-up" },
+  { value: "g20", label: "+%20 yükseliş" },
+  { value: "g15", label: "+%15" },
+  { value: "g10", label: "+%10" },
+  { value: "lu", label: "tavan" },
 ] as const;
 
 const monthLabel = (d: string) =>
-  new Date(d).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+  new Date(d).toLocaleDateString("tr-TR", { month: "short", year: "numeric" });
 
 function BacktestPage() {
   const { data } = useSuspenseQuery(backtestQueryOptions());
@@ -83,15 +83,15 @@ function BacktestPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <LineChart className="h-3.5 w-3.5" /> Walk-Forward Replay
+            <LineChart className="h-3.5 w-3.5" /> Walk-Forward Tekrarı
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Monthly <span className="text-primary">backtest</span>
+            Aylık <span className="text-primary">geçmiş performans</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The engine replayed the market day-by-day from Jan 2025 using only same-day information.
-            Below is per-month precision and hit rate, plus the overall walk-forward calibration.
-            Research only — no buy/sell signals.
+            Motor, Ocak 2025'ten itibaren piyasayı yalnızca aynı gün bilgisini kullanarak gün gün
+            yeniden oynattı. Aşağıda aylık isabet ve başarı oranı ile genel walk-forward kalibrasyonu
+            yer alır. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
         </div>
       </section>
@@ -99,26 +99,26 @@ function BacktestPage() {
       {summary && (
         <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           <StatCard
-            label="Overall precision"
-            value={`${fmtNum(summary.overall_precision, 1)}%`}
-            sub={`avg monthly ${fmtNum(summary.avg_monthly_precision, 1)}%`}
+            label="Genel isabet"
+            value={`%${fmtNum(summary.overall_precision, 1)}`}
+            sub={`aylık ortalama %${fmtNum(summary.avg_monthly_precision, 1)}`}
             accent="primary"
             icon={<Target className="h-4 w-4" />}
           />
           <StatCard
-            label="Hit rate"
-            value={`${fmtNum(summary.hit_rate, 1)}%`}
-            sub="positive forward returns"
+            label="Başarı oranı"
+            value={`%${fmtNum(summary.hit_rate, 1)}`}
+            sub="pozitif ileri getiriler"
             icon={<Gauge className="h-4 w-4" />}
           />
           <StatCard
-            label="Avg forward return"
+            label="Ort. ileri getiri"
             value={fmtPct(summary.avg_fwd_return)}
             accent="success"
             icon={<TrendingUp className="h-4 w-4" />}
           />
           <StatCard
-            label="Signals replayed"
+            label="Tekrarlanan sinyaller"
             value={fmtNum(summary.total_signals)}
             icon={<CalendarRange className="h-4 w-4" />}
           />
@@ -130,7 +130,7 @@ function BacktestPage() {
         <div className="flex items-center gap-2">
           <Target className="h-5 w-5 text-primary" />
           <h2 className="font-display text-xl font-bold text-foreground">
-            Monthly precision by target
+            Hedefe göre aylık isabet
           </h2>
         </div>
 
@@ -160,7 +160,7 @@ function BacktestPage() {
           <div className="flex items-center gap-2">
             <LineChart className="h-5 w-5 text-primary" />
             <h2 className="font-display text-xl font-bold text-foreground">
-              Walk-forward (all watchlist signals)
+              Walk-forward (tüm izleme listesi sinyalleri)
             </h2>
           </div>
           <WalkforwardTable rows={walkforward} />
@@ -169,28 +169,28 @@ function BacktestPage() {
 
       {summary && (
         <section className="mt-8 rounded-xl border border-border bg-card p-5">
-          <h3 className="font-display text-sm font-semibold text-foreground">Calibration</h3>
+          <h3 className="font-display text-sm font-semibold text-foreground">Kalibrasyon</h3>
           <p className="mt-2 text-sm text-muted-foreground">
-            Best month{" "}
+            En iyi ay{" "}
             <span className="font-semibold text-foreground">
               {summary.best_month ? monthLabel(summary.best_month) : "—"}
             </span>{" "}
-            ({fmtNum(summary.best_month_precision, 1)}%) · Worst month{" "}
+            (%{fmtNum(summary.best_month_precision, 1)}) · En kötü ay{" "}
             <span className="font-semibold text-foreground">
               {summary.worst_month ? monthLabel(summary.worst_month) : "—"}
             </span>{" "}
-            ({fmtNum(summary.worst_month_precision, 1)}%).
+            (%{fmtNum(summary.worst_month_precision, 1)}).
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Calibration: predicted{" "}
-            <span className="font-mono text-foreground">{fmtNum(summary.calib_low_pred, 1)}%</span> →
-            actual{" "}
-            <span className="font-mono text-foreground">{fmtNum(summary.calib_low_actual, 1)}%</span>;
-            predicted{" "}
-            <span className="font-mono text-foreground">{fmtNum(summary.calib_high_pred, 1)}%</span> →
-            actual{" "}
+            Kalibrasyon: tahmin{" "}
+            <span className="font-mono text-foreground">%{fmtNum(summary.calib_low_pred, 1)}</span> →
+            gerçek{" "}
+            <span className="font-mono text-foreground">%{fmtNum(summary.calib_low_actual, 1)}</span>;
+            tahmin{" "}
+            <span className="font-mono text-foreground">%{fmtNum(summary.calib_high_pred, 1)}</span> →
+            gerçek{" "}
             <span className="font-mono text-foreground">
-              {fmtNum(summary.calib_high_actual, 1)}%
+              %{fmtNum(summary.calib_high_actual, 1)}
             </span>
             .
           </p>
@@ -206,10 +206,10 @@ function BacktestTable({ rows }: { rows: BacktestMonthRow[] }) {
       <table className="w-full min-w-[560px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-            <th className="px-3 py-2.5 font-medium">Month</th>
-            <th className="px-3 py-2.5 text-right font-medium">Occurrences</th>
-            <th className="px-3 py-2.5 text-right font-medium">Successes</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
+            <th className="px-3 py-2.5 font-medium">Ay</th>
+            <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarı</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
           </tr>
         </thead>
         <tbody>
@@ -230,7 +230,7 @@ function BacktestTable({ rows }: { rows: BacktestMonthRow[] }) {
           {rows.length === 0 && (
             <tr>
               <td colSpan={4} className="px-3 py-6 text-center text-muted-foreground">
-                No months for this target.
+                Bu hedef için ay yok.
               </td>
             </tr>
           )}
@@ -246,11 +246,11 @@ function WalkforwardTable({ rows }: { rows: WalkforwardMonthRow[] }) {
       <table className="w-full min-w-[640px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-            <th className="px-3 py-2.5 font-medium">Month</th>
-            <th className="px-3 py-2.5 text-right font-medium">Signals</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
-            <th className="px-3 py-2.5 text-right font-medium">Avg fwd return</th>
-            <th className="px-3 py-2.5 text-right font-medium">Hit rate (+)</th>
+            <th className="px-3 py-2.5 font-medium">Ay</th>
+            <th className="px-3 py-2.5 text-right font-medium">Sinyaller</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
+            <th className="px-3 py-2.5 text-right font-medium">Ort. ileri getiri</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarı oranı (+)</th>
           </tr>
         </thead>
         <tbody>

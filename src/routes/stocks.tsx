@@ -11,16 +11,16 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/stocks")({
   head: () => ({
     meta: [
-      { title: "Stock Universe — BIST Signal Research Lab" },
+      { title: "Hisse Evreni — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "The latest daily snapshot for every tracked BIST stock: close, daily return, volume ratios, multi-day returns, market value, traded value and KAP activity.",
+          "Takip edilen her BIST hissesi için en güncel günlük veri: kapanış, günlük getiri, hacim oranları, çok günlük getiriler, piyasa değeri, işlem hacmi ve KAP aktivitesi.",
       },
-      { property: "og:title", content: "Stock Universe — BIST Signal Research Lab" },
+      { property: "og:title", content: "Hisse Evreni — BIST Sinyal Araştırma Lab" },
       {
         property: "og:description",
-        content: "Latest daily metrics across the tracked BIST universe.",
+        content: "Takip edilen BIST evreni için en güncel günlük metrikler.",
       },
     ],
   }),
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/stocks")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No stocks found.</p>
+      <p className="text-muted-foreground">Hisse bulunamadı.</p>
     </AppShell>
   ),
 });
@@ -62,10 +62,10 @@ function StocksPage() {
         <div>
           <div className="flex items-center gap-2">
             <Layers className="h-5 w-5 text-accent" />
-            <h1 className="font-display text-2xl font-bold text-foreground">Stock universe</h1>
+            <h1 className="font-display text-2xl font-bold text-foreground">Hisse evreni</h1>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            Latest snapshot for {fmtNum(data.length)} stocks · as of {fmtDate(asOf)}
+            {fmtNum(data.length)} hisse için en güncel veri · {fmtDate(asOf)} itibarıyla
           </p>
         </div>
         <div className="relative">
@@ -73,7 +73,7 @@ function StocksPage() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search symbol, name, sector…"
+            placeholder="Hisse kodu, ad veya sektör ara…"
             className="w-64 rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
           />
         </div>
@@ -83,15 +83,15 @@ function StocksPage() {
         <table className="w-full min-w-[860px] text-sm">
           <thead>
             <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-              <th className="px-3 py-2.5 font-medium">Symbol</th>
-              <th className="px-3 py-2.5 font-medium">Sector</th>
-              <th className="px-3 py-2.5 text-right font-medium">Close</th>
-              <th className="px-3 py-2.5 text-right font-medium">Daily</th>
-              <th className="px-3 py-2.5 text-right font-medium">Vol ×20d</th>
-              <th className="px-3 py-2.5 text-right font-medium">5d</th>
-              <th className="px-3 py-2.5 text-right font-medium">20d</th>
-              <th className="px-3 py-2.5 text-right font-medium">Mkt value</th>
-              <th className="px-3 py-2.5 text-right font-medium">Traded</th>
+              <th className="px-3 py-2.5 font-medium">Hisse</th>
+              <th className="px-3 py-2.5 font-medium">Sektör</th>
+              <th className="px-3 py-2.5 text-right font-medium">Kapanış</th>
+              <th className="px-3 py-2.5 text-right font-medium">Günlük</th>
+              <th className="px-3 py-2.5 text-right font-medium">Hac ×20g</th>
+              <th className="px-3 py-2.5 text-right font-medium">5g</th>
+              <th className="px-3 py-2.5 text-right font-medium">20g</th>
+              <th className="px-3 py-2.5 text-right font-medium">Piyasa değeri</th>
+              <th className="px-3 py-2.5 text-right font-medium">İşlem hacmi</th>
               <th className="px-3 py-2.5 text-right font-medium">KAP</th>
             </tr>
           </thead>

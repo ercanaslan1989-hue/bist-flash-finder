@@ -10,17 +10,17 @@ import { fmtNum } from "@/lib/format";
 export const Route = createFileRoute("/feature-importance")({
   head: () => ({
     meta: [
-      { title: "Feature Importance — BIST Signal Research Lab" },
+      { title: "Göstergeler — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Which raw signals matter most before large BIST moves: features ranked by how often they appear in validated patterns and the average precision and lift they contribute. Research only.",
+          "Büyük BIST hareketlerinden önce en çok hangi ham sinyaller önemli: göstergeler, doğrulanmış kalıplarda ne sıklıkta yer aldıklarına ve katkı sundukları ortalama isabet ve lift değerine göre sıralanmış. Yalnızca araştırma amaçlıdır.",
       },
-      { property: "og:title", content: "Feature Importance — BIST Signal Lab" },
+      { property: "og:title", content: "Göstergeler — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Ranked predictive features behind the validated v1.0 BIST pre-move patterns.",
+          "Doğrulanmış v1.0 BIST hareket öncesi kalıplarının arkasındaki sıralı öngörü göstergeleri.",
       },
     ],
   }),
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/feature-importance")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load feature importance
+          Göstergeler yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -38,17 +38,17 @@ export const Route = createFileRoute("/feature-importance")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No feature importance data found.</p>
+      <p className="text-muted-foreground">Gösterge verisi bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const TARGETS = [
-  { value: "all", label: "All targets" },
-  { value: "g20", label: "+20% run" },
-  { value: "g15", label: "+15%" },
-  { value: "g10", label: "+10%" },
-  { value: "lu", label: "limit-up" },
+  { value: "all", label: "Tümü" },
+  { value: "g20", label: "+%20 yükseliş" },
+  { value: "g15", label: "+%15" },
+  { value: "g10", label: "+%10" },
+  { value: "lu", label: "tavan" },
 ] as const;
 
 function FeatureImportancePage() {
@@ -79,15 +79,15 @@ function FeatureImportancePage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <Sparkles className="h-3.5 w-3.5" /> Driver Analysis
+            <Sparkles className="h-3.5 w-3.5" /> Etken Analizi
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Feature <span className="text-primary">importance</span>
+            Gösterge <span className="text-primary">önemi</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Which raw conditions matter most before large BIST moves. Importance combines how often a
-            feature appears across validated patterns with the precision and lift it contributes.
-            Research only — no buy/sell signals.
+            Büyük BIST hareketlerinden önce en çok hangi ham koşullar önemli. Önem, bir göstergenin
+            doğrulanmış kalıplarda ne sıklıkta yer aldığını, sunduğu isabet ve lift ile birleştirir.
+            Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
         </div>
       </section>
@@ -95,7 +95,7 @@ function FeatureImportancePage() {
       <section className="mt-8">
         <div className="flex items-center gap-2">
           <BarChart3 className="h-5 w-5 text-primary" />
-          <h2 className="font-display text-xl font-bold text-foreground">Ranked features</h2>
+          <h2 className="font-display text-xl font-bold text-foreground">Sıralı göstergeler</h2>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1">
@@ -120,12 +120,12 @@ function FeatureImportancePage() {
             <thead>
               <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
                 <th className="px-3 py-2.5 font-medium">#</th>
-                <th className="px-3 py-2.5 font-medium">Feature</th>
-                <th className="px-3 py-2.5 font-medium">Group</th>
-                <th className="px-3 py-2.5 text-right font-medium">Appears</th>
-                <th className="px-3 py-2.5 text-right font-medium">Avg prec.</th>
-                <th className="px-3 py-2.5 text-right font-medium">Avg lift</th>
-                <th className="px-3 py-2.5 font-medium">Importance</th>
+                <th className="px-3 py-2.5 font-medium">Gösterge</th>
+                <th className="px-3 py-2.5 font-medium">Grup</th>
+                <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+                <th className="px-3 py-2.5 text-right font-medium">Ort. isabet</th>
+                <th className="px-3 py-2.5 text-right font-medium">Ort. lift</th>
+                <th className="px-3 py-2.5 font-medium">Önem</th>
               </tr>
             </thead>
             <tbody>
@@ -135,7 +135,7 @@ function FeatureImportancePage() {
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={7} className="px-3 py-6 text-center text-muted-foreground">
-                    No features for this target.
+                    Bu hedef için gösterge yok.
                   </td>
                 </tr>
               )}

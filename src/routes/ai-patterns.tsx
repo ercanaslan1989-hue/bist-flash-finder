@@ -20,17 +20,17 @@ import { fmtDate, fmtNum, fmtPct } from "@/lib/format";
 export const Route = createFileRoute("/ai-patterns")({
   head: () => ({
     meta: [
-      { title: "Top AI-Discovered Pre-Move Patterns — BIST Signal Lab" },
+      { title: "Yapay Zeka ile Keşfedilen En Güçlü Hareket Öncesi Kalıplar — BIST Sinyal Lab" },
       {
         name: "description",
         content:
-          "Tens of thousands of feature combinations auto-tested against the modern BIST market. The strongest statistically validated patterns ranked by lift, precision, recall and confidence for four independent move targets.",
+          "On binlerce gösterge kombinasyonu modern BIST piyasasına karşı otomatik test edildi. Dört bağımsız hareket hedefi için lift, isabet, geri çağırma ve güvene göre sıralanan istatistiksel olarak doğrulanmış en güçlü kalıplar.",
       },
-      { property: "og:title", content: "AI Pattern Discovery — BIST Signal Lab" },
+      { property: "og:title", content: "Yapay Zeka Kalıp Keşfi — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Automatically discovered, statistically validated patterns that preceded large BIST moves (2025–today).",
+          "Büyük BIST hareketlerinden önce ortaya çıkan, otomatik keşfedilmiş ve istatistiksel olarak doğrulanmış kalıplar (2025–bugün).",
       },
     ],
   }),
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/ai-patterns")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load AI patterns
+          Yapay zeka kalıpları yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -48,29 +48,29 @@ export const Route = createFileRoute("/ai-patterns")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No AI patterns found.</p>
+      <p className="text-muted-foreground">Yapay zeka kalıbı bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const TARGETS = [
-  { value: "g20", label: "+20% in 20d", horizon: 20 },
-  { value: "g15", label: "+15% in 10d", horizon: 10 },
-  { value: "g10", label: "+10% in 5d", horizon: 5 },
-  { value: "lu", label: "+10% limit-up", horizon: 5 },
+  { value: "g20", label: "20 günde +%20", horizon: 20 },
+  { value: "g15", label: "10 günde +%15", horizon: 10 },
+  { value: "g10", label: "5 günde +%10", horizon: 5 },
+  { value: "lu", label: "+%10 tavan", horizon: 5 },
 ] as const;
 
 const MCAP_OPTIONS = [
-  { value: "any", label: "Any cap" },
-  { value: "mcap_small", label: "Below median" },
-  { value: "mcap_micro", label: "Micro (bottom 20%)" },
+  { value: "any", label: "Tüm piyasa değerleri" },
+  { value: "mcap_small", label: "Medyan altı" },
+  { value: "mcap_micro", label: "Mikro (en küçük %20)" },
 ] as const;
 
 const SIZE_OPTIONS = [
-  { value: 0, label: "Any size" },
-  { value: 1, label: "Single" },
-  { value: 2, label: "Pair" },
-  { value: 3, label: "Triple" },
+  { value: 0, label: "Tüm boyutlar" },
+  { value: 1, label: "Tekli" },
+  { value: 2, label: "İkili" },
+  { value: 3, label: "Üçlü" },
 ] as const;
 
 function AiPatternsPage() {
@@ -118,17 +118,16 @@ function AiPatternsPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <BrainCircuit className="h-3.5 w-3.5" /> AI Pattern Discovery
+            <BrainCircuit className="h-3.5 w-3.5" /> Yapay Zeka Kalıp Keşfi
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Top 100 <span className="text-primary">auto-discovered</span> pre-move patterns
+            Otomatik <span className="text-primary">keşfedilen</span> en güçlü 100 hareket öncesi kalıbı
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The engine binarizes ~45 candidate features and automatically generates and scores tens
-            of thousands of single, pair and triple combinations against four independent targets —
-            keeping only patterns that pass statistical validation. Rolling indicators use full
-            pre-2025 history; only post-2025 days count as outcomes. Research only — no buy/sell
-            signals.
+            Motor ~45 aday göstergeyi ikili hale getirir; tekli, ikili ve üçlü on binlerce kombinasyonu
+            otomatik üretip dört bağımsız hedefe karşı puanlar ve yalnızca istatistiksel doğrulamayı
+            geçen kalıpları saklar. Hareketli göstergeler 2025 öncesi tüm geçmişi kullanır; yalnızca
+            2025 sonrası günler sonuç olarak sayılır. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
         </div>
       </section>
@@ -136,7 +135,7 @@ function AiPatternsPage() {
       {/* Engine status */}
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
         <StatCard
-          label="Engine status"
+          label="Motor durumu"
           value={
             <span className="flex items-center gap-1.5 text-base capitalize">
               {running && <RefreshCw className="h-3.5 w-3.5 animate-spin text-primary" />}
@@ -147,26 +146,26 @@ function AiPatternsPage() {
           icon={<Activity className="h-4 w-4" />}
         />
         <StatCard
-          label="Snapshots scored"
+          label="Analiz edilen veriler"
           value={fmtNum(meta?.matrix_rows ?? 0)}
-          sub="2025 → today"
+          sub="2025 → bugün"
           icon={<Database className="h-4 w-4" />}
         />
         <StatCard
-          label="Patterns kept"
+          label="Kaydedilen patternler"
           value={fmtNum(meta?.n_patterns ?? 0)}
           icon={<Layers className="h-4 w-4" />}
         />
         <StatCard
-          label="Significant"
+          label="Anlamlı patternler"
           value={fmtNum(meta?.n_significant ?? 0)}
           accent="primary"
           icon={<CheckCircle2 className="h-4 w-4" />}
         />
         <StatCard
-          label="Last run"
+          label="Son çalıştırma"
           value={<span className="text-base">{fmtDate(meta?.last_run_at)}</span>}
-          sub="re-runs monthly"
+          sub="aylık yenilenir"
           icon={<Sparkles className="h-4 w-4" />}
         />
       </section>
@@ -177,7 +176,7 @@ function AiPatternsPage() {
         <section className="mt-10">
           <div className="flex items-center gap-2">
             <Target className="h-5 w-5 text-primary" />
-            <h2 className="font-display text-xl font-bold text-foreground">Ranked patterns</h2>
+            <h2 className="font-display text-xl font-bold text-foreground">Sıralı kalıplar</h2>
           </div>
 
           {/* Target tabs */}
@@ -200,9 +199,9 @@ function AiPatternsPage() {
 
           {/* Filters */}
           <div className="mt-4 grid gap-4 rounded-xl border border-border bg-card p-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Field label="Sector">
+            <Field label="Sektör">
               <Select value={sector} onChange={setSector}>
-                <option value="any">All sectors</option>
+                <option value="any">Tüm sektörler</option>
                 {sectors.map((s) => (
                   <option key={s} value={s}>
                     {s}
@@ -210,7 +209,7 @@ function AiPatternsPage() {
                 ))}
               </Select>
             </Field>
-            <Field label="Market cap">
+            <Field label="Piyasa değeri">
               <Select value={mcap} onChange={setMcap}>
                 {MCAP_OPTIONS.map((o) => (
                   <option key={o.value} value={o.value}>
@@ -219,7 +218,7 @@ function AiPatternsPage() {
                 ))}
               </Select>
             </Field>
-            <Field label="Pattern size">
+            <Field label="Kalıp boyutu">
               <Select value={String(size)} onChange={(v) => setSize(Number(v))}>
                 {SIZE_OPTIONS.map((o) => (
                   <option key={o.value} value={o.value}>
@@ -228,7 +227,7 @@ function AiPatternsPage() {
                 ))}
               </Select>
             </Field>
-            <Field label="Significant only">
+            <Field label="Yalnızca anlamlı">
               <button
                 onClick={() => setSigOnly((s) => !s)}
                 className={
@@ -238,10 +237,10 @@ function AiPatternsPage() {
                     : "border-border bg-secondary/40 text-muted-foreground")
                 }
               >
-                {sigOnly ? "On (p < 0.05, lift ≥ 1.2)" : "Off"}
+                {sigOnly ? "Açık (p < 0.05, lift ≥ 1.2)" : "Kapalı"}
               </button>
             </Field>
-            <Field label={`Min precision — ${minPrecision}%`}>
+            <Field label={`Min. isabet — %${minPrecision}`}>
               <input
                 type="range"
                 min={0}
@@ -252,7 +251,7 @@ function AiPatternsPage() {
                 className="w-full accent-primary"
               />
             </Field>
-            <Field label={`Min lift — ${minLift.toFixed(1)}×`}>
+            <Field label={`Min. lift — ${minLift.toFixed(1)}×`}>
               <input
                 type="range"
                 min={0}
@@ -265,8 +264,8 @@ function AiPatternsPage() {
             </Field>
             <div className="flex items-end">
               <p className="text-xs text-muted-foreground">
-                Showing <span className="font-semibold text-foreground">{rows.length}</span> of top
-                100 for <span className="font-semibold text-foreground">{activeTarget.label}</span>.
+                <span className="font-semibold text-foreground">{activeTarget.label}</span> için ilk 100
+                kalıptan <span className="font-semibold text-foreground">{rows.length}</span> tanesi gösteriliyor.
               </p>
             </div>
           </div>
@@ -317,18 +316,18 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <th className="px-3 py-2.5 font-medium">#</th>
-            <th className="px-3 py-2.5 font-medium">Pattern</th>
-            <th className="px-3 py-2.5 text-right font-medium">Occur.</th>
-            <th className="px-3 py-2.5 text-right font-medium">Win</th>
-            <th className="px-3 py-2.5 text-right font-medium">Fail</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
-            <th className="px-3 py-2.5 text-right font-medium">95% CI</th>
-            <th className="px-3 py-2.5 text-right font-medium">Recall</th>
-            <th className="px-3 py-2.5 text-right font-medium">FPR</th>
+            <th className="px-3 py-2.5 font-medium">Kalıp</th>
+            <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarı</th>
+            <th className="px-3 py-2.5 text-right font-medium">Başarısız</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
+            <th className="px-3 py-2.5 text-right font-medium">%95 GA</th>
+            <th className="px-3 py-2.5 text-right font-medium">Geri çağırma</th>
+            <th className="px-3 py-2.5 text-right font-medium">YPO</th>
             <th className="px-3 py-2.5 text-right font-medium">Lift</th>
-            <th className="px-3 py-2.5 text-right font-medium">Avg fwd</th>
-            <th className="px-3 py-2.5 text-right font-medium">Days→</th>
-            <th className="px-3 py-2.5 text-right font-medium">Quality</th>
+            <th className="px-3 py-2.5 text-right font-medium">Ort. ileri</th>
+            <th className="px-3 py-2.5 text-right font-medium">Gün→</th>
+            <th className="px-3 py-2.5 text-right font-medium">Kalite</th>
             <th className="px-3 py-2.5 text-right font-medium">p</th>
           </tr>
         </thead>
@@ -341,7 +340,7 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
                   <span className="font-medium text-foreground">{r.label}</span>
                   {r.significant && (
                     <span className="rounded bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">
-                      sig
+                      anlamlı
                     </span>
                   )}
                 </span>
@@ -372,11 +371,11 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
               <td className="px-3 py-2.5 text-right font-mono text-xs tabular">
                 {r.overfit ? (
                   <span className="rounded bg-destructive/15 px-1.5 py-0.5 font-semibold uppercase text-destructive">
-                    overfit
+                    aşırı uyum
                   </span>
                 ) : r.robust ? (
                   <span className="rounded bg-success/15 px-1.5 py-0.5 font-semibold uppercase text-success">
-                    robust
+                    sağlam
                   </span>
                 ) : (
                   <span className="text-muted-foreground">—</span>
@@ -390,7 +389,7 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
           {rows.length === 0 && (
             <tr>
               <td colSpan={14} className="px-3 py-6 text-center text-muted-foreground">
-                No patterns match these filters.
+                Bu filtrelerle eşleşen kalıp yok.
               </td>
             </tr>
           )}
@@ -402,13 +401,13 @@ function PatternTable({ rows }: { rows: AiPatternRow[] }) {
 
 function Legend() {
   const items: [string, string][] = [
-    ["Pattern", "An AND-combination of 1–3 binarized features the engine discovered automatically."],
-    ["Precision / 95% CI", "Share of occurrences followed by the target move, with Wilson confidence interval."],
-    ["Recall", "Share of all target moves this pattern caught."],
-    ["FPR", "False positive rate — share of non-move days that still fired the pattern."],
-    ["Lift", "Precision ÷ base rate — predictive edge over the unconditional probability."],
-    ["Quality", "Robust = stable in/out-of-sample. Overfit = flagged for in-sample over-precision."],
-    ["p", "Two-sided p-value vs base rate. 'sig' = passes significance and lift thresholds with adequate sample."],
+    ["Kalıp", "Motorun otomatik keşfettiği 1–3 ikili göstergenin VE-kombinasyonu."],
+    ["İsabet / %95 GA", "Hedef hareketin izlediği görülme oranı ve Wilson güven aralığı."],
+    ["Geri çağırma", "Bu kalıbın yakaladığı tüm hedef hareketlerin oranı."],
+    ["YPO", "Yanlış pozitif oranı — kalıbı tetikleyen ancak hareket etmeyen günlerin oranı."],
+    ["Lift", "İsabet ÷ taban oran — koşulsuz olasılığa göre öngörü üstünlüğü."],
+    ["Kalite", "Sağlam = örneklem içi/dışı kararlı. Aşırı uyum = örneklem içi aşırı isabet için işaretli."],
+    ["p", "Taban orana göre çift yönlü p-değeri. 'anlamlı' = yeterli örneklemle anlamlılık ve lift eşiklerini geçer."],
   ];
   return (
     <div className="mt-4 grid gap-2 rounded-xl border border-border bg-card p-5 sm:grid-cols-2">
@@ -434,18 +433,18 @@ function EmptyState({
     <div className="mt-10 rounded-xl border border-border bg-card p-10 text-center">
       <BrainCircuit className="mx-auto h-8 w-8 text-primary" />
       <h2 className="mt-3 font-display text-lg font-semibold text-foreground">
-        {running ? "Discovery in progress…" : "No patterns yet"}
+        {running ? "Keşif sürüyor…" : "Henüz kalıp yok"}
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
         {running
-          ? `The engine is ${(phase ?? "working").toLowerCase()}. This first full run scores ~184k snapshots and tens of thousands of combinations — it can take a few minutes. Refresh shortly.`
-          : "The discovery engine has not produced patterns yet. It runs in the background and refreshes monthly."}
+          ? `Motor şu anda ${(phase ?? "çalışıyor").toLowerCase()} aşamasında. İlk tam çalıştırma ~184 bin veriyi ve on binlerce kombinasyonu puanlar — birkaç dakika sürebilir. Kısa süre sonra yenileyin.`
+          : "Keşif motoru henüz kalıp üretmedi. Arka planda çalışır ve aylık olarak yenilenir."}
       </p>
       <button
         onClick={onRefresh}
         className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
       >
-        <RefreshCw className="h-4 w-4" /> Refresh
+        <RefreshCw className="h-4 w-4" /> Yenile
       </button>
     </div>
   );

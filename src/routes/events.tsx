@@ -11,16 +11,16 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Detected Events — BIST Signal Research Lab" },
+      { title: "Tespit Edilen Olaylar — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Every large-move event (+10/+15/+20% and limit-up) detected across BIST stocks, with the metrics captured 1, 2, 3, 5 and 10 trading days before.",
+          "BIST hisselerinde tespit edilen tüm büyük hareket olayları (+%10/+%15/+%20 ve tavan), hareketten 1, 2, 3, 5 ve 10 işlem günü önce ölçülen metriklerle birlikte.",
       },
-      { property: "og:title", content: "Detected Events — BIST Signal Research Lab" },
+      { property: "og:title", content: "Tespit Edilen Olaylar — BIST Sinyal Araştırma Lab" },
       {
         property: "og:description",
-        content: "Browse large-move events and the conditions that preceded each one.",
+        content: "Büyük hareket olaylarını ve her birinden önce oluşan koşulları inceleyin.",
       },
     ],
   }),
@@ -35,17 +35,17 @@ export const Route = createFileRoute("/events")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No events found.</p>
+      <p className="text-muted-foreground">Olay bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const FILTERS = [
-  { value: "all", label: "All" },
-  { value: "limit", label: "Limit-up" },
-  { value: "gain_10", label: "+10%" },
-  { value: "gain_15", label: "+15%" },
-  { value: "gain_20", label: "+20%" },
+  { value: "all", label: "Tümü" },
+  { value: "limit", label: "Tavan" },
+  { value: "gain_10", label: "+%10" },
+  { value: "gain_15", label: "+%15" },
+  { value: "gain_20", label: "+%20" },
 ] as const;
 
 function EventsPage() {
@@ -74,11 +74,11 @@ function EventsPage() {
     <AppShell>
       <div className="flex items-center gap-2">
         <Flame className="h-5 w-5 text-primary" />
-        <h1 className="font-display text-2xl font-bold text-foreground">Detected events</h1>
+        <h1 className="font-display text-2xl font-bold text-foreground">Tespit edilen olaylar</h1>
       </div>
       <p className="mt-1 text-sm text-muted-foreground">
-        {fmtNum(data.events.length)} large-move events. Expand any row to see metrics 1–10 trading
-        days before the move.
+        {fmtNum(data.events.length)} büyük hareket olayı. Hareketten 1–10 işlem günü önceki metrikleri
+        görmek için herhangi bir satırı genişletin.
       </p>
 
       <div className="mt-5 flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1">
@@ -116,7 +116,7 @@ function EventsPage() {
                 <span className="ml-auto flex items-center gap-2">
                   {e.is_limit_up ? (
                     <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-accent">
-                      Limit-up
+                      Tavan
                     </span>
                   ) : (
                     <span className="rounded-full border border-border bg-secondary/50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
@@ -142,12 +142,12 @@ function EventsPage() {
                     <table className="w-full min-w-[640px] text-sm">
                       <thead>
                         <tr className="text-left text-xs uppercase tracking-wider text-muted-foreground">
-                          <th className="px-2 py-1.5 font-medium">Days before</th>
-                          <th className="px-2 py-1.5 text-right font-medium">Close</th>
-                          <th className="px-2 py-1.5 text-right font-medium">Vol ×20d</th>
-                          <th className="px-2 py-1.5 text-right font-medium">Vol ×3d</th>
-                          <th className="px-2 py-1.5 text-right font-medium">5d ret</th>
-                          <th className="px-2 py-1.5 text-right font-medium">10d ret</th>
+                          <th className="px-2 py-1.5 font-medium">Önceki gün</th>
+                          <th className="px-2 py-1.5 text-right font-medium">Kapanış</th>
+                          <th className="px-2 py-1.5 text-right font-medium">Hac ×20g</th>
+                          <th className="px-2 py-1.5 text-right font-medium">Hac ×3g</th>
+                          <th className="px-2 py-1.5 text-right font-medium">5g get.</th>
+                          <th className="px-2 py-1.5 text-right font-medium">10g get.</th>
                           <th className="px-2 py-1.5 text-right font-medium">KAP</th>
                         </tr>
                       </thead>

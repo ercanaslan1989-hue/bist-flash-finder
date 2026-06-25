@@ -20,17 +20,17 @@ import { fmtDate, fmtNum } from "@/lib/format";
 export const Route = createFileRoute("/signals")({
   head: () => ({
     meta: [
-      { title: "Top Validated Pre-Move Signals — BIST Signal Research Lab" },
+      { title: "En Güçlü Doğrulanmış Hareket Öncesi Sinyaller — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "The 20 strongest statistically validated BIST signals ranked by Wilson confidence: precision, lift, sample size and z-score measured before +20% runs and +10% limit-up moves (2025–today).",
+          "Wilson güvenine göre sıralanan, istatistiksel olarak doğrulanmış en güçlü 20 BIST sinyali: +%20 yükselişler ve +%10 tavan hareketleri öncesinde ölçülen isabet, lift, örneklem büyüklüğü ve z-skoru (2025–bugün).",
       },
-      { property: "og:title", content: "Top Validated Signals — BIST Signal Lab" },
+      { property: "og:title", content: "En Güçlü Doğrulanmış Sinyaller — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "The strongest signals that consistently appeared before large BIST moves, ranked by statistical confidence.",
+          "Büyük BIST hareketlerinden önce tutarlı şekilde ortaya çıkan en güçlü sinyaller, istatistiksel güvene göre sıralanmış.",
       },
     ],
   }),
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/signals")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load validated signals
+          Doğrulanmış sinyaller yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/signals")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No signal data found.</p>
+      <p className="text-muted-foreground">Sinyal verisi bulunamadı.</p>
     </AppShell>
   ),
 });
@@ -56,18 +56,18 @@ export const Route = createFileRoute("/signals")({
 const TARGETS = [
   {
     value: "all",
-    label: "All targets",
-    blurb: "The strongest signals across every move target, ranked by statistical confidence.",
+    label: "Tümü",
+    blurb: "Tüm hareket hedeflerindeki en güçlü sinyaller, istatistiksel güvene göre sıralanmış.",
   },
   {
     value: "g20",
-    label: "+20% run",
-    blurb: "Signals that appeared before a stock gained ≥20% over the following 20 trading days.",
+    label: "+%20 yükseliş",
+    blurb: "Bir hissenin sonraki 20 işlem gününde ≥%20 kazandığı durumlardan önce ortaya çıkan sinyaller.",
   },
   {
     value: "lu",
-    label: "+10% limit-up",
-    blurb: "Signals that appeared before a BIST daily +10% limit-up day.",
+    label: "+%10 tavan",
+    blurb: "BIST'te günlük +%10 tavan gününden önce ortaya çıkan sinyaller.",
   },
 ] as const;
 
@@ -102,17 +102,17 @@ function SignalsPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <FlaskConical className="h-3.5 w-3.5" /> Statistical Validation
+            <FlaskConical className="h-3.5 w-3.5" /> İstatistiksel Doğrulama
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Top 20 validated pre-move <span className="text-primary">signals</span>
+            Doğrulanmış en güçlü 20 hareket öncesi <span className="text-primary">sinyali</span>
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The highest-confidence signals retained by the frozen{" "}
-            <span className="font-semibold text-foreground">{version?.version ?? "v1.0"}</span> engine,
-            tested against the modern BIST market (01 Jan 2025 → today). Rolling indicators use full
-            pre-2025 history; only post-2025 days count as outcomes. Ranked by Wilson confidence-interval
-            lower bound. Research only — no buy/sell signals.
+            Dondurulmuş{" "}
+            <span className="font-semibold text-foreground">{version?.version ?? "v1.0"}</span> motorunun
+            sakladığı en yüksek güvenli sinyaller; modern BIST piyasasına karşı test edildi (01 Oca 2025 → bugün).
+            Hareketli göstergeler 2025 öncesi tüm geçmişi kullanır; yalnızca 2025 sonrası günler sonuç olarak
+            sayılır. Wilson güven aralığı alt sınırına göre sıralanmıştır. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
         </div>
       </section>
@@ -120,32 +120,32 @@ function SignalsPage() {
       {/* Coverage */}
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
         <StatCard
-          label="Universe"
+          label="Evren"
           value={fmtNum(meta?.stockCount ?? 0)}
-          sub="active BIST equities"
+          sub="aktif BIST hisseleri"
           icon={<Layers className="h-4 w-4" />}
         />
         <StatCard
-          label="Snapshots (in scope)"
+          label="Veriler (kapsam içi)"
           value={fmtNum(meta?.snapshotCount ?? 0)}
           icon={<Database className="h-4 w-4" />}
         />
         <StatCard
-          label="+20% runs"
+          label="+%20 yükselişler"
           value={fmtNum(meta?.run20Count ?? 0)}
           accent="primary"
           icon={<TrendingUp className="h-4 w-4" />}
         />
         <StatCard
-          label="+10% limit-ups"
+          label="+%10 tavanlar"
           value={fmtNum(meta?.limitUpCount ?? 0)}
           accent="accent"
           icon={<Zap className="h-4 w-4" />}
         />
         <StatCard
-          label="Research window"
+          label="Analiz dönemi"
           value={<span className="text-base">{fmtDate(meta?.firstDate)}</span>}
-          sub={`through ${fmtDate(meta?.lastDate)}`}
+          sub={`${fmtDate(meta?.lastDate)} tarihine kadar`}
           icon={<CalendarDays className="h-4 w-4" />}
         />
       </section>
@@ -154,10 +154,10 @@ function SignalsPage() {
       <section className="mt-10">
         <div className="flex items-center gap-2">
           <Target className="h-5 w-5 text-primary" />
-          <h2 className="font-display text-xl font-bold text-foreground">Signal ranking</h2>
+          <h2 className="font-display text-xl font-bold text-foreground">Sinyal sıralaması</h2>
           {version?.frozen && (
             <span className="ml-1 inline-flex items-center gap-1 rounded-full border border-success/40 bg-success/10 px-2 py-0.5 text-[11px] font-medium text-success">
-              <ShieldCheck className="h-3 w-3" /> {version.version} frozen
+              <ShieldCheck className="h-3 w-3" /> {version.version} donduruldu
             </span>
           )}
         </div>
@@ -190,10 +190,10 @@ function SignalsPage() {
 }
 
 const TARGET_LABELS: Record<string, string> = {
-  g20: "+20% run",
-  g15: "+15%",
-  g10: "+10%",
-  lu: "limit-up",
+  g20: "+%20 yükseliş",
+  g15: "+%15",
+  g10: "+%10",
+  lu: "tavan",
 };
 
 function SignalTable({ rows }: { rows: TopSignalRow[] }) {
@@ -203,15 +203,15 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <th className="px-3 py-2.5 font-medium">#</th>
-            <th className="px-3 py-2.5 font-medium">Signal</th>
-            <th className="px-3 py-2.5 font-medium">Target</th>
-            <th className="px-3 py-2.5 text-right font-medium">Within</th>
-            <th className="px-3 py-2.5 text-right font-medium">Occur.</th>
-            <th className="px-3 py-2.5 text-right font-medium">Precision</th>
-            <th className="px-3 py-2.5 text-right font-medium">CI-low</th>
+            <th className="px-3 py-2.5 font-medium">Sinyal</th>
+            <th className="px-3 py-2.5 font-medium">Hedef</th>
+            <th className="px-3 py-2.5 text-right font-medium">Süre</th>
+            <th className="px-3 py-2.5 text-right font-medium">Görülme</th>
+            <th className="px-3 py-2.5 text-right font-medium">İsabet</th>
+            <th className="px-3 py-2.5 text-right font-medium">GA-alt</th>
             <th className="px-3 py-2.5 text-right font-medium">Lift</th>
             <th className="px-3 py-2.5 text-right font-medium">z</th>
-            <th className="px-3 py-2.5 text-right font-medium">Conf.</th>
+            <th className="px-3 py-2.5 text-right font-medium">Güven</th>
           </tr>
         </thead>
         <tbody>
@@ -225,7 +225,7 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
                 </span>
               </td>
               <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
-                {r.horizon}d
+                {r.horizon}g
               </td>
               <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
                 {fmtNum(r.occurrences)}
@@ -259,7 +259,7 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
           {rows.length === 0 && (
             <tr>
               <td colSpan={10} className="px-3 py-6 text-center text-muted-foreground">
-                No signals for this target.
+                Bu hedef için sinyal yok.
               </td>
             </tr>
           )}
@@ -271,13 +271,13 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
 
 function Legend() {
   const items: [string, string][] = [
-    ["Signal", "A validated condition (or AND-combination) present on the snapshot day."],
-    ["Target / Within", "The move being predicted and the trading-day horizon it must occur in."],
-    ["Occurrences", "Total times the signal was present on an eligible day in scope."],
-    ["Precision", "Share of occurrences followed by the target move."],
-    ["CI-low", "Wilson 95% confidence lower bound on precision — the conservative edge estimate."],
-    ["Lift", "Precision ÷ base rate — predictive edge over the unconditional probability."],
-    ["z / Conf.", "Significance vs base rate and the engine's overall confidence score."],
+    ["Sinyal", "Veri gününde mevcut olan, doğrulanmış bir koşul (veya VE-kombinasyonu)."],
+    ["Hedef / Süre", "Öngörülen hareket ve bunun gerçekleşmesi gereken işlem günü süresi."],
+    ["Görülme", "Sinyalin kapsam içindeki uygun bir günde mevcut olduğu toplam sayı."],
+    ["İsabet", "Hedef hareketin izlediği görülme oranı."],
+    ["GA-alt", "İsabet için Wilson %95 güven alt sınırı — temkinli üstünlük tahmini."],
+    ["Lift", "İsabet ÷ taban oran — koşulsuz olasılığa göre öngörü üstünlüğü."],
+    ["z / Güven", "Taban orana göre anlamlılık ve motorun genel güven skoru."],
   ];
   return (
     <div className="mt-4 grid gap-2 rounded-xl border border-border bg-card p-5 sm:grid-cols-2">
@@ -295,16 +295,16 @@ function EmptyState({ onRefresh }: { onRefresh: () => void }) {
     <div className="rounded-xl border border-border bg-card p-10 text-center">
       <FlaskConical className="mx-auto h-8 w-8 text-primary" />
       <h2 className="mt-3 font-display text-lg font-semibold text-foreground">
-        No validated signals yet
+        Henüz doğrulanmış sinyal yok
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Once the research engine finishes signal validation, the ranked table appears here.
+        Araştırma motoru sinyal doğrulamasını tamamladığında, sıralı tablo burada görünür.
       </p>
       <button
         onClick={onRefresh}
         className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
       >
-        Refresh
+        Yenile
       </button>
     </div>
   );

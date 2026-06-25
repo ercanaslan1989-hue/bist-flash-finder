@@ -29,7 +29,7 @@ export function fmtRatio(n: number | null | undefined): string {
 
 export function fmtDate(d: string | null | undefined): string {
   if (!d) return "—";
-  return new Date(d).toLocaleDateString("en-GB", {
+  return new Date(d).toLocaleDateString("tr-TR", {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -37,7 +37,7 @@ export function fmtDate(d: string | null | undefined): string {
 }
 
 export const EVENT_TYPE_LABELS: Record<string, string> = {
-  gain_10: "+10% move",
-  gain_15: "+15% move",
-  gain_20: "+20% move",
+  gain_10: "+%10 hareket",
+  gain_15: "+%15 hareket",
+  gain_20: "+%20 hareket",
 };

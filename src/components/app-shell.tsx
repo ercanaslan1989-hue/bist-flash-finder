@@ -3,17 +3,17 @@ import { Flame } from "lucide-react";
 import type { ReactNode } from "react";
 
 const NAV = [
-  { to: "/", label: "Dashboard" },
-  { to: "/ai-patterns", label: "AI Patterns" },
-  { to: "/signals", label: "Top Signals" },
-  { to: "/feature-importance", label: "Features" },
-  { to: "/watchlist", label: "Watchlist" },
-  { to: "/backtest", label: "Backtest" },
-  { to: "/oos", label: "OOS" },
-  { to: "/events", label: "Events" },
-  { to: "/stocks", label: "Universe" },
-  { to: "/coverage", label: "Coverage" },
-  { to: "/methodology", label: "Methodology" },
+  { to: "/", label: "Ana Sayfa" },
+  { to: "/ai-patterns", label: "Yapay Zeka Analizi" },
+  { to: "/signals", label: "En Güçlü Sinyaller" },
+  { to: "/feature-importance", label: "Göstergeler" },
+  { to: "/watchlist", label: "İzleme Listesi" },
+  { to: "/backtest", label: "Geçmiş Performans" },
+  { to: "/oos", label: "Canlı Doğrulama" },
+  { to: "/events", label: "Olaylar" },
+  { to: "/stocks", label: "Evren" },
+  { to: "/coverage", label: "Veri Kapsamı" },
+  { to: "/methodology", label: "Yöntem" },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -27,10 +27,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             </span>
             <span className="flex flex-col leading-none">
               <span className="font-display text-sm font-bold tracking-tight text-foreground">
-                BIST Signal Lab
+                BIST Sinyal Lab
               </span>
               <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                Research Mode
+                Araştırma Modu
               </span>
             </span>
           </Link>
@@ -59,10 +59,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <footer className="border-t border-border">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
           <p className="max-w-3xl text-xs leading-relaxed text-muted-foreground">
-            <span className="font-semibold text-foreground">Research only — not investment advice.</span>{" "}
-            This lab does not generate buy or sell signals. It collects daily snapshots, flags large
-            moves as events, and measures which conditions recurred before those moves. Sample data
-            is synthetic for demonstration; connect a live BIST feed to study real patterns.
+            <span className="font-semibold text-foreground">Yalnızca araştırma amaçlıdır — yatırım tavsiyesi değildir.</span>{" "}
+            Bu laboratuvar al/sat sinyali üretmez. Günlük verileri toplar, büyük hareketleri olay
+            olarak işaretler ve bu hareketlerden önce hangi koşulların tekrarlandığını ölçer. Gerçek
+            kalıpları incelemek için canlı bir BIST veri kaynağı bağlayın.
           </p>
         </div>
       </footer>
