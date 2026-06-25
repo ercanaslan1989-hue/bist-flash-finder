@@ -113,7 +113,7 @@ function CoveragePage() {
 
       {report?.missing_symbols && report.missing_symbols.length > 0 && (
         <section className="mt-6 rounded-xl border border-border bg-card p-5">
-          <h2 className="font-display text-sm font-semibold text-foreground">Missing companies</h2>
+          <h2 className="font-display text-sm font-semibold text-foreground">Eksik şirketler</h2>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {report.missing_symbols.map((s) => (
               <span key={s} className="rounded bg-accent/15 px-2 py-0.5 font-mono text-xs text-accent">
