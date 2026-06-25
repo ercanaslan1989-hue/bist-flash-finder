@@ -275,12 +275,18 @@ export interface AiPatternsData {
 
 async function fetchAiPatterns(): Promise<AiPatternsData> {
   const [patRes, metaRes, qualRes] = await Promise.all([
-    sb.from("ai_patterns").select("*").order("target_key", { ascending: true }).order("rank", { ascending: true }),
+    // Curated, frozen v1.0 Top-100 patterns (overfit/robust flagged).
+    sb.from("ai_top_patterns").select("*").order("rank", { ascending: true }),
     sb.from("ai_meta").select("*").eq("id", 1).limit(1),
     sb.from("ai_signal_quality").select("*").order("run_date", { ascending: true }),
   ]);
+  const patterns = ((patRes.data ?? []) as AiPatternRow[]).map((p) => ({
+    ...p,
+    // ai_top_patterns has no `significant` column; a robust (non-overfit) row is significant.
+    significant: p.robust ?? !p.overfit ?? true,
+  }));
   return {
-    patterns: (patRes.data ?? []) as AiPatternRow[],
+    patterns,
     meta: (metaRes.data?.[0] ?? null) as AiMetaRow | null,
     quality: (qualRes.data ?? []) as AiQualityRow[],
   };
