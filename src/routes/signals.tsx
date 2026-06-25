@@ -271,13 +271,13 @@ function SignalTable({ rows }: { rows: TopSignalRow[] }) {
 
 function Legend() {
   const items: [string, string][] = [
-    ["Signal", "A validated condition (or AND-combination) present on the snapshot day."],
-    ["Target / Within", "The move being predicted and the trading-day horizon it must occur in."],
-    ["Occurrences", "Total times the signal was present on an eligible day in scope."],
-    ["Precision", "Share of occurrences followed by the target move."],
-    ["CI-low", "Wilson 95% confidence lower bound on precision — the conservative edge estimate."],
-    ["Lift", "Precision ÷ base rate — predictive edge over the unconditional probability."],
-    ["z / Conf.", "Significance vs base rate and the engine's overall confidence score."],
+    ["Sinyal", "Veri gününde mevcut olan, doğrulanmış bir koşul (veya VE-kombinasyonu)."],
+    ["Hedef / Süre", "Öngörülen hareket ve bunun gerçekleşmesi gereken işlem günü süresi."],
+    ["Görülme", "Sinyalin kapsam içindeki uygun bir günde mevcut olduğu toplam sayı."],
+    ["İsabet", "Hedef hareketin izlediği görülme oranı."],
+    ["GA-alt", "İsabet için Wilson %95 güven alt sınırı — temkinli üstünlük tahmini."],
+    ["Lift", "İsabet ÷ taban oran — koşulsuz olasılığa göre öngörü üstünlüğü."],
+    ["z / Güven", "Taban orana göre anlamlılık ve motorun genel güven skoru."],
   ];
   return (
     <div className="mt-4 grid gap-2 rounded-xl border border-border bg-card p-5 sm:grid-cols-2">
