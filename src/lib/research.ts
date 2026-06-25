@@ -343,3 +343,262 @@ export const coverageQueryOptions = () =>
     queryFn: fetchCoverage,
     staleTime: 60_000,
   });
+
+// ===== Engine version (v1.0 freeze) =====
+
+export interface EngineVersionRow {
+  version: string | null;
+  frozen: boolean | null;
+  frozen_at: string | null;
+  stages: string | null;
+  notes: string | null;
+}
+
+async function fetchEngineVersion(): Promise<EngineVersionRow | null> {
+  const res = await sb
+    .from("ai_engine_version")
+    .select("*")
+    .order("frozen_at", { ascending: false })
+    .limit(1);
+  return (res.data?.[0] ?? null) as EngineVersionRow | null;
+}
+
+// ===== Top-20 validated signals (ai_top_signals) =====
+
+export interface TopSignalRow {
+  id: number;
+  rank: number | null;
+  target_key: string;
+  horizon: number;
+  label: string;
+  pred_keys: string[];
+  occurrences: number | null;
+  precision_pct: number | null;
+  lift: number | null;
+  ci_low: number | null;
+  z_score: number | null;
+  confidence: number | null;
+}
+
+export interface TopSignalsData {
+  signals: TopSignalRow[];
+  meta: SignalsMeta | null;
+  version: EngineVersionRow | null;
+}
+
+async function fetchTopSignals(): Promise<TopSignalsData> {
+  const [sigRes, metaRes, run20Res, versionRes] = await Promise.all([
+    sb.from("ai_top_signals").select("*").order("rank", { ascending: true }),
+    sb.from("research_meta").select("*").eq("id", 1).limit(1),
+    sb.from("events").select("id", { count: "exact", head: true }).eq("event_type", "run_20"),
+    fetchEngineVersion(),
+  ]);
+  const m = metaRes.data?.[0];
+  return {
+    signals: (sigRes.data ?? []) as TopSignalRow[],
+    meta: m
+      ? {
+          stockCount: m.stock_count ?? 0,
+          snapshotCount: m.snapshot_count ?? 0,
+          eventCount: m.event_count ?? 0,
+          limitUpCount: m.limit_up_count ?? 0,
+          run20Count: run20Res.count ?? 0,
+          firstDate: m.first_date ?? null,
+          lastDate: m.last_date ?? null,
+          updatedAt: m.updated_at ?? null,
+        }
+      : null,
+    version: versionRes,
+  };
+}
+
+export const topSignalsQueryOptions = () =>
+  queryOptions({
+    queryKey: ["ai-top-signals"],
+    queryFn: fetchTopSignals,
+    staleTime: 60_000,
+  });
+
+// ===== Daily AI watchlist (ai_watchlist) =====
+
+export interface WatchlistRow {
+  id: number;
+  score_date: string;
+  symbol: string;
+  company_name: string | null;
+  sector: string | null;
+  probability: number | null;
+  confidence: number | null;
+  matched_patterns: number | null;
+  matched_labels: string[] | null;
+  best_target: string | null;
+  hist_success_pct: number | null;
+  rank: number | null;
+}
+
+export interface WatchlistData {
+  rows: WatchlistRow[];
+  scoreDate: string | null;
+  total: number;
+  elevated: number;
+}
+
+async function fetchWatchlist(): Promise<WatchlistData> {
+  const lastRes = await sb
+    .from("ai_watchlist")
+    .select("score_date")
+    .order("score_date", { ascending: false })
+    .limit(1);
+  const scoreDate: string | undefined = lastRes.data?.[0]?.score_date;
+  if (!scoreDate) return { rows: [], scoreDate: null, total: 0, elevated: 0 };
+
+  const res = await sb
+    .from("ai_watchlist")
+    .select("*")
+    .eq("score_date", scoreDate)
+    .order("rank", { ascending: true });
+  const rows = (res.data ?? []) as WatchlistRow[];
+  return {
+    rows,
+    scoreDate,
+    total: rows.length,
+    elevated: rows.filter((r) => (r.matched_patterns ?? 0) > 0).length,
+  };
+}
+
+export const watchlistQueryOptions = () =>
+  queryOptions({
+    queryKey: ["ai-watchlist"],
+    queryFn: fetchWatchlist,
+    staleTime: 60_000,
+  });
+
+// ===== Feature importance (ai_feature_importance) =====
+
+export interface FeatureImportanceRow {
+  id: number;
+  target_key: string;
+  pred_key: string;
+  label: string;
+  feature_group: string | null;
+  appearances: number | null;
+  avg_precision: number | null;
+  avg_lift: number | null;
+  best_precision: number | null;
+  importance: number | null;
+  rank: number | null;
+}
+
+async function fetchFeatureImportance(): Promise<FeatureImportanceRow[]> {
+  const res = await sb
+    .from("ai_feature_importance")
+    .select("*")
+    .order("rank", { ascending: true });
+  return (res.data ?? []) as FeatureImportanceRow[];
+}
+
+export const featureImportanceQueryOptions = () =>
+  queryOptions({
+    queryKey: ["ai-feature-importance"],
+    queryFn: fetchFeatureImportance,
+    staleTime: 60_000,
+  });
+
+// ===== Monthly backtest + walk-forward (ai_backtest_monthly / ai_walkforward_*) =====
+
+export interface BacktestMonthRow {
+  id: number;
+  month: string;
+  target_key: string;
+  occurrences: number | null;
+  successes: number | null;
+  precision_pct: number | null;
+}
+
+export interface WalkforwardMonthRow {
+  id: number;
+  month: string;
+  n_signals: number | null;
+  precision_pct: number | null;
+  avg_fwd_return: number | null;
+  hit_rate_pos: number | null;
+}
+
+export interface WalkforwardSummaryRow {
+  total_signals: number | null;
+  overall_precision: number | null;
+  avg_monthly_precision: number | null;
+  best_month: string | null;
+  best_month_precision: number | null;
+  worst_month: string | null;
+  worst_month_precision: number | null;
+  avg_fwd_return: number | null;
+  hit_rate: number | null;
+  calib_low_pred: number | null;
+  calib_low_actual: number | null;
+  calib_high_pred: number | null;
+  calib_high_actual: number | null;
+}
+
+export interface BacktestData {
+  monthly: BacktestMonthRow[];
+  walkforward: WalkforwardMonthRow[];
+  summary: WalkforwardSummaryRow | null;
+}
+
+async function fetchBacktest(): Promise<BacktestData> {
+  const [bRes, wRes, sRes] = await Promise.all([
+    sb.from("ai_backtest_monthly").select("*").order("month", { ascending: true }),
+    sb.from("ai_walkforward_monthly").select("*").order("month", { ascending: true }),
+    sb.from("ai_walkforward_summary").select("*").eq("id", 1).limit(1),
+  ]);
+  return {
+    monthly: (bRes.data ?? []) as BacktestMonthRow[],
+    walkforward: (wRes.data ?? []) as WalkforwardMonthRow[],
+    summary: (sRes.data?.[0] ?? null) as WalkforwardSummaryRow | null,
+  };
+}
+
+export const backtestQueryOptions = () =>
+  queryOptions({
+    queryKey: ["ai-backtest"],
+    queryFn: fetchBacktest,
+    staleTime: 60_000,
+  });
+
+// ===== Out-of-sample validation (ai_oos_validation) =====
+
+export interface OosRow {
+  id: number;
+  target_key: string;
+  in_sample_precision: number | null;
+  oos_precision: number | null;
+  in_sample_n: number | null;
+  oos_n: number | null;
+  train_period: string | null;
+  test_period: string | null;
+  note: string | null;
+}
+
+export interface OosData {
+  rows: OosRow[];
+  version: EngineVersionRow | null;
+}
+
+async function fetchOos(): Promise<OosData> {
+  const [oosRes, versionRes] = await Promise.all([
+    sb.from("ai_oos_validation").select("*").order("target_key", { ascending: true }),
+    fetchEngineVersion(),
+  ]);
+  return {
+    rows: (oosRes.data ?? []) as OosRow[],
+    version: versionRes,
+  };
+}
+
+export const oosQueryOptions = () =>
+  queryOptions({
+    queryKey: ["ai-oos"],
+    queryFn: fetchOos,
+    staleTime: 60_000,
+  });
