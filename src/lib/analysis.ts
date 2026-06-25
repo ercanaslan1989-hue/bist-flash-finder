@@ -122,8 +122,8 @@ export function topPatterns(features: FeatureRow[], events: EventRow[]): TopPatt
   const elevatedShare = elevatedVol.reduce((a, b) => a + b.pct, 0);
   if (elevatedShare > 0)
     patterns.push({
-      title: "Volume surge precedes the move",
-      detail: `Volume ran ≥1.5× its 20-day average in the lead-up`,
+      title: "Harekete hacim patlaması öncülük ediyor",
+      detail: `Hareket öncesinde hacim, 20 günlük ortalamasının ≥1,5 katına çıktı`,
       share: elevatedShare,
     });
 
@@ -131,24 +131,24 @@ export function topPatterns(features: FeatureRow[], events: EventRow[]): TopPatt
   const positiveR5 = r5.filter((b) => ["0–5%", "5–10%", "10–20%", "20%+"].includes(b.label));
   const r5Share = positiveR5.reduce((a, b) => a + b.pct, 0);
   patterns.push({
-    title: "Quiet positive 5-day drift",
-    detail: `Stock was already drifting up over the prior 5 sessions`,
+    title: "Sessiz pozitif 5 günlük yükseliş",
+    detail: `Hisse önceki 5 seansta zaten yukarı yönlü ilerliyordu`,
     share: r5Share,
   });
 
   const kap = kapBuckets(features);
   const withKap = kap.filter((b) => b.label !== "0").reduce((a, b) => a + b.pct, 0);
   patterns.push({
-    title: "Fresh KAP disclosure activity",
-    detail: `At least one KAP announcement appeared in the window`,
+    title: "Yeni KAP bildirim hareketliliği",
+    detail: `Söz konusu dönemde en az bir KAP bildirimi yer aldı`,
     share: withKap,
   });
 
   const sectors = sectorBuckets(events);
   if (sectors[0])
     patterns.push({
-      title: `Concentrated in ${sectors[0].label}`,
-      detail: `Most frequent sector among large-move events`,
+      title: `${sectors[0].label} sektöründe yoğunlaşma`,
+      detail: `Büyük hareketli olaylar arasında en sık görülen sektör`,
       share: sectors[0].pct,
     });
 
