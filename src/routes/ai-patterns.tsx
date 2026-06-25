@@ -135,7 +135,7 @@ function AiPatternsPage() {
       {/* Engine status */}
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
         <StatCard
-          label="Engine status"
+          label="Motor durumu"
           value={
             <span className="flex items-center gap-1.5 text-base capitalize">
               {running && <RefreshCw className="h-3.5 w-3.5 animate-spin text-primary" />}
@@ -146,26 +146,26 @@ function AiPatternsPage() {
           icon={<Activity className="h-4 w-4" />}
         />
         <StatCard
-          label="Snapshots scored"
+          label="Analiz edilen veriler"
           value={fmtNum(meta?.matrix_rows ?? 0)}
-          sub="2025 → today"
+          sub="2025 → bugün"
           icon={<Database className="h-4 w-4" />}
         />
         <StatCard
-          label="Patterns kept"
+          label="Kaydedilen patternler"
           value={fmtNum(meta?.n_patterns ?? 0)}
           icon={<Layers className="h-4 w-4" />}
         />
         <StatCard
-          label="Significant"
+          label="Anlamlı patternler"
           value={fmtNum(meta?.n_significant ?? 0)}
           accent="primary"
           icon={<CheckCircle2 className="h-4 w-4" />}
         />
         <StatCard
-          label="Last run"
+          label="Son çalıştırma"
           value={<span className="text-base">{fmtDate(meta?.last_run_at)}</span>}
-          sub="re-runs monthly"
+          sub="aylık yenilenir"
           icon={<Sparkles className="h-4 w-4" />}
         />
       </section>
