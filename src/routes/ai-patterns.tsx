@@ -118,17 +118,16 @@ function AiPatternsPage() {
         <div className="grid-noise absolute inset-0 opacity-40" />
         <div className="relative px-6 py-10 sm:px-10 sm:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            <BrainCircuit className="h-3.5 w-3.5" /> AI Pattern Discovery
+            <BrainCircuit className="h-3.5 w-3.5" /> Yapay Zeka Kalıp Keşfi
           </span>
           <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Top 100 <span className="text-primary">auto-discovered</span> pre-move patterns
+            Otomatik <span className="text-primary">keşfedilen</span> en güçlü 100 hareket öncesi kalıbı
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The engine binarizes ~45 candidate features and automatically generates and scores tens
-            of thousands of single, pair and triple combinations against four independent targets —
-            keeping only patterns that pass statistical validation. Rolling indicators use full
-            pre-2025 history; only post-2025 days count as outcomes. Research only — no buy/sell
-            signals.
+            Motor ~45 aday göstergeyi ikili hale getirir; tekli, ikili ve üçlü on binlerce kombinasyonu
+            otomatik üretip dört bağımsız hedefe karşı puanlar ve yalnızca istatistiksel doğrulamayı
+            geçen kalıpları saklar. Hareketli göstergeler 2025 öncesi tüm geçmişi kullanır; yalnızca
+            2025 sonrası günler sonuç olarak sayılır. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.
           </p>
         </div>
       </section>
