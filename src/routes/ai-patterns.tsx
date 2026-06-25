@@ -54,23 +54,23 @@ export const Route = createFileRoute("/ai-patterns")({
 });
 
 const TARGETS = [
-  { value: "g20", label: "+20% in 20d", horizon: 20 },
-  { value: "g15", label: "+15% in 10d", horizon: 10 },
-  { value: "g10", label: "+10% in 5d", horizon: 5 },
-  { value: "lu", label: "+10% limit-up", horizon: 5 },
+  { value: "g20", label: "20 günde +%20", horizon: 20 },
+  { value: "g15", label: "10 günde +%15", horizon: 10 },
+  { value: "g10", label: "5 günde +%10", horizon: 5 },
+  { value: "lu", label: "+%10 tavan", horizon: 5 },
 ] as const;
 
 const MCAP_OPTIONS = [
-  { value: "any", label: "Any cap" },
-  { value: "mcap_small", label: "Below median" },
-  { value: "mcap_micro", label: "Micro (bottom 20%)" },
+  { value: "any", label: "Tüm piyasa değerleri" },
+  { value: "mcap_small", label: "Medyan altı" },
+  { value: "mcap_micro", label: "Mikro (en küçük %20)" },
 ] as const;
 
 const SIZE_OPTIONS = [
-  { value: 0, label: "Any size" },
-  { value: 1, label: "Single" },
-  { value: 2, label: "Pair" },
-  { value: 3, label: "Triple" },
+  { value: 0, label: "Tüm boyutlar" },
+  { value: 1, label: "Tekli" },
+  { value: 2, label: "İkili" },
+  { value: 3, label: "Üçlü" },
 ] as const;
 
 function AiPatternsPage() {
