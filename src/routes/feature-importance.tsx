@@ -10,17 +10,17 @@ import { fmtNum } from "@/lib/format";
 export const Route = createFileRoute("/feature-importance")({
   head: () => ({
     meta: [
-      { title: "Feature Importance — BIST Signal Research Lab" },
+      { title: "Göstergeler — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Which raw signals matter most before large BIST moves: features ranked by how often they appear in validated patterns and the average precision and lift they contribute. Research only.",
+          "Büyük BIST hareketlerinden önce en çok hangi ham sinyaller önemli: göstergeler, doğrulanmış kalıplarda ne sıklıkta yer aldıklarına ve katkı sundukları ortalama isabet ve lift değerine göre sıralanmış. Yalnızca araştırma amaçlıdır.",
       },
-      { property: "og:title", content: "Feature Importance — BIST Signal Lab" },
+      { property: "og:title", content: "Göstergeler — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Ranked predictive features behind the validated v1.0 BIST pre-move patterns.",
+          "Doğrulanmış v1.0 BIST hareket öncesi kalıplarının arkasındaki sıralı öngörü göstergeleri.",
       },
     ],
   }),
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/feature-importance")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load feature importance
+          Göstergeler yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -38,17 +38,17 @@ export const Route = createFileRoute("/feature-importance")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No feature importance data found.</p>
+      <p className="text-muted-foreground">Gösterge verisi bulunamadı.</p>
     </AppShell>
   ),
 });
 
 const TARGETS = [
-  { value: "all", label: "All targets" },
-  { value: "g20", label: "+20% run" },
-  { value: "g15", label: "+15%" },
-  { value: "g10", label: "+10%" },
-  { value: "lu", label: "limit-up" },
+  { value: "all", label: "Tümü" },
+  { value: "g20", label: "+%20 yükseliş" },
+  { value: "g15", label: "+%15" },
+  { value: "g10", label: "+%10" },
+  { value: "lu", label: "tavan" },
 ] as const;
 
 function FeatureImportancePage() {
