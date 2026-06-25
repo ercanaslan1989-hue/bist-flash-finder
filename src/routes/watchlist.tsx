@@ -11,17 +11,17 @@ import { fmtDate, fmtNum } from "@/lib/format";
 export const Route = createFileRoute("/watchlist")({
   head: () => ({
     meta: [
-      { title: "Daily AI Watchlist — BIST Signal Research Lab" },
+      { title: "Günlük Yapay Zeka İzleme Listesi — BIST Sinyal Araştırma Lab" },
       {
         name: "description",
         content:
-          "Every active BIST stock scored daily by the v1.0 research engine: estimated probability of a large move, matched patterns, confidence and historical success rate. Research only — no buy/sell signals.",
+          "Her aktif BIST hissesi v1.0 araştırma motoru tarafından günlük puanlanır: büyük hareket olasılığı tahmini, eşleşen kalıplar, güven ve geçmiş başarı oranı. Yalnızca araştırma amaçlıdır — al/sat sinyali yoktur.",
       },
-      { property: "og:title", content: "Daily AI Watchlist — BIST Signal Lab" },
+      { property: "og:title", content: "Günlük Yapay Zeka İzleme Listesi — BIST Sinyal Lab" },
       {
         property: "og:description",
         content:
-          "Daily probability-of-large-move scores for the full active BIST universe from the frozen v1.0 engine.",
+          "Dondurulmuş v1.0 motorundan tüm aktif BIST evreni için günlük büyük-hareket olasılığı skorları.",
       },
     ],
   }),
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/watchlist")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load the watchlist
+          İzleme listesi yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/watchlist")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No watchlist data found.</p>
+      <p className="text-muted-foreground">İzleme listesi verisi bulunamadı.</p>
     </AppShell>
   ),
 });
