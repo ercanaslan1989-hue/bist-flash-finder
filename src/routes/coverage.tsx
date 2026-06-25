@@ -11,11 +11,11 @@ import { fmtDate, fmtNum } from "@/lib/format";
 export const Route = createFileRoute("/coverage")({
   head: () => ({
     meta: [
-      { title: "BIST Data Coverage Report — BIST Signal Lab" },
+      { title: "BIST Veri Kapsama Raporu — BIST Sinyal Lab" },
       {
         name: "description",
         content:
-          "Coverage of the current active BIST common-equity universe: imported vs missing companies, per-company history depth and overall coverage percentage.",
+          "Güncel aktif BIST hisse senedi evreninin kapsamı: içe aktarılan ve eksik şirketler, şirket bazında veri derinliği ve genel kapsama yüzdesi.",
       },
     ],
   }),
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/coverage")({
     <AppShell>
       <div role="alert" className="rounded-xl border border-destructive/40 bg-card p-6">
         <h2 className="font-display text-lg font-semibold text-foreground">
-          Could not load coverage report
+          Kapsama raporu yüklenemedi
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
       </div>
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/coverage")({
   ),
   notFoundComponent: () => (
     <AppShell>
-      <p className="text-muted-foreground">No coverage report found.</p>
+      <p className="text-muted-foreground">Kapsama raporu bulunamadı.</p>
     </AppShell>
   ),
 });
