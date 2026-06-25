@@ -192,29 +192,29 @@ function Dashboard() {
 
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           <DistributionBars
-            title="Volume ratio vs 20-day average"
-            subtitle="Most common volume conditions before large moves"
+            title="20 günlük ortalamaya göre hacim oranı"
+            subtitle="Büyük hareketler öncesinde en sık görülen hacim koşulları"
             buckets={volumeRatioBuckets(windowFeatures)}
             barClass="bg-primary"
             icon={<Activity className="h-4 w-4" />}
           />
           <DistributionBars
-            title="KAP announcement activity"
-            subtitle="Disclosure counts in the window before large moves"
+            title="KAP bildirim hareketliliği"
+            subtitle="Büyük hareketler öncesi dönemdeki bildirim sayıları"
             buckets={kapBuckets(windowFeatures)}
             barClass="bg-chart-4"
             icon={<Megaphone className="h-4 w-4" />}
           />
           <DistributionBars
-            title="5-day return"
-            subtitle="Prior 5-session drift before large moves"
+            title="5 günlük getiri"
+            subtitle="Büyük hareketler öncesi son 5 seanslık yönelim"
             buckets={returnBuckets(windowFeatures, "ret_5d")}
             barClass="bg-accent"
             icon={<TrendingUp className="h-4 w-4" />}
           />
           <DistributionBars
-            title="10-day return"
-            subtitle="Prior 10-session drift before large moves"
+            title="10 günlük getiri"
+            subtitle="Büyük hareketler öncesi son 10 seanslık yönelim"
             buckets={returnBuckets(windowFeatures, "ret_10d")}
             barClass="bg-success"
             icon={<TrendingUp className="h-4 w-4" />}
