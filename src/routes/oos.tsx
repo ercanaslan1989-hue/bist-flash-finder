@@ -82,14 +82,14 @@ function OosPage() {
           <table className="w-full min-w-[820px] text-sm">
             <thead>
               <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-                <th className="px-3 py-2.5 font-medium">Target</th>
-                <th className="px-3 py-2.5 font-medium">Train period</th>
-                <th className="px-3 py-2.5 font-medium">Test period</th>
-                <th className="px-3 py-2.5 text-right font-medium">In-sample prec.</th>
-                <th className="px-3 py-2.5 text-right font-medium">OOS prec.</th>
+                <th className="px-3 py-2.5 font-medium">Hedef</th>
+                <th className="px-3 py-2.5 font-medium">Eğitim dönemi</th>
+                <th className="px-3 py-2.5 font-medium">Test dönemi</th>
+                <th className="px-3 py-2.5 text-right font-medium">Eğitim isabeti</th>
+                <th className="px-3 py-2.5 text-right font-medium">Canlı isabet</th>
                 <th className="px-3 py-2.5 text-right font-medium">Δ</th>
-                <th className="px-3 py-2.5 text-right font-medium">Train n</th>
-                <th className="px-3 py-2.5 text-right font-medium">OOS n</th>
+                <th className="px-3 py-2.5 text-right font-medium">Eğitim n</th>
+                <th className="px-3 py-2.5 text-right font-medium">Canlı n</th>
               </tr>
             </thead>
             <tbody>
