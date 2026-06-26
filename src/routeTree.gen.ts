@@ -15,12 +15,14 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as OosRouteImport } from './routes/oos'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as FirsatlarRouteImport } from './routes/firsatlar'
 import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CoverageRouteImport } from './routes/coverage'
 import { Route as BacktestRouteImport } from './routes/backtest'
 import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HisseSymbolRouteImport } from './routes/hisse.$symbol'
 
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
@@ -50,6 +52,11 @@ const OosRoute = OosRouteImport.update({
 const MethodologyRoute = MethodologyRouteImport.update({
   id: '/methodology',
   path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FirsatlarRoute = FirsatlarRouteImport.update({
+  id: '/firsatlar',
+  path: '/firsatlar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeatureImportanceRoute = FeatureImportanceRouteImport.update({
@@ -82,6 +89,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HisseSymbolRoute = HisseSymbolRouteImport.update({
+  id: '/hisse/$symbol',
+  path: '/hisse/$symbol',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -90,12 +102,14 @@ export interface FileRoutesByFullPath {
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
+  '/firsatlar': typeof FirsatlarRoute
   '/methodology': typeof MethodologyRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
   '/watchlist': typeof WatchlistRoute
+  '/hisse/$symbol': typeof HisseSymbolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -104,12 +118,14 @@ export interface FileRoutesByTo {
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
+  '/firsatlar': typeof FirsatlarRoute
   '/methodology': typeof MethodologyRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
   '/watchlist': typeof WatchlistRoute
+  '/hisse/$symbol': typeof HisseSymbolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -119,12 +135,14 @@ export interface FileRoutesById {
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
+  '/firsatlar': typeof FirsatlarRoute
   '/methodology': typeof MethodologyRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
   '/watchlist': typeof WatchlistRoute
+  '/hisse/$symbol': typeof HisseSymbolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -135,12 +153,14 @@ export interface FileRouteTypes {
     | '/coverage'
     | '/events'
     | '/feature-importance'
+    | '/firsatlar'
     | '/methodology'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
     | '/watchlist'
+    | '/hisse/$symbol'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -149,12 +169,14 @@ export interface FileRouteTypes {
     | '/coverage'
     | '/events'
     | '/feature-importance'
+    | '/firsatlar'
     | '/methodology'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
     | '/watchlist'
+    | '/hisse/$symbol'
   id:
     | '__root__'
     | '/'
@@ -163,12 +185,14 @@ export interface FileRouteTypes {
     | '/coverage'
     | '/events'
     | '/feature-importance'
+    | '/firsatlar'
     | '/methodology'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
     | '/watchlist'
+    | '/hisse/$symbol'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -178,12 +202,14 @@ export interface RootRouteChildren {
   CoverageRoute: typeof CoverageRoute
   EventsRoute: typeof EventsRoute
   FeatureImportanceRoute: typeof FeatureImportanceRoute
+  FirsatlarRoute: typeof FirsatlarRoute
   MethodologyRoute: typeof MethodologyRoute
   OosRoute: typeof OosRoute
   SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StocksRoute: typeof StocksRoute
   WatchlistRoute: typeof WatchlistRoute
+  HisseSymbolRoute: typeof HisseSymbolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -230,6 +256,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/firsatlar': {
+      id: '/firsatlar'
+      path: '/firsatlar'
+      fullPath: '/firsatlar'
+      preLoaderRoute: typeof FirsatlarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/feature-importance': {
       id: '/feature-importance'
       path: '/feature-importance'
@@ -272,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hisse/$symbol': {
+      id: '/hisse/$symbol'
+      path: '/hisse/$symbol'
+      fullPath: '/hisse/$symbol'
+      preLoaderRoute: typeof HisseSymbolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -282,12 +322,14 @@ const rootRouteChildren: RootRouteChildren = {
   CoverageRoute: CoverageRoute,
   EventsRoute: EventsRoute,
   FeatureImportanceRoute: FeatureImportanceRoute,
+  FirsatlarRoute: FirsatlarRoute,
   MethodologyRoute: MethodologyRoute,
   OosRoute: OosRoute,
   SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StocksRoute: StocksRoute,
   WatchlistRoute: WatchlistRoute,
+  HisseSymbolRoute: HisseSymbolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

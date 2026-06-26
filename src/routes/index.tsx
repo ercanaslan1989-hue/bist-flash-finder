@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
+import { OpportunitiesCard } from "@/components/opportunities-card";
 import { StatCard } from "@/components/stat-card";
 import { DistributionBars } from "@/components/distribution-bars";
 import { researchQueryOptions } from "@/lib/research";
@@ -137,6 +138,9 @@ function Dashboard() {
           icon={<CalendarDays className="h-4 w-4" />}
         />
       </section>
+
+      {/* Daily opportunities */}
+      <OpportunitiesCard />
 
       {/* Top recurring patterns */}
       <section className="mt-10">
