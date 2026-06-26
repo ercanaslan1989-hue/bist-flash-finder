@@ -434,6 +434,7 @@ export interface WatchlistRow {
   best_target: string | null;
   hist_success_pct: number | null;
   rank: number | null;
+  updated_at: string | null;
 }
 
 export interface WatchlistData {
