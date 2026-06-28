@@ -33,7 +33,49 @@ export function fmtDate(d: string | null | undefined): string {
     day: "2-digit",
     month: "short",
     year: "numeric",
+    timeZone: "Europe/Istanbul",
   });
+}
+
+/** Date + time formatted in the Europe/Istanbul timezone. */
+export function fmtDateTime(d: string | null | undefined): string {
+  if (!d) return "—";
+  return new Date(d).toLocaleString("tr-TR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Istanbul",
+  });
+}
+
+/** Short "26 Haziran" style date in Europe/Istanbul (no year). */
+export function fmtDateShort(d: string | null | undefined): string {
+  if (!d) return "—";
+  return new Date(d).toLocaleDateString("tr-TR", {
+    day: "numeric",
+    month: "long",
+    timeZone: "Europe/Istanbul",
+  });
+}
+
+/** Today's date as YYYY-MM-DD in the Europe/Istanbul timezone. */
+export function istanbulToday(): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Istanbul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+/** True when a data date (YYYY-MM-DD) is older than today in Istanbul. */
+export function isStaleDate(d: string | null | undefined): boolean {
+  if (!d) return false;
+  return d.slice(0, 10) < istanbulToday();
 }
 
 export const EVENT_TYPE_LABELS: Record<string, string> = {
