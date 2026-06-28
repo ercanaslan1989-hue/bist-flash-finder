@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Filter, Radio, RotateCcw, SlidersHorizontal } from "lucide-react";
+import { AlertTriangle, Filter, Radio, RotateCcw, SlidersHorizontal } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { StatCard } from "@/components/stat-card";
@@ -9,7 +9,7 @@ import { OpportunityTable } from "@/components/opportunity-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { opportunitiesQueryOptions, type OpportunityRow } from "@/lib/opportunities";
 import { useMarketOpen, REFRESH_MS } from "@/hooks/use-market-open";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtDateShort, fmtDateTime, isStaleDate } from "@/lib/format";
 
 export const Route = createFileRoute("/firsatlar")({
   head: () => ({
