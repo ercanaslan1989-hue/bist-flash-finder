@@ -17,6 +17,8 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
     refetchOnWindowFocus: marketOpen,
   });
 
+  const stale = isStaleDate(data?.latestDate);
+
   return (
     <section className="mt-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -24,24 +26,31 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
           <Flame className="h-5 w-5 text-primary" />
           <h2 className="font-display text-xl font-bold text-foreground">Bugünün en güçlü fırsatları</h2>
         </div>
-        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-          <span
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-medium",
-              marketOpen
-                ? "border-success/40 bg-success/10 text-success"
-                : "border-border bg-secondary/40 text-muted-foreground",
-            )}
-          >
-            <Radio className="h-3 w-3" />
-            {marketOpen ? "Piyasa açık · 5 dk'da bir canlı" : "Piyasa kapalı"}
-          </span>
+        <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+          {stale ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-warning/40 bg-warning/10 px-2.5 py-1 font-medium text-warning">
+              <AlertTriangle className="h-3 w-3" />
+              Veri güncel değil (son veri: {fmtDateShort(data?.latestDate)})
+            </span>
+          ) : (
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-medium",
+                marketOpen
+                  ? "border-success/40 bg-success/10 text-success"
+                  : "border-border bg-secondary/40 text-muted-foreground",
+              )}
+            >
+              <Radio className="h-3 w-3" />
+              {marketOpen ? "Piyasa açık · 5 dk'da bir canlı" : "Piyasa kapalı"}
+            </span>
+          )}
           {isFetching && !isPending ? (
             <span className="inline-flex items-center gap-1">
               <RefreshCw className="h-3 w-3 animate-spin" /> Güncelleniyor
             </span>
-          ) : data?.scoreDate ? (
-            <span>Son güncelleme: {fmtDate(data.scoreDate)}</span>
+          ) : data?.updatedAt ? (
+            <span>Son güncelleme: {fmtDateTime(data.updatedAt)}</span>
           ) : null}
         </div>
       </div>
