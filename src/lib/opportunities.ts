@@ -130,6 +130,8 @@ export interface OpportunitiesData {
   rows: OpportunityRow[];
   scoreDate: string | null;
   latestDate: string | null;
+  /** Most recent updated_at timestamp across the scored rows. */
+  updatedAt: string | null;
   sectors: string[];
 }
 
