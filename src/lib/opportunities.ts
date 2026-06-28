@@ -192,7 +192,12 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
 
   rows.sort((a, b) => b.aiScore - a.aiScore);
   const sectors = [...new Set(rows.map((r) => r.sector).filter(Boolean) as string[])].sort();
-  return { rows, scoreDate: scoreDate ?? null, latestDate: latest, sectors };
+  const updatedAt = wl.reduce<string | null>((max, w) => {
+    const u = w.updated_at ?? null;
+    if (!u) return max;
+    return !max || u > max ? u : max;
+  }, null);
+  return { rows, scoreDate: scoreDate ?? null, latestDate: latest, updatedAt, sectors };
 }
 
 export const opportunitiesQueryOptions = () =>
