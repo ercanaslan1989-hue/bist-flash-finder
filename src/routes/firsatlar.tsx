@@ -87,6 +87,8 @@ function FirsatlarPage() {
   const filtered = useMemo(() => applyFilters(rows, f), [rows, f]);
   const set = <K extends keyof Filters>(k: K, v: Filters[K]) => setF((p) => ({ ...p, [k]: v }));
 
+  const stale = isStaleDate(data?.scoreDate);
+
   return (
     <AppShell>
       <section className="relative overflow-hidden rounded-2xl border border-border bg-card">
@@ -105,6 +107,24 @@ function FirsatlarPage() {
         </div>
       </section>
 
+      {!isPending && stale && (
+        <div
+          role="alert"
+          className="mt-6 flex items-start gap-3 rounded-xl border border-warning/40 bg-warning/10 p-4"
+        >
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
+          <div className="text-sm">
+            <p className="font-semibold text-warning">Veriler güncel değil</p>
+            <p className="mt-0.5 text-muted-foreground">
+              Sistemdeki en güncel veriler {fmtDate(data?.scoreDate)} tarihine ait (son veri:{" "}
+              {fmtDateShort(data?.scoreDate)}). Yeni veriler günlük toplama işlemi tamamlandığında
+              otomatik olarak burada görünecektir.
+              {data?.updatedAt ? ` Son kontrol: ${fmtDateTime(data.updatedAt)}.` : ""}
+            </p>
+          </div>
+        </div>
+      )}
+
       <section className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="Analiz edilen hisseler" value={isPending ? "…" : rows.length.toString()} />
         <StatCard label="Filtre sonucu" value={isPending ? "…" : filtered.length.toString()} accent="primary" />
@@ -117,8 +137,11 @@ function FirsatlarPage() {
         <StatCard
           label="Analiz tarihi"
           value={<span className="text-base">{data?.scoreDate ? fmtDate(data.scoreDate) : "—"}</span>}
+          sub={stale ? <span className="text-warning">Güncel değil</span> : undefined}
+          accent={stale ? "default" : "default"}
         />
       </section>
+
 
       <section className="mt-6 rounded-xl border border-border bg-card p-4 sm:p-5">
         <div className="mb-4 flex items-center justify-between">
