@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, RefreshCw, Radio } from "lucide-react";
+import { Flame, RefreshCw, Radio, AlertTriangle } from "lucide-react";
 
 import { opportunitiesQueryOptions } from "@/lib/opportunities";
 import { OpportunityTable } from "@/components/opportunity-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMarketOpen, REFRESH_MS } from "@/hooks/use-market-open";
-import { fmtDate } from "@/lib/format";
+import { fmtDateTime, fmtDateShort, isStaleDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
