@@ -1786,6 +1786,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      ai_ingest_finalize: { Args: never; Returns: Json }
       ai_score_daily: { Args: never; Returns: undefined }
       ai_stage_backtest: { Args: never; Returns: undefined }
       ai_stage_features: { Args: { _batch?: number }; Returns: undefined }
