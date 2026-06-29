@@ -9,7 +9,7 @@ import { OpportunityTable } from "@/components/opportunity-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { opportunitiesQueryOptions, type OpportunityRow } from "@/lib/opportunities";
 import { useMarketOpen, REFRESH_MS } from "@/hooks/use-market-open";
-import { fmtDate, fmtDateShort, fmtDateTime, isStaleDate } from "@/lib/format";
+import { fmtDate, fmtDateShort, fmtUpdatedTSI, dataFreshness } from "@/lib/format";
 
 export const Route = createFileRoute("/firsatlar")({
   head: () => ({
