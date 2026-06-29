@@ -27,7 +27,7 @@ import {
   topPatterns,
   volumeRatioBuckets,
 } from "@/lib/analysis";
-import { fmtDate, fmtDateShort, fmtNum, fmtPct, fmtRatio, isStaleDate } from "@/lib/format";
+import { fmtDate, fmtDateShort, fmtNum, fmtPct, fmtRatio, dataFreshness } from "@/lib/format";
 
 export const Route = createFileRoute("/")({
   head: () => ({
