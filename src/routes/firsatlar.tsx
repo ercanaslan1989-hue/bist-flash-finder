@@ -107,19 +107,50 @@ function FirsatlarPage() {
         </div>
       </section>
 
-      {!isPending && stale && (
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+          {data?.updatedAt ? (
+            <span>
+              Son güncelleme:{" "}
+              <span className="font-medium text-foreground">{fmtUpdatedTSI(data.updatedAt)}</span>
+            </span>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          onClick={() => refetch()}
+          disabled={isFetching}
+          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
+          title="En son veriyi kontrol et"
+        >
+          <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
+          {isFetching ? "Yenileniyor" : "Yenile"}
+        </button>
+      </div>
+
+      {!isPending && fresh.tier !== "fresh" && (
         <div
           role="alert"
-          className="mt-6 flex items-start gap-3 rounded-xl border border-warning/40 bg-warning/10 p-4"
+          className={
+            fresh.tier === "critical"
+              ? "mt-4 flex items-start gap-3 rounded-xl border border-destructive/40 bg-destructive/10 p-4"
+              : "mt-4 flex items-start gap-3 rounded-xl border border-warning/40 bg-warning/10 p-4"
+          }
         >
-          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
+          {fresh.tier === "critical" ? (
+            <AlertOctagon className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
+          ) : (
+            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
+          )}
           <div className="text-sm">
-            <p className="font-semibold text-warning">Veriler güncel değil</p>
+            <p className={`font-semibold ${fresh.tier === "critical" ? "text-destructive" : "text-warning"}`}>
+              {fresh.label}
+            </p>
             <p className="mt-0.5 text-muted-foreground">
               Sistemdeki en güncel veriler {fmtDate(data?.scoreDate)} tarihine ait (son veri:{" "}
               {fmtDateShort(data?.scoreDate)}). Yeni veriler günlük toplama işlemi tamamlandığında
               otomatik olarak burada görünecektir.
-              {data?.updatedAt ? ` Son kontrol: ${fmtDateTime(data.updatedAt)}.` : ""}
+              {data?.updatedAt ? ` Son kontrol: ${fmtUpdatedTSI(data.updatedAt)}.` : ""}
             </p>
           </div>
         </div>
@@ -137,10 +168,16 @@ function FirsatlarPage() {
         <StatCard
           label="Analiz tarihi"
           value={<span className="text-base">{data?.scoreDate ? fmtDate(data.scoreDate) : "—"}</span>}
-          sub={stale ? <span className="text-warning">Güncel değil</span> : undefined}
-          accent={stale ? "default" : "default"}
+          sub={
+            fresh.tier === "critical" ? (
+              <span className="text-destructive">{fresh.label}</span>
+            ) : fresh.tier === "warn" ? (
+              <span className="text-warning">{fresh.label}</span>
+            ) : undefined
+          }
         />
       </section>
+
 
 
       <section className="mt-6 rounded-xl border border-border bg-card p-4 sm:p-5">
