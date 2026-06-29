@@ -76,7 +76,7 @@ function applyFilters(rows: OpportunityRow[], f: Filters): OpportunityRow[] {
 
 function FirsatlarPage() {
   const marketOpen = useMarketOpen();
-  const { data, isPending } = useQuery({
+  const { data, isPending, isFetching, refetch } = useQuery({
     ...opportunitiesQueryOptions(),
     refetchInterval: marketOpen ? REFRESH_MS : false,
     refetchOnWindowFocus: marketOpen,
@@ -87,7 +87,7 @@ function FirsatlarPage() {
   const filtered = useMemo(() => applyFilters(rows, f), [rows, f]);
   const set = <K extends keyof Filters>(k: K, v: Filters[K]) => setF((p) => ({ ...p, [k]: v }));
 
-  const stale = isStaleDate(data?.scoreDate);
+  const fresh = dataFreshness(data?.scoreDate);
 
   return (
     <AppShell>
