@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.ai_ingest_finalize() FROM anon, authenticated, PUBLIC;

@@ -60,6 +60,25 @@ export function fmtDateShort(d: string | null | undefined): string {
   });
 }
 
+/** "26 Haziran 2026 • 15:35 (TSİ)" — date + time in Europe/Istanbul. */
+export function fmtUpdatedTSI(d: string | null | undefined): string {
+  if (!d) return "—";
+  const date = new Date(d);
+  if (Number.isNaN(date.getTime())) return "—";
+  const datePart = date.toLocaleDateString("tr-TR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/Istanbul",
+  });
+  const timePart = date.toLocaleTimeString("tr-TR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Istanbul",
+  });
+  return `${datePart} • ${timePart} (TSİ)`;
+}
+
 /** Today's date as YYYY-MM-DD in the Europe/Istanbul timezone. */
 export function istanbulToday(): string {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -76,6 +95,79 @@ export function istanbulToday(): string {
 export function isStaleDate(d: string | null | undefined): boolean {
   if (!d) return false;
   return d.slice(0, 10) < istanbulToday();
+}
+
+// ===== Trading-calendar–aware data freshness =====
+
+const CLOSE_MIN = 18 * 60 + 15; // BIST close ~18:10 TSİ (+ buffer)
+
+/** Istanbul "now" parts: date (YYYY-MM-DD) and minutes-of-day. */
+function istanbulNowParts(): { date: string; minutes: number } {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Istanbul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(new Date());
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  const date = `${get("year")}-${get("month")}-${get("day")}`;
+  const minutes = (parseInt(get("hour"), 10) || 0) * 60 + (parseInt(get("minute"), 10) || 0);
+  return { date, minutes };
+}
+
+const isWeekday = (d: Date) => d.getUTCDay() >= 1 && d.getUTCDay() <= 5;
+
+/** Most recent BIST session whose close has already passed (YYYY-MM-DD). */
+function expectedLatestSession(): string {
+  const now = istanbulNowParts();
+  const d = new Date(now.date + "T00:00:00Z");
+  const todayClosed = isWeekday(d) && now.minutes >= CLOSE_MIN;
+  if (!todayClosed) d.setUTCDate(d.getUTCDate() - 1);
+  while (!isWeekday(d)) d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
+/** Number of completed trading sessions the data is behind. */
+export function tradingDaysBehind(d: string | null | undefined): number {
+  if (!d) return 0;
+  const snap = d.slice(0, 10);
+  const expected = expectedLatestSession();
+  if (snap >= expected) return 0;
+  let count = 0;
+  const cur = new Date(snap + "T00:00:00Z");
+  cur.setUTCDate(cur.getUTCDate() + 1);
+  const end = new Date(expected + "T00:00:00Z");
+  while (cur <= end) {
+    if (isWeekday(cur)) count += 1;
+    cur.setUTCDate(cur.getUTCDate() + 1);
+  }
+  return count;
+}
+
+export type FreshnessTier = "fresh" | "warn" | "critical";
+
+export interface Freshness {
+  tier: FreshnessTier;
+  /** Trading sessions behind the latest expected close. */
+  behind: number;
+  /** Short banner title, empty when fresh. */
+  label: string;
+}
+
+/**
+ * Trading-calendar–aware freshness for a data date (snapshot_date).
+ * - fresh: up to date (weekends/holidays ignored)
+ * - warn (sarı): ~1 session behind → "Veriler güncel değil"
+ * - critical (kırmızı): ≥2 sessions behind → "Veri akışı durmuş olabilir"
+ */
+export function dataFreshness(d: string | null | undefined): Freshness {
+  const behind = tradingDaysBehind(d);
+  if (behind <= 0) return { tier: "fresh", behind, label: "" };
+  if (behind === 1) return { tier: "warn", behind, label: "Veriler güncel değil" };
+  return { tier: "critical", behind, label: "Veri akışı durmuş olabilir" };
 }
 
 export const EVENT_TYPE_LABELS: Record<string, string> = {

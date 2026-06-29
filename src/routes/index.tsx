@@ -27,7 +27,7 @@ import {
   topPatterns,
   volumeRatioBuckets,
 } from "@/lib/analysis";
-import { fmtDate, fmtDateShort, fmtNum, fmtPct, fmtRatio, isStaleDate } from "@/lib/format";
+import { fmtDate, fmtDateShort, fmtNum, fmtPct, fmtRatio, dataFreshness } from "@/lib/format";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -134,18 +134,27 @@ function Dashboard() {
         <StatCard
           label="Analiz dönemi"
           value={<span className="text-base">{fmtDate(meta.firstDate)}</span>}
-          sub={
-            isStaleDate(meta.lastDate) ? (
-              <span className="text-warning">
-                {fmtDate(meta.lastDate)} tarihine kadar · Veri güncel değil (son veri:{" "}
-                {fmtDateShort(meta.lastDate)})
-              </span>
-            ) : (
-              `${fmtDate(meta.lastDate)} tarihine kadar`
-            )
-          }
+          sub={(() => {
+            const fresh = dataFreshness(meta.lastDate);
+            if (fresh.tier === "critical")
+              return (
+                <span className="text-destructive">
+                  {fmtDate(meta.lastDate)} tarihine kadar · {fresh.label} (son veri:{" "}
+                  {fmtDateShort(meta.lastDate)})
+                </span>
+              );
+            if (fresh.tier === "warn")
+              return (
+                <span className="text-warning">
+                  {fmtDate(meta.lastDate)} tarihine kadar · {fresh.label} (son veri:{" "}
+                  {fmtDateShort(meta.lastDate)})
+                </span>
+              );
+            return `${fmtDate(meta.lastDate)} tarihine kadar`;
+          })()}
           icon={<CalendarDays className="h-4 w-4" />}
         />
+
       </section>
 
       {/* Daily opportunities */}
