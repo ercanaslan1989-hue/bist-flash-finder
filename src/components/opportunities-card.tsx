@@ -1,23 +1,23 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, RefreshCw, Radio, AlertTriangle } from "lucide-react";
+import { Flame, RefreshCw, Radio, AlertTriangle, AlertOctagon } from "lucide-react";
 
 import { opportunitiesQueryOptions } from "@/lib/opportunities";
 import { OpportunityTable } from "@/components/opportunity-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMarketOpen, REFRESH_MS } from "@/hooks/use-market-open";
-import { fmtDateTime, fmtDateShort, isStaleDate } from "@/lib/format";
+import { fmtUpdatedTSI, dataFreshness } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
   const marketOpen = useMarketOpen();
-  const { data, isPending, isFetching } = useQuery({
+  const { data, isPending, isFetching, refetch } = useQuery({
     ...opportunitiesQueryOptions(),
     refetchInterval: marketOpen ? REFRESH_MS : false,
     refetchOnWindowFocus: marketOpen,
   });
 
-  const stale = isStaleDate(data?.latestDate);
+  const fresh = dataFreshness(data?.latestDate);
 
   return (
     <section className="mt-10">
@@ -27,10 +27,15 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
           <h2 className="font-display text-xl font-bold text-foreground">Bugünün en güçlü fırsatları</h2>
         </div>
         <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-          {stale ? (
+          {fresh.tier === "critical" ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-destructive/40 bg-destructive/10 px-2.5 py-1 font-medium text-destructive">
+              <AlertOctagon className="h-3 w-3" />
+              {fresh.label}
+            </span>
+          ) : fresh.tier === "warn" ? (
             <span className="inline-flex items-center gap-1.5 rounded-full border border-warning/40 bg-warning/10 px-2.5 py-1 font-medium text-warning">
               <AlertTriangle className="h-3 w-3" />
-              Veri güncel değil (son veri: {fmtDateShort(data?.latestDate)})
+              {fresh.label}
             </span>
           ) : (
             <span
@@ -45,13 +50,23 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
               {marketOpen ? "Piyasa açık · 5 dk'da bir canlı" : "Piyasa kapalı"}
             </span>
           )}
-          {isFetching && !isPending ? (
-            <span className="inline-flex items-center gap-1">
-              <RefreshCw className="h-3 w-3 animate-spin" /> Güncelleniyor
+
+          {data?.updatedAt ? (
+            <span className="text-muted-foreground">
+              Son güncelleme: <span className="font-medium text-foreground">{fmtUpdatedTSI(data.updatedAt)}</span>
             </span>
-          ) : data?.updatedAt ? (
-            <span>Son güncelleme: {fmtDateTime(data.updatedAt)}</span>
           ) : null}
+
+          <button
+            type="button"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-2.5 py-1 font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
+            title="En son veriyi kontrol et"
+          >
+            <RefreshCw className={cn("h-3 w-3", isFetching && "animate-spin")} />
+            {isFetching ? "Yenileniyor" : "Yenile"}
+          </button>
         </div>
       </div>
       <p className="mt-1 text-sm text-muted-foreground">
