@@ -290,11 +290,12 @@ function BackLink() {
   );
 }
 
-function HeaderStat({ label, value }: { label: string; value: string }) {
+function HeaderStat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="bg-card px-4 py-3">
       <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
       <div className="mt-0.5 font-mono text-base font-semibold text-foreground tabular">{value}</div>
+      {sub ? <div className="mt-0.5 text-[11px] font-normal text-muted-foreground">{sub}</div> : null}
     </div>
   );
 }
