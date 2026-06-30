@@ -328,7 +328,7 @@ function buildCommentary(
   );
   if ((wl?.matched_patterns ?? 0) > 0) {
     out.push(
-      `${wl!.matched_patterns} doğrulanmış kalıpla eşleşiyor; en güçlü beklenen hareket: ${targetLabel(wl?.best_target)} (geçmiş başarı %${(wl?.hist_success_pct ?? 0).toFixed(1)}).`,
+      `${wl!.matched_patterns} doğrulanmış kalıpla eşleşiyor; istatistiksel beklenti: ${expectation(data.aiScore).label} (geçmiş başarı %${(wl?.hist_success_pct ?? 0).toFixed(1)}). Bu bir fiyat hedefi değil, olasılık okumasıdır.`,
     );
   } else {
     out.push("Son puanlama gününde doğrulanmış kalıp eşleşmesi yok; skor koşulsuz taban olasılığa yakın.");
