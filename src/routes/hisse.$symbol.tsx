@@ -150,7 +150,11 @@ function DetailPage() {
         </div>
         <div className="grid grid-cols-2 gap-px border-t border-border bg-border sm:grid-cols-4">
           <HeaderStat label="Güven Skoru" value={wl?.confidence != null ? `%${wl.confidence.toFixed(0)}` : "—"} />
-          <HeaderStat label="Beklenen Hareket" value={targetLabel(wl?.best_target)} />
+          <HeaderStat
+            label="Beklenti"
+            value={expectation(data.aiScore).label}
+            sub={probabilityNote(wl?.probability) ?? undefined}
+          />
           <HeaderStat label="Eşleşen Kalıp" value={(wl?.matched_patterns ?? 0).toString()} />
           <HeaderStat
             label="Geçmiş Başarı"
