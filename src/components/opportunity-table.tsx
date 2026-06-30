@@ -1,5 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { MACD_STATUS_LABELS, scoreTier, targetLabel, type MacdStatus } from "@/lib/indicators";
+import {
+  MACD_STATUS_LABELS,
+  scoreTier,
+  expectation,
+  probabilityNote,
+  type MacdStatus,
+} from "@/lib/indicators";
 import type { OpportunityRow } from "@/lib/opportunities";
 import { fmtMoney, fmtNum, fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
