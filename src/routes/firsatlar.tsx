@@ -217,7 +217,7 @@ function FirsatlarPage() {
             onChange={(v) => set("minPatterns", v)}
           />
           <SelectField
-            label="Beklenen Hareket"
+            label="Kalıp hedef türü"
             value={f.target}
             options={TARGETS}
             onChange={(v) => set("target", v)}

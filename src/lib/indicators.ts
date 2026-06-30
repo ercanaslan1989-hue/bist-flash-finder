@@ -262,3 +262,35 @@ export function targetLabel(t: string | null | undefined): string {
   if (!t) return "—";
   return TARGET_LABELS[t] ?? t;
 }
+
+// ===== Qualitative expectation (no price target / no certainty) =====
+// Deliberately avoids deterministic claims like "Tavan" or "+%20".
+// Reflects the model's confidence level, not a guaranteed move.
+
+export interface Expectation {
+  label: string;
+  /** Tailwind text color class */
+  text: string;
+  /** Short qualitative risk reading */
+  risk: string;
+}
+
+/**
+ * Maps the composite AI score (0-100) to a qualitative expectation phrase.
+ * This is a statistical confidence reading — not investment advice and not a
+ * price prediction.
+ */
+export function expectation(score: number): Expectation {
+  if (score >= 78) return { label: "Çok güçlü momentum", text: "text-success", risk: "Yüksek" };
+  if (score >= 62) return { label: "Güçlü alım sinyali", text: "text-success", risk: "Yüksek" };
+  if (score >= 46) return { label: "Pozitif beklenti", text: "text-primary", risk: "Orta" };
+  if (score >= 32) return { label: "İzlenmeli", text: "text-primary", risk: "Orta" };
+  if (score >= 18) return { label: "Nötr", text: "text-muted-foreground", risk: "Düşük" };
+  return { label: "Zayıf", text: "text-muted-foreground", risk: "Düşük" };
+}
+
+/** "%72 olasılıkla pozitif" style helper, or null when no probability. */
+export function probabilityNote(probability: number | null | undefined): string | null {
+  if (probability === null || probability === undefined || Number.isNaN(probability)) return null;
+  return `%${probability.toFixed(0)} olasılıkla pozitif`;
+}

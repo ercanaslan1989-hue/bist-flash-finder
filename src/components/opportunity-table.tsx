@@ -1,5 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { MACD_STATUS_LABELS, scoreTier, targetLabel, type MacdStatus } from "@/lib/indicators";
+import {
+  MACD_STATUS_LABELS,
+  scoreTier,
+  expectation,
+  probabilityNote,
+  type MacdStatus,
+} from "@/lib/indicators";
 import type { OpportunityRow } from "@/lib/opportunities";
 import { fmtMoney, fmtNum, fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -85,7 +91,20 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
               <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
                 {r.confidence === null ? "—" : `%${r.confidence.toFixed(0)}`}
               </td>
-              <td className="px-3 py-2.5 text-foreground">{targetLabel(r.bestTarget)}</td>
+              <td className="px-3 py-2.5">
+                {(() => {
+                  const e = expectation(r.aiScore);
+                  const note = probabilityNote(r.probability);
+                  return (
+                    <div className="leading-tight">
+                      <span className={cn("font-medium", e.text)}>{e.label}</span>
+                      {note ? (
+                        <span className="block text-xs text-muted-foreground">{note}</span>
+                      ) : null}
+                    </div>
+                  );
+                })()}
+              </td>
               <td className="px-3 py-2.5 text-right font-mono tabular">
                 {r.matchedPatterns > 0 ? (
                   <span className="rounded bg-primary/15 px-1.5 py-0.5 text-xs font-semibold text-primary">

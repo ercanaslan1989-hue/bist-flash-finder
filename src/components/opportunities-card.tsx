@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, RefreshCw, Radio, AlertTriangle, AlertOctagon } from "lucide-react";
+import { Flame, RefreshCw, Radio, CheckCircle2, AlertTriangle, AlertOctagon } from "lucide-react";
 
 import { opportunitiesQueryOptions } from "@/lib/opportunities";
 import { OpportunityTable } from "@/components/opportunity-table";
@@ -38,18 +38,19 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
               {fresh.label}
             </span>
           ) : (
-            <span
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-medium",
-                marketOpen
-                  ? "border-success/40 bg-success/10 text-success"
-                  : "border-border bg-secondary/40 text-muted-foreground",
-              )}
-            >
-              <Radio className="h-3 w-3" />
-              {marketOpen ? "Piyasa açık · 5 dk'da bir canlı" : "Piyasa kapalı"}
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-success/40 bg-success/10 px-2.5 py-1 font-medium text-success">
+              <CheckCircle2 className="h-3 w-3" />
+              Veriler güncel
             </span>
           )}
+
+          {/* Market status is informational only — data is collected once daily
+              after close, so we never claim a live intraday feed. */}
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-2.5 py-1 font-medium text-muted-foreground">
+            <Radio className="h-3 w-3" />
+            {marketOpen ? "Piyasa açık" : "Piyasa kapalı"}
+          </span>
+
 
           {data?.updatedAt ? (
             <span className="text-muted-foreground">

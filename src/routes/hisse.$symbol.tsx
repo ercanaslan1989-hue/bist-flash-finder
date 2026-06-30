@@ -11,8 +11,10 @@ import {
   atr,
   beta as calcBeta,
   bollinger,
+  expectation,
   macd,
   MACD_STATUS_LABELS,
+  probabilityNote,
   rsi,
   scoreTier,
   sma,
@@ -148,7 +150,11 @@ function DetailPage() {
         </div>
         <div className="grid grid-cols-2 gap-px border-t border-border bg-border sm:grid-cols-4">
           <HeaderStat label="Güven Skoru" value={wl?.confidence != null ? `%${wl.confidence.toFixed(0)}` : "—"} />
-          <HeaderStat label="Beklenen Hareket" value={targetLabel(wl?.best_target)} />
+          <HeaderStat
+            label="Beklenti"
+            value={expectation(data.aiScore).label}
+            sub={probabilityNote(wl?.probability) ?? undefined}
+          />
           <HeaderStat label="Eşleşen Kalıp" value={(wl?.matched_patterns ?? 0).toString()} />
           <HeaderStat
             label="Geçmiş Başarı"
@@ -284,11 +290,12 @@ function BackLink() {
   );
 }
 
-function HeaderStat({ label, value }: { label: string; value: string }) {
+function HeaderStat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="bg-card px-4 py-3">
       <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
       <div className="mt-0.5 font-mono text-base font-semibold text-foreground tabular">{value}</div>
+      {sub ? <div className="mt-0.5 text-[11px] font-normal text-muted-foreground">{sub}</div> : null}
     </div>
   );
 }
@@ -321,7 +328,7 @@ function buildCommentary(
   );
   if ((wl?.matched_patterns ?? 0) > 0) {
     out.push(
-      `${wl!.matched_patterns} doğrulanmış kalıpla eşleşiyor; en güçlü beklenen hareket: ${targetLabel(wl?.best_target)} (geçmiş başarı %${(wl?.hist_success_pct ?? 0).toFixed(1)}).`,
+      `${wl!.matched_patterns} doğrulanmış kalıpla eşleşiyor; istatistiksel beklenti: ${expectation(data.aiScore).label} (geçmiş başarı %${(wl?.hist_success_pct ?? 0).toFixed(1)}). Bu bir fiyat hedefi değil, olasılık okumasıdır.`,
     );
   } else {
     out.push("Son puanlama gününde doğrulanmış kalıp eşleşmesi yok; skor koşulsuz taban olasılığa yakın.");
