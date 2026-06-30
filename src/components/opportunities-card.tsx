@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, RefreshCw, Radio, AlertTriangle, AlertOctagon } from "lucide-react";
+import { Flame, RefreshCw, Radio, CheckCircle2, AlertTriangle, AlertOctagon } from "lucide-react";
 
 import { opportunitiesQueryOptions } from "@/lib/opportunities";
 import { OpportunityTable } from "@/components/opportunity-table";
