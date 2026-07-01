@@ -1,10 +1,15 @@
-// Daily BIST ingestion: fetches the latest complete trading sessions from
-// Yahoo Finance for every tracked symbol, computes the same derived metrics as
-// the historical loader, upserts them into daily_snapshots, then refreshes
-// events + the AI watchlist via ai_ingest_finalize().
+// Daily BIST ingestion + universe self-maintenance.
 //
-// Designed to be safe to run repeatedly (idempotent upserts) and resumable:
-// each run simply fills whatever trading days are missing per symbol.
+// Responsibilities:
+//  1. DISCOVER new BIST listings (TradingView screener) and register them in
+//     `bist_active_universe` + `stocks`.
+//  2. BACKFILL full history for any universe symbol that has no snapshots yet
+//     (newly listed stocks), computing the same derived metrics as the loader.
+//  3. INCREMENTALLY append the latest complete sessions for symbols that
+//     already have history.
+//  4. Refresh events + the AI watchlist via ai_ingest_finalize().
+//
+// Idempotent (upserts) and resumable: each run only fills what is missing.
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
@@ -15,8 +20,11 @@ const cors = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const DEFAULT_SHARES = 100_000_000; // matches stocks.shares_outstanding default
+const MAX_BACKFILL_PER_RUN = 40; // new listings are rare; bound the work per run
+
 interface Bar {
-  d: string; // YYYY-MM-DD (UTC date of the bar, matches historical loader)
+  d: string; // YYYY-MM-DD (UTC date of the bar)
   close: number;
   vol: number;
 }
@@ -57,14 +65,16 @@ function vr(vols: number[], i: number, n: number): number | null {
   if (!m) return null;
   return vols[i] / m;
 }
+const round = (x: number | null, p: number) => (x == null ? null : Number(x.toFixed(p)));
 
-async function fetchYahoo(symbol: string): Promise<Bar[] | null> {
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}.IS?range=3mo&interval=1d`;
+async function fetchYahoo(symbol: string, range = "3mo"): Promise<Bar[] | null> {
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}.IS?range=${range}&interval=1d`;
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
       const r = await fetch(url, {
         headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
       });
+      if (r.status === 404) return []; // symbol not on Yahoo
       if (r.status !== 200) {
         await new Promise((res) => setTimeout(res, 800));
         continue;
@@ -82,12 +92,36 @@ async function fetchYahoo(symbol: string): Promise<Bar[] | null> {
         const d = new Date(ts[i] * 1000).toISOString().slice(0, 10);
         out.push({ d, close: Number(c), vol: Number(v) });
       }
-      return out;
+      // de-dupe by date, keep last
+      const dd = new Map<string, Bar>();
+      for (const b of out) dd.set(b.d, b);
+      return [...dd.values()].sort((a, b) => (a.d < b.d ? -1 : 1));
     } catch (_e) {
       await new Promise((res) => setTimeout(res, 800));
     }
   }
   return null;
+}
+
+// Fetch the current full BIST equity list from the TradingView screener.
+async function fetchUniverseScan(): Promise<{ symbol: string; name: string }[]> {
+  try {
+    const r = await fetch("https://scanner.tradingview.com/turkey/scan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "User-Agent": "Mozilla/5.0" },
+      body: JSON.stringify({
+        filter: [{ left: "type", operation: "equal", right: "stock" }],
+        columns: ["name", "description", "type"],
+        range: [0, 1500],
+      }),
+    });
+    if (!r.ok) return [];
+    const j = await r.json();
+    const rows: { d: [string, string, string] }[] = j?.data ?? [];
+    return rows.map((row) => ({ symbol: row.d[0], name: row.d[1] || row.d[0] }));
+  } catch (_e) {
+    return [];
+  }
 }
 
 // Run async tasks with a bounded concurrency pool.
@@ -104,13 +138,98 @@ async function pool<T, R>(items: T[], size: number, fn: (item: T) => Promise<R>)
   return out;
 }
 
+// Build snapshot rows for a full fresh history (day_index 1..N per symbol).
+function backfillRows(sym: string, bars: Bar[]): Record<string, unknown>[] {
+  const closes = bars.map((b) => b.close);
+  const vols = bars.map((b) => b.vol);
+  const N = bars.length;
+  const rows: Record<string, unknown>[] = [];
+  for (let i = 0; i < N; i++) {
+    const c = closes[i];
+    const v = vols[i];
+    let fwd: number | null = null;
+    if (i + 20 <= N - 1) {
+      let mx = -Infinity;
+      for (let k = i + 1; k <= i + 20; k++) mx = Math.max(mx, closes[k]);
+      fwd = (mx / c - 1) * 100;
+    }
+    rows.push({
+      snapshot_date: bars[i].d,
+      day_index: i + 1,
+      symbol: sym,
+      close: round(c, 4),
+      daily_return_pct: round(ret(closes, i, 1), 4),
+      volume: v,
+      vol_ratio_20d: round(vr(vols, i, 20), 4),
+      vol_ratio_2d: round(vr(vols, i, 2), 4),
+      vol_ratio_3d: round(vr(vols, i, 3), 4),
+      vol_ratio_1d: round(vr(vols, i, 1), 4),
+      vol_ratio_5d: round(vr(vols, i, 5), 4),
+      ret_5d: round(ret(closes, i, 5), 4),
+      ret_10d: round(ret(closes, i, 10), 4),
+      ret_20d: round(ret(closes, i, 20), 4),
+      ret_30d: round(ret(closes, i, 30), 4),
+      ret_2d: round(ret(closes, i, 2), 4),
+      ret_3d: round(ret(closes, i, 3), 4),
+      market_value: round(DEFAULT_SHARES * c, 2),
+      daily_traded_value: round(c * v, 2),
+      kap_count: 0,
+      fwd_max_20d: round(fwd, 4),
+    });
+  }
+  return rows;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const started = Date.now();
   try {
     const sb = createClient(SUPABASE_URL, SERVICE_KEY);
 
-    // Latest stored snapshot date — used as a window anchor.
+    // ---- 1. Discover the current BIST universe and register new listings ----
+    const scan = await fetchUniverseScan();
+    let discovered = 0;
+    if (scan.length > 0) {
+      // Existing stock symbols.
+      const existingStocks = new Set<string>();
+      for (let page = 0; ; page++) {
+        const { data } = await sb
+          .from("stocks")
+          .select("symbol")
+          .range(page * 1000, page * 1000 + 999);
+        if (!data || data.length === 0) break;
+        for (const r of data as { symbol: string }[]) existingStocks.add(r.symbol);
+        if (data.length < 1000) break;
+      }
+      const newSyms = scan.filter((s) => !existingStocks.has(s.symbol));
+      if (newSyms.length > 0) {
+        await sb.from("stocks").upsert(
+          newSyms.map((s) => ({ symbol: s.symbol, company_name: s.name, sector: "Diğer" })),
+          { onConflict: "symbol", ignoreDuplicates: true },
+        );
+        discovered = newSyms.length;
+      }
+      // Keep the universe table in sync (names + membership).
+      await sb.from("bist_active_universe").upsert(
+        scan.map((s) => ({ symbol: s.symbol, company_name: s.name, is_active: true, source: "tradingview" })),
+        { onConflict: "symbol" },
+      );
+    }
+
+    // ---- 2. Determine the working universe (active) ----
+    const universe = new Set<string>();
+    for (let page = 0; ; page++) {
+      const { data } = await sb
+        .from("bist_active_universe")
+        .select("symbol")
+        .eq("is_active", true)
+        .range(page * 1000, page * 1000 + 999);
+      if (!data || data.length === 0) break;
+      for (const r of data as { symbol: string }[]) universe.add(r.symbol);
+      if (data.length < 1000) break;
+    }
+
+    // Latest stored snapshot date — window anchor for incremental history.
     const { data: latestRow } = await sb
       .from("daily_snapshots")
       .select("snapshot_date")
@@ -150,46 +269,47 @@ Deno.serve(async (req) => {
       if (data.length < PAGE) break;
     }
 
-    // Group tail per symbol (ascending).
     const bySymbol = new Map<string, TailRow[]>();
     for (const r of tail) {
       const arr = bySymbol.get(r.symbol) ?? [];
       arr.push(r);
       bySymbol.set(r.symbol, arr);
     }
-    const symbols = [...bySymbol.keys()].sort();
+
+    // Symbols to update incrementally: those with recent history.
+    const incrementalSymbols = [...bySymbol.keys()].sort();
+    // Symbols to backfill: in the universe but with no recent history (new listings).
+    const backfillSymbols = [...universe]
+      .filter((s) => !bySymbol.has(s))
+      .sort()
+      .slice(0, MAX_BACKFILL_PER_RUN);
 
     const { date: today, minutes } = istanbulParts();
-    // Include today's session only once the market has closed (>= 18:15 TSI).
-    const includeToday = minutes >= 18 * 60 + 15;
-
-    // Fetch Yahoo for all symbols with bounded concurrency.
-    const fetched = await pool(symbols, 8, (s) => fetchYahoo(s));
-    const yMap = new Map<string, Bar[] | null>();
-    symbols.forEach((s, i) => yMap.set(s, fetched[i]));
-    const errors = symbols.filter((s) => yMap.get(s) === null);
+    const includeToday = minutes >= 18 * 60 + 15; // include today's bar only after close
 
     const rows: Record<string, unknown>[] = [];
     const updatedSymbols = new Set<string>();
+    let backfilled = 0;
 
-    for (const sym of symbols) {
-      const yd = yMap.get(sym);
-      if (!yd || yd.length === 0) continue;
+    // ---- 3. Incremental append for existing symbols ----
+    const fetched = await pool(incrementalSymbols, 8, (s) => fetchYahoo(s, "3mo"));
+    incrementalSymbols.forEach((sym, si) => {
+      const yd = fetched[si];
+      if (!yd || yd.length === 0) return;
       const base = bySymbol.get(sym)!;
       const lastDate = base[base.length - 1].snapshot_date;
       const lastDayIdx = base[base.length - 1].day_index ?? base.length;
       const lastMv = base[base.length - 1].market_value;
       const lastClose = base[base.length - 1].close;
-      const shares = lastMv && lastClose ? lastMv / lastClose : null;
+      const shares = lastMv && lastClose ? lastMv / lastClose : DEFAULT_SHARES;
 
       const closes = base.map((b) => Number(b.close));
       const vols = base.map((b) => Number(b.volume));
 
-      // New complete sessions strictly after our last stored date.
       const adds = yd
         .filter((b) => b.d > lastDate && (includeToday ? b.d <= today : b.d < today))
         .sort((a, b) => (a.d < b.d ? -1 : 1));
-      if (adds.length === 0) continue;
+      if (adds.length === 0) return;
 
       let di = lastDayIdx;
       for (const b of adds) {
@@ -197,15 +317,12 @@ Deno.serve(async (req) => {
         vols.push(b.vol);
         const i = closes.length - 1;
         di += 1;
-        const dr = ret(closes, i, 1);
-        const mv = shares ? shares * b.close : null;
-        const round = (x: number | null, p: number) => (x == null ? null : Number(x.toFixed(p)));
         rows.push({
           snapshot_date: b.d,
           day_index: di,
           symbol: sym,
           close: round(b.close, 4),
-          daily_return_pct: round(dr, 4),
+          daily_return_pct: round(ret(closes, i, 1), 4),
           volume: b.vol,
           vol_ratio_20d: round(vr(vols, i, 20), 4),
           vol_ratio_2d: round(vr(vols, i, 2), 4),
@@ -218,15 +335,29 @@ Deno.serve(async (req) => {
           ret_30d: round(ret(closes, i, 30), 4),
           ret_2d: round(ret(closes, i, 2), 4),
           ret_3d: round(ret(closes, i, 3), 4),
-          market_value: round(mv, 2),
+          market_value: round(shares * b.close, 2),
           daily_traded_value: round(b.close * b.vol, 2),
           kap_count: 0,
         });
         updatedSymbols.add(sym);
       }
+    });
+
+    // ---- 4. Full backfill for newly listed symbols ----
+    if (backfillSymbols.length > 0) {
+      const hist = await pool(backfillSymbols, 6, (s) => fetchYahoo(s, "10y"));
+      backfillSymbols.forEach((sym, si) => {
+        const bars = hist[si];
+        if (!bars || bars.length === 0) return;
+        const usable = bars.filter((b) => (includeToday ? b.d <= today : b.d < today));
+        if (usable.length === 0) return;
+        for (const r of backfillRows(sym, usable)) rows.push(r);
+        updatedSymbols.add(sym);
+        backfilled += 1;
+      });
     }
 
-    // Upsert new rows in chunks.
+    // ---- 5. Upsert new rows in chunks ----
     let inserted = 0;
     for (let i = 0; i < rows.length; i += 500) {
       const chunk = rows.slice(i, i + 500);
@@ -237,7 +368,7 @@ Deno.serve(async (req) => {
       inserted += chunk.length;
     }
 
-    // Recompute events + AI watchlist for the freshest data.
+    // ---- 6. Recompute events + AI watchlist for the freshest data ----
     let finalize: unknown = null;
     if (rows.length > 0) {
       const { data, error } = await sb.rpc("ai_ingest_finalize");
@@ -256,10 +387,12 @@ Deno.serve(async (req) => {
         ok: true,
         previous_latest: latest,
         latest_snapshot: newLatest?.[0]?.snapshot_date ?? latest,
+        universe_size: universe.size,
+        discovered_new_listings: discovered,
+        symbols_backfilled: backfilled,
         rows_inserted: inserted,
         symbols_updated: updatedSymbols.size,
-        symbols_checked: symbols.length,
-        fetch_errors: errors.length,
+        incremental_symbols: incrementalSymbols.length,
         include_today: includeToday,
         finalize,
         elapsed_ms: Date.now() - started,
