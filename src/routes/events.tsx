@@ -15,7 +15,7 @@ export const Route = createFileRoute("/events")({
       {
         name: "description",
         content:
-          "BIST hisselerinde tespit edilen tüm büyük hareket olayları (+%10/+%15/+%20 ve tavan), hareketten 1, 2, 3, 5 ve 10 işlem günü önce ölçülen metriklerle birlikte.",
+          "BIST hisselerinde tespit edilen büyük hareket olayları: tek seans tavanı (+%10) ile birkaç işlem gününde biriken +%15 ve +%20 yükselişler, her olaydan 1, 2, 3, 5 ve 10 işlem günü önce ölçülen metriklerle birlikte.",
       },
       { property: "og:title", content: "Tespit Edilen Olaylar — BIST Sinyal Araştırma Lab" },
       {
@@ -42,10 +42,10 @@ export const Route = createFileRoute("/events")({
 
 const FILTERS = [
   { value: "all", label: "Tümü" },
-  { value: "limit", label: "Tavan" },
-  { value: "gain_10", label: "+%10" },
-  { value: "gain_15", label: "+%15" },
-  { value: "gain_20", label: "+%20" },
+  { value: "limit", label: "Tavan (+%10)" },
+  { value: "gain_10", label: "Tek seans +%10" },
+  { value: "gain_15", label: "+%15 birikimli" },
+  { value: "gain_20", label: "+%20 birikimli" },
 ] as const;
 
 function EventsPage() {

@@ -46,7 +46,7 @@ const STEPS = [
   {
     icon: GitBranch,
     title: "2 · Olayları işaretle",
-    body: "Bir hisse +%10, +%15 veya +%20 kazandığında ya da BIST tavan sınırına ulaştığında (tek seansta ~+%10) o gün olay olarak işaretlenir.",
+    body: "BIST'te bir hisse tek seansta en fazla ±%10 hareket edebilir; bu yüzden +%10, doğrudan tavan gününü ifade eder. +%15 ve +%20 ise tek günde değil, birkaç işlem günü boyunca biriken toplam yükseliş olarak işaretlenir.",
   },
   {
     icon: Microscope,
