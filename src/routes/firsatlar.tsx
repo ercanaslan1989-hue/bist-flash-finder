@@ -27,10 +27,10 @@ export const Route = createFileRoute("/firsatlar")({
 
 const TARGETS = [
   { value: "", label: "Tümü" },
-  { value: "lu", label: "Tavan" },
-  { value: "g20", label: "+%20" },
-  { value: "g15", label: "+%15" },
-  { value: "g10", label: "+%10" },
+  { value: "lu", label: "Tavan (+%10)" },
+  { value: "g20", label: "20g +%20 (birikimli)" },
+  { value: "g15", label: "10g +%15 (birikimli)" },
+  { value: "g10", label: "5g +%10 (birikimli)" },
 ];
 
 interface Filters {
