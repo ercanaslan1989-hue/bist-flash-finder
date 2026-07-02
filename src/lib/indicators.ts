@@ -251,11 +251,13 @@ export function scoreTier(score: number): TierStyle {
   };
 }
 
+// BIST'te tek seans fiyat limiti ±%10'dur; +%15 ve +%20 hedefleri tek günde
+// değil, birkaç işlem günü içinde birikimli olarak ölçülür.
 export const TARGET_LABELS: Record<string, string> = {
-  g20: "+%20 yükseliş",
-  g15: "+%15 yükseliş",
-  g10: "+%10 yükseliş",
-  lu: "Tavan",
+  g20: "20 günde +%20 (birikimli)",
+  g15: "10 günde +%15 (birikimli)",
+  g10: "5 günde +%10 (birikimli)",
+  lu: "Tavan (tek seans +%10)",
 };
 
 export function targetLabel(t: string | null | undefined): string {
