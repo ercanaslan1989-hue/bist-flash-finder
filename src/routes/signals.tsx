@@ -61,7 +61,7 @@ const TARGETS = [
   },
   {
     value: "g20",
-    label: "+%20 yükseliş",
+    label: "+%20 birikimli",
     blurb: "Bir hissenin sonraki 20 işlem gününde ≥%20 kazandığı durumlardan önce ortaya çıkan sinyaller.",
   },
   {
