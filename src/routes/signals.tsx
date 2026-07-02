@@ -24,7 +24,7 @@ export const Route = createFileRoute("/signals")({
       {
         name: "description",
         content:
-          "Wilson güvenine göre sıralanan, istatistiksel olarak doğrulanmış en güçlü 20 BIST sinyali: +%20 yükselişler ve +%10 tavan hareketleri öncesinde ölçülen isabet, lift, örneklem büyüklüğü ve z-skoru (2025–bugün).",
+          "Wilson güvenine göre sıralanan, istatistiksel olarak doğrulanmış en güçlü 20 BIST sinyali: birkaç işlem gününde biriken +%20 yükselişler ve tek seans tavan (+%10) hareketleri öncesinde ölçülen isabet, lift, örneklem büyüklüğü ve z-skoru (2025–bugün).",
       },
       { property: "og:title", content: "En Güçlü Doğrulanmış Sinyaller — BIST Sinyal Lab" },
       {
@@ -131,13 +131,13 @@ function SignalsPage() {
           icon={<Database className="h-4 w-4" />}
         />
         <StatCard
-          label="+%20 yükselişler"
+          label="+%20 birikimli yükselişler"
           value={fmtNum(meta?.run20Count ?? 0)}
           accent="primary"
           icon={<TrendingUp className="h-4 w-4" />}
         />
         <StatCard
-          label="+%10 tavanlar"
+          label="Tek seans tavanlar (+%10)"
           value={fmtNum(meta?.limitUpCount ?? 0)}
           accent="accent"
           icon={<Zap className="h-4 w-4" />}
@@ -190,10 +190,10 @@ function SignalsPage() {
 }
 
 const TARGET_LABELS: Record<string, string> = {
-  g20: "+%20 yükseliş",
-  g15: "+%15",
-  g10: "+%10",
-  lu: "tavan",
+  g20: "20g +%20 (birikimli)",
+  g15: "10g +%15 (birikimli)",
+  g10: "5g +%10 (birikimli)",
+  lu: "Tavan (+%10)",
 };
 
 function SignalTable({ rows }: { rows: TopSignalRow[] }) {
