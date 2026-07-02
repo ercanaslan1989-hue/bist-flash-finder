@@ -170,8 +170,10 @@ export function dataFreshness(d: string | null | undefined): Freshness {
   return { tier: "critical", behind, label: "Veri akışı durmuş olabilir" };
 }
 
+// BIST'te tek seans hareket sınırı ±%10'dur. +%15 ve +%20, art arda gelen
+// işlem günlerinde biriken toplam yükselişi ifade eder.
 export const EVENT_TYPE_LABELS: Record<string, string> = {
-  gain_10: "+%10 hareket",
-  gain_15: "+%15 hareket",
-  gain_20: "+%20 hareket",
+  gain_10: "Tek seans +%10 (tavan)",
+  gain_15: "+%15 birikimli",
+  gain_20: "+%20 birikimli",
 };
