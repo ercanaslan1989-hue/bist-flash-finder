@@ -45,10 +45,10 @@ export const Route = createFileRoute("/feature-importance")({
 
 const TARGETS = [
   { value: "all", label: "Tümü" },
-  { value: "g20", label: "+%20 yükseliş" },
-  { value: "g15", label: "+%15" },
-  { value: "g10", label: "+%10" },
-  { value: "lu", label: "tavan" },
+  { value: "g20", label: "20g +%20 (birikimli)" },
+  { value: "g15", label: "10g +%15 (birikimli)" },
+  { value: "g10", label: "5g +%10 (birikimli)" },
+  { value: "lu", label: "Tavan (+%10)" },
 ] as const;
 
 function FeatureImportancePage() {
