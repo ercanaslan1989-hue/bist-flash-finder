@@ -104,10 +104,13 @@ function Dashboard() {
             Bir hisse büyük hareket yapmadan <span className="text-primary">önce</span> hangi sinyaller ortaya çıkıyor?
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Bu laboratuvar her BIST hissesi için günlük veri toplar; +%10 / +%15 / +%20 hareketleri
-            ve tavan günlerini <span className="text-foreground">olay</span> olarak işaretler, ardından
-            1–10 işlem günü öncesinde tekrarlayan koşulları ölçer. Al/sat sinyali yoktur — yalnızca kalıplar.
+            BIST'te bir hisse tek seansta en fazla ±%10 hareket edebilir. Bu laboratuvar her hisse için
+            günlük veri toplar; tek seans <span className="text-foreground">tavan (+%10)</span> günlerini
+            ve birkaç işlem gününde biriken <span className="text-foreground">+%15 / +%20</span> yükselişleri
+            olay olarak işaretler, ardından 1–10 işlem günü öncesinde tekrarlayan koşulları ölçer.
+            Al/sat sinyali yoktur — yalnızca kalıplar.
           </p>
+
         </div>
       </section>
 
