@@ -102,7 +102,7 @@ function DetailPage() {
   const ma20 = sma(closes, 20);
   const ma50 = sma(closes, 50);
   const ma200 = sma(closes, 200);
-  const atrVal = atr(closes);
+  const atrVal = atrTrue(data.history.highs, data.history.lows, closes) ?? atr(closes);
   const vol = volatility(data.recentRets.slice(-30));
   const betaVal = calcBeta(data.recentRets, data.marketRet);
   const sr = supportResistance(closes, last);
