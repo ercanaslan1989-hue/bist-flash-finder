@@ -11,10 +11,10 @@ import { createFileRoute } from "@tanstack/react-router";
 // Results are cached in-worker for a short TTL so repeated client polls don't
 // re-hammer Yahoo. The client polls this route while the market is open.
 
-const UNIVERSE = 160; // most liquid symbols scanned each refresh
-const CONCURRENCY = 12;
+const UNIVERSE = 700; // scan the full tracked universe so limit-up small caps are not missed
+const CONCURRENCY = 24;
 const CACHE_TTL_MS = 45_000;
-const TOP_N = 30;
+const TOP_N = 40;
 
 type Quote = {
   symbol: string;
