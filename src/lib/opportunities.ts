@@ -185,7 +185,7 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
   if (latest) {
     const snapRes = await sb
       .from("daily_snapshots")
-      .select("symbol, close, daily_return_pct, vol_ratio_20d, market_value")
+      .select("symbol, close, daily_return_pct, vol_ratio_20d, market_value, daily_traded_value")
       .eq("snapshot_date", latest);
     snapRows = snapRes.data ?? [];
   }
@@ -195,6 +195,7 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
     const snap = snapMap.get(w.symbol);
     const series = history.bySymbol.get(w.symbol);
     const closes = series?.closes ?? [];
+    const volumes = series?.volumes ?? [];
     const m = macd(closes);
     const ai = aiScore(w);
     const vol = series ? volatility(series.rets) : null;
@@ -202,6 +203,13 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
     const ret5d = series ? recentSum(series.rets, 5) : null;
     const ret20d = series ? recentSum(series.rets, 20) : null;
     const dailyReturn = snap?.daily_return_pct != null ? Number(snap.daily_return_pct) : null;
+    const relStrength20d = series
+      ? relativeStrength(series.rets, history.marketRet, 20)
+      : null;
+    const obv = obvTrend(closes, volumes);
+    const liquidity =
+      snap?.daily_traded_value != null ? Number(snap.daily_traded_value) : null;
+    const liquidityLevel = liquidityTier(liquidity).level;
     const stability = stabilityScore({
       rsi: rsiVal,
       ret5d,
@@ -209,6 +217,9 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       macdStatus: m.status,
       volatility: vol,
       dailyReturn,
+      relStrength20d,
+      obv,
+      liquidity: liquidityLevel,
     });
     return {
       symbol: w.symbol,
@@ -230,6 +241,10 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       volatility: vol,
       ret5d,
       ret20d,
+      relStrength20d,
+      obv,
+      liquidity,
+      liquidityLevel,
       stability,
       blended: blendedScore(ai, stability),
       updatedAt: w.updated_at ?? null,
