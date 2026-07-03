@@ -83,7 +83,8 @@ export const Route = createFileRoute("/api/public/ingest-ohlc")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        const anonKey = process.env.SUPABASE_ANON_KEY;
+        const anonKey =
+          process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY;
         const provided =
           request.headers.get("apikey") ||
           request.headers.get("x-api-key") ||
