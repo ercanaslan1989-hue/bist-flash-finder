@@ -305,7 +305,7 @@ async function fetchStockDetail(symbol: string): Promise<StockDetailData> {
       .limit(1),
     sb
       .from("daily_snapshots")
-      .select("snapshot_date, close, volume, daily_return_pct")
+      .select("snapshot_date, close, volume, daily_return_pct, high, low")
       .eq("symbol", sym)
       .order("snapshot_date", { ascending: false })
       .limit(260),
