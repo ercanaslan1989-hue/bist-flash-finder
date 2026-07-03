@@ -197,6 +197,88 @@ export function aiScore(r: ScoreInputs): number {
   return Math.round(Math.max(0, Math.min(100, score)));
 }
 
+// ===== Volume-confirmation, relative strength & liquidity =====
+// These enrich the raw momentum signal with "is the crowd actually behind this
+// move?" (OBV), "is it leading the market?" (relative strength) and "can you
+// realistically trade it?" (liquidity) — the three most common blind spots of
+// a pure price/return model.
+
+export type ObvTrend = "rising" | "falling" | "flat";
+
+/** On-Balance Volume series from aligned close + volume history. */
+export function obvSeries(closes: Series, volumes: Series): Series {
+  const n = Math.min(closes.length, volumes.length);
+  if (n < 2) return [];
+  const out: Series = [0];
+  for (let i = 1; i < n; i++) {
+    const v = volumes[i] || 0;
+    if (closes[i] > closes[i - 1]) out.push(out[i - 1] + v);
+    else if (closes[i] < closes[i - 1]) out.push(out[i - 1] - v);
+    else out.push(out[i - 1]);
+  }
+  return out;
+}
+
+/**
+ * OBV trend over the last `lookback` sessions. "rising" means volume is
+ * accumulating on up days (the move is confirmed by real buying), "falling"
+ * means the advance is running on thin/declining volume (a warning).
+ */
+export function obvTrend(closes: Series, volumes: Series, lookback = 10): ObvTrend {
+  const s = obvSeries(closes, volumes);
+  if (s.length < lookback + 1) return "flat";
+  const last = s[s.length - 1];
+  const prev = s[s.length - 1 - lookback];
+  const scale = Math.max(1, Math.abs(prev) || Math.max(...volumes.slice(-lookback), 1));
+  const change = (last - prev) / scale;
+  if (change > 0.08) return "rising";
+  if (change < -0.08) return "falling";
+  return "flat";
+}
+
+/**
+ * Relative strength vs the market over the last `n` sessions: how much the
+ * stock out- (or under-) performed the average BIST return, in points.
+ * Positive = leadership, negative = laggard.
+ */
+export function relativeStrength(
+  stockRets: Series,
+  marketRets: Series,
+  n: number,
+): number | null {
+  if (!stockRets.length || !marketRets.length) return null;
+  const s = stockRets.slice(-n).reduce((a, b) => a + b, 0);
+  const m = marketRets.slice(-n).reduce((a, b) => a + b, 0);
+  return s - m;
+}
+
+export type LiquidityLevel = "high" | "medium" | "low" | "thin";
+
+export interface LiquidityStyle {
+  level: LiquidityLevel;
+  label: string;
+  text: string;
+  bg: string;
+  border: string;
+}
+
+/**
+ * Liquidity tier from the daily traded value (TL). Thin names are easy to
+ * manipulate and hard to exit, so the ranking should discount them.
+ * Thresholds are anchored to the current BIST distribution
+ * (~p25 ≈ 20M, median ≈ 65M, p90 ≈ 700M TL).
+ */
+export function liquidityTier(dailyTradedValue: number | null): LiquidityStyle {
+  const v = dailyTradedValue ?? 0;
+  if (v >= 250_000_000)
+    return { level: "high", label: "Yüksek", text: "text-success", bg: "bg-success/10", border: "border-success/40" };
+  if (v >= 50_000_000)
+    return { level: "medium", label: "Orta", text: "text-primary", bg: "bg-primary/10", border: "border-primary/40" };
+  if (v >= 15_000_000)
+    return { level: "low", label: "Düşük", text: "text-warning", bg: "bg-warning/10", border: "border-warning/40" };
+  return { level: "thin", label: "Sığ", text: "text-destructive", bg: "bg-destructive/10", border: "border-destructive/40" };
+}
+
 // ===== Stability layer =====
 // The frozen v1.0 engine is a momentum model: it tends to flag stocks *after*
 // a sharp multi-day run-up, exactly when the move is most exhausted and prone
@@ -210,6 +292,10 @@ export interface StabilityInputs {
   macdStatus: MacdStatus;
   volatility: number | null; // annualised %
   dailyReturn: number | null; // last session %
+  // Enrichment signals (optional so existing callers keep working).
+  relStrength20d?: number | null; // outperformance vs market over ~20 sessions
+  obv?: ObvTrend; // volume confirmation of the move
+  liquidity?: LiquidityLevel; // tradeability
 }
 
 /**
