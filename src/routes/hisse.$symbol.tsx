@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { stockDetailQueryOptions, type StockDetailData } from "@/lib/opportunities";
 import {
   atr,
+  atrTrue,
   beta as calcBeta,
   bollinger,
   expectation,
@@ -101,7 +102,9 @@ function DetailPage() {
   const ma20 = sma(closes, 20);
   const ma50 = sma(closes, 50);
   const ma200 = sma(closes, 200);
-  const atrVal = atr(closes);
+  const atrRealVal = atrTrue(data.history.highs, data.history.lows, closes);
+  const atrVal = atrRealVal ?? atr(closes);
+  const atrIsTrue = atrRealVal !== null;
   const vol = volatility(data.recentRets.slice(-30));
   const betaVal = calcBeta(data.recentRets, data.marketRet);
   const sr = supportResistance(closes, last);
@@ -190,7 +193,7 @@ function DetailPage() {
           <Metric label="MA 20" value={ma20 === null ? "—" : `₺${ma20.toFixed(2)}`} hint={ma20 && last > ma20 ? "Fiyat üzerinde" : "Fiyat altında"} />
           <Metric label="MA 50" value={ma50 === null ? "—" : `₺${ma50.toFixed(2)}`} hint={ma50 && last > ma50 ? "Fiyat üzerinde" : "Fiyat altında"} />
           <Metric label="MA 200" value={ma200 === null ? "—" : `₺${ma200.toFixed(2)}`} hint={ma200 && last > ma200 ? "Fiyat üzerinde" : "Fiyat altında"} />
-          <Metric label="ATR (14, kapanış)" value={atrVal === null ? "—" : `₺${atrVal.toFixed(2)}`} />
+          <Metric label={atrIsTrue ? "ATR (14, gerçek)" : "ATR (14, kapanış)"} value={atrVal === null ? "—" : `₺${atrVal.toFixed(2)}`} hint={atrIsTrue ? "Gün içi yüksek/düşük" : "Yaklaşık"} />
           <Metric label="Beta" value={betaVal === null ? "—" : betaVal.toFixed(2)} hint="Piyasaya göre" />
           <Metric
             label="Destek"
@@ -272,7 +275,7 @@ function DetailPage() {
       </section>
 
       <p className="mt-8 text-xs text-muted-foreground">
-        Teknik göstergeler kapanış fiyatları üzerinden hesaplanır (ATR yaklaşıktır). Son veri tarihi:{" "}
+        Teknik göstergeler kapanış fiyatları üzerinden hesaplanır{atrIsTrue ? "; ATR gerçek gün içi yüksek/düşük verisiyle hesaplanır" : " (ATR yaklaşıktır)"}. Son veri tarihi:{" "}
         {fmtDate(data.latestDate)}. Yalnızca araştırma amaçlıdır — yatırım tavsiyesi değildir.
       </p>
     </AppShell>

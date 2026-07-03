@@ -286,7 +286,7 @@ export interface StockDetailData {
   sector: string | null;
   watchlist: WatchlistRow | null;
   aiScore: number;
-  history: { dates: string[]; closes: number[]; volumes: number[] };
+  history: { dates: string[]; closes: number[]; volumes: number[]; highs: number[]; lows: number[] };
   recentRets: number[];
   marketRet: number[];
   patterns: StockPattern[];
@@ -305,7 +305,7 @@ async function fetchStockDetail(symbol: string): Promise<StockDetailData> {
       .limit(1),
     sb
       .from("daily_snapshots")
-      .select("snapshot_date, close, volume, daily_return_pct")
+      .select("snapshot_date, close, volume, daily_return_pct, high, low")
       .eq("symbol", sym)
       .order("snapshot_date", { ascending: false })
       .limit(260),
@@ -319,6 +319,8 @@ async function fetchStockDetail(symbol: string): Promise<StockDetailData> {
   const dates = histAsc.map((r) => r.snapshot_date as string);
   const closes = histAsc.map((r) => Number(r.close));
   const volumes = histAsc.map((r) => Number(r.volume));
+  const highs = histAsc.map((r) => (r.high == null ? NaN : Number(r.high)));
+  const lows = histAsc.map((r) => (r.low == null ? NaN : Number(r.low)));
   const recentRets = histAsc.map((r) => (r.daily_return_pct == null ? 0 : Number(r.daily_return_pct)));
 
   const allPatterns = (patRes.data ?? []) as AiPatternRow[];
@@ -341,7 +343,7 @@ async function fetchStockDetail(symbol: string): Promise<StockDetailData> {
     sector: stock?.sector ?? watchlist?.sector ?? null,
     watchlist,
     aiScore: watchlist ? aiScore(watchlist) : 0,
-    history: { dates, closes, volumes },
+    history: { dates, closes, volumes, highs, lows },
     recentRets,
     marketRet: recent.marketRet,
     patterns,
