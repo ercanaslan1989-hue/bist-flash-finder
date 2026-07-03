@@ -6,6 +6,8 @@ export interface MoverQuote {
   price: number;
   prevClose: number;
   changePct: number;
+  dayHigh: number | null;
+  dayLow: number | null;
   volume: number | null;
   asOf: number | null;
 }

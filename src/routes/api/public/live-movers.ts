@@ -22,6 +22,8 @@ type Quote = {
   price: number;
   prevClose: number;
   changePct: number;
+  dayHigh: number | null;
+  dayLow: number | null;
   volume: number | null;
   asOf: number | null;
 };
@@ -43,6 +45,8 @@ type YahooChart = {
         regularMarketPrice?: number | null;
         chartPreviousClose?: number | null;
         previousClose?: number | null;
+        regularMarketDayHigh?: number | null;
+        regularMarketDayLow?: number | null;
         regularMarketVolume?: number | null;
         regularMarketTime?: number | null;
       };
@@ -75,6 +79,8 @@ async function fetchQuote(
     price,
     prevClose,
     changePct,
+    dayHigh: m.regularMarketDayHigh ?? null,
+    dayLow: m.regularMarketDayLow ?? null,
     volume: m.regularMarketVolume ?? null,
     asOf: m.regularMarketTime ?? null,
   };
