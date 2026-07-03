@@ -200,10 +200,33 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
               <td
                 className={cn(
                   "px-3 py-2.5 text-right font-mono tabular",
+                  (r.relStrength20d ?? 0) > 0
+                    ? "text-success"
+                    : (r.relStrength20d ?? 0) < 0
+                      ? "text-destructive"
+                      : "text-muted-foreground",
+                )}
+                title="Son ~20 seansta piyasa ortalamasına göre üstün/zayıf performans (puan)"
+              >
+                {r.relStrength20d === null
+                  ? "—"
+                  : `${r.relStrength20d > 0 ? "+" : ""}${r.relStrength20d.toFixed(1)}`}
+              </td>
+              <td
+                className={cn(
+                  "px-3 py-2.5 text-right font-mono tabular",
                   (r.volumeIncrease ?? 0) > 0 ? "text-foreground" : "text-muted-foreground",
                 )}
               >
-                {fmtPct(r.volumeIncrease, 0)}
+                <span className="inline-flex items-center justify-end gap-1">
+                  <span className={OBV_META[r.obv].cls} title={OBV_META[r.obv].label}>
+                    {OBV_META[r.obv].sym}
+                  </span>
+                  {fmtPct(r.volumeIncrease, 0)}
+                </span>
+              </td>
+              <td className="px-3 py-2.5">
+                <LiquidityBadge level={r.liquidityLevel} value={r.liquidity} />
               </td>
               <td className={cn("px-3 py-2.5 text-right font-mono tabular", rsiClass(r.rsi))}>
                 {r.rsi === null ? "—" : r.rsi.toFixed(0)}
