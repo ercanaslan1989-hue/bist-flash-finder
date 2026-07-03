@@ -28,6 +28,7 @@ export interface SymbolSeries {
   dates: string[];
   closes: number[];
   rets: number[];
+  volumes: number[];
 }
 
 export interface RecentHistory {
