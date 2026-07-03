@@ -197,6 +197,123 @@ export function aiScore(r: ScoreInputs): number {
   return Math.round(Math.max(0, Math.min(100, score)));
 }
 
+// ===== Stability layer =====
+// The frozen v1.0 engine is a momentum model: it tends to flag stocks *after*
+// a sharp multi-day run-up, exactly when the move is most exhausted and prone
+// to a pullback. This layer scores how *durable* a setup is (0-100) so we can
+// down-rank overbought / overextended names and surface steadier candidates.
+
+export interface StabilityInputs {
+  rsi: number | null;
+  ret5d: number | null; // accumulated % over last ~5 sessions
+  ret20d: number | null; // accumulated % over last ~20 sessions
+  macdStatus: MacdStatus;
+  volatility: number | null; // annualised %
+  dailyReturn: number | null; // last session %
+}
+
+/**
+ * 0-100 stability score. 100 = calm, confirmed trend; low = overextended,
+ * overbought, or already exhausted (the setups that most often fade).
+ */
+export function stabilityScore(i: StabilityInputs): number {
+  let s = 100;
+
+  // Overbought / oversold (RSI).
+  if (i.rsi !== null) {
+    if (i.rsi >= 82) s -= 45;
+    else if (i.rsi >= 74) s -= 30;
+    else if (i.rsi >= 68) s -= 16;
+    else if (i.rsi < 28) s -= 22; // falling knife
+  }
+
+  // Short-term exhaustion: already ran a lot in 5 sessions.
+  if (i.ret5d !== null) {
+    if (i.ret5d >= 40) s -= 42;
+    else if (i.ret5d >= 25) s -= 26;
+    else if (i.ret5d >= 15) s -= 13;
+    if (i.ret5d <= -12) s -= 16; // sharp recent drop = active downtrend
+  }
+
+  // Medium-term overextension.
+  if (i.ret20d !== null) {
+    if (i.ret20d >= 55) s -= 18;
+    else if (i.ret20d >= 35) s -= 9;
+  }
+
+  // Trend confirmation.
+  if (i.macdStatus === "bearish") s -= 20;
+  else if (i.macdStatus === "bullish") s += 4;
+
+  // Volatility (choppier = less reliable).
+  if (i.volatility !== null) {
+    if (i.volatility > 130) s -= 16;
+    else if (i.volatility > 85) s -= 8;
+  }
+
+  // A hard down day right before the recommendation is a red flag.
+  if (i.dailyReturn !== null && i.dailyReturn < -3) s -= 10;
+
+  return Math.round(Math.max(0, Math.min(100, s)));
+}
+
+/**
+ * Blended ranking score: keeps the AI signal but discounts fragile setups.
+ * 60% AI signal, 40% stability. This is the default sort for the lists.
+ */
+export function blendedScore(ai: number, stability: number): number {
+  return Math.round(0.6 * ai + 0.4 * stability);
+}
+
+export type StabilityLevel = "durable" | "steady" | "fragile" | "overextended";
+
+export interface StabilityStyle {
+  level: StabilityLevel;
+  label: string;
+  text: string;
+  bg: string;
+  border: string;
+  dot: string;
+}
+
+export function stabilityTier(s: number): StabilityStyle {
+  if (s >= 70)
+    return {
+      level: "durable",
+      label: "Sağlam",
+      text: "text-success",
+      bg: "bg-success/10",
+      border: "border-success/40",
+      dot: "bg-success",
+    };
+  if (s >= 50)
+    return {
+      level: "steady",
+      label: "Dengeli",
+      text: "text-primary",
+      bg: "bg-primary/10",
+      border: "border-primary/40",
+      dot: "bg-primary",
+    };
+  if (s >= 32)
+    return {
+      level: "fragile",
+      label: "Kırılgan",
+      text: "text-warning",
+      bg: "bg-warning/10",
+      border: "border-warning/40",
+      dot: "bg-warning",
+    };
+  return {
+    level: "overextended",
+    label: "Aşırı uzamış",
+    text: "text-destructive",
+    bg: "bg-destructive/10",
+    border: "border-destructive/40",
+    dot: "bg-destructive",
+  };
+}
+
 export type ScoreTier = "strong" | "watch" | "neutral" | "weak";
 
 export interface TierStyle {
