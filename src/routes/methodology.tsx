@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Database, GitBranch, Microscope, ShieldAlert, Sigma } from "lucide-react";
+import { Activity, Database, GitBranch, Layers, Microscope, ShieldAlert, Sigma } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 
