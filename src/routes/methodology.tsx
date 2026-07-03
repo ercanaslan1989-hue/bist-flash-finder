@@ -98,7 +98,35 @@ function MethodologyPage() {
             </span>
             <h2 className="mt-3 font-display text-base font-semibold text-foreground">{s.title}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-          </div>
+      </div>
+
+      <div className="mt-8 rounded-xl border border-border bg-card p-5">
+        <div className="flex items-center gap-2">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/15 text-accent">
+            <Layers className="h-5 w-5" />
+          </span>
+          <h2 className="font-display text-base font-semibold text-foreground">
+            Kararlılık & sinyal zenginleştirme katmanı
+          </h2>
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          Dondurulmuş v1.0 motoru bir momentum modelidir ve hisseleri çoğunlukla sert bir
+          yükselişten <span className="font-medium text-foreground">sonra</span> işaretler. Bu katman,
+          kurulumun ne kadar <span className="font-medium text-foreground">sürdürülebilir</span> olduğunu
+          ölçerek aşırı uzamış adayları geri plana atar.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {STABILITY_SIGNALS.map((s) => (
+            <div key={s.title} className="rounded-lg border border-border bg-secondary/20 p-4">
+              <div className="flex items-center gap-2">
+                <Activity className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-sm font-semibold text-foreground">{s.title}</h3>
+              </div>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
         ))}
       </div>
 
