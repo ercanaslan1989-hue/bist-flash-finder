@@ -87,11 +87,12 @@ async function fetchRecentHistory(): Promise<RecentHistory> {
   for (const row of rows) {
     let s = bySymbol.get(row.symbol);
     if (!s) {
-      s = { dates: [], closes: [], rets: [] };
+      s = { dates: [], closes: [], rets: [], volumes: [] };
       bySymbol.set(row.symbol, s);
     }
     s.dates.push(row.snapshot_date);
     s.closes.push(Number(row.close));
+    s.volumes.push(row.volume == null ? 0 : Number(row.volume));
     const ret = row.daily_return_pct == null ? 0 : Number(row.daily_return_pct);
     s.rets.push(ret);
     if (row.daily_return_pct != null) {
