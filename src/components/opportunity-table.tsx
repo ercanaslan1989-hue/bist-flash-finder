@@ -100,6 +100,9 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
                 <ScoreBadge score={r.aiScore} />
               </td>
               <td className="px-3 py-2.5">
+                <StabilityBadge score={r.stability} />
+              </td>
+              <td className="px-3 py-2.5">
                 <Link
                   to="/hisse/$symbol"
                   params={{ symbol: r.symbol }}
