@@ -319,6 +319,8 @@ async function fetchStockDetail(symbol: string): Promise<StockDetailData> {
   const dates = histAsc.map((r) => r.snapshot_date as string);
   const closes = histAsc.map((r) => Number(r.close));
   const volumes = histAsc.map((r) => Number(r.volume));
+  const highs = histAsc.map((r) => (r.high == null ? NaN : Number(r.high)));
+  const lows = histAsc.map((r) => (r.low == null ? NaN : Number(r.low)));
   const recentRets = histAsc.map((r) => (r.daily_return_pct == null ? 0 : Number(r.daily_return_pct)));
 
   const allPatterns = (patRes.data ?? []) as AiPatternRow[];
