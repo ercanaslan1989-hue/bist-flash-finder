@@ -154,3 +154,78 @@ export function topPatterns(features: FeatureRow[], events: EventRow[]): TopPatt
 
   return patterns.sort((a, b) => b.share - a.share);
 }
+
+// ===== Pre-event KAP activity statistics (per lookback window) =====
+
+export interface KapWindowStat {
+  daysBefore: number;
+  label: string;
+  /** Number of event/feature rows measured for this window (≈ events). */
+  events: number;
+  /** Rows with at least one KAP disclosure on that day. */
+  withKap: number;
+  /** Share of events that had a KAP disclosure on that day (%). */
+  withKapPct: number;
+  /** Average KAP disclosure count across all events for that window. */
+  avgCount: number;
+  /** Average count restricted to events that actually had a disclosure. */
+  avgWhenPresent: number | null;
+  /** Share of events with 2+ disclosures on that day (%). */
+  multiPct: number;
+}
+
+const KAP_WINDOWS = [1, 2, 3, 5, 10] as const;
+const KAP_WINDOW_LABEL: Record<number, string> = {
+  1: "1 gün önce",
+  2: "2 gün önce",
+  3: "3 gün önce",
+  5: "5 gün önce",
+  10: "10 gün önce",
+};
+
+/** Returns true once any pre-event feature row carries a KAP disclosure. */
+export function hasKapData(features: FeatureRow[]): boolean {
+  return features.some((f) => (f.kap_count ?? 0) > 0);
+}
+
+/**
+ * Pre-event KAP activity broken down by lookback window (1/2/3/5/10 days
+ * before the big move). Populates automatically once kap_count is ingested.
+ */
+export function kapActivityByWindow(features: FeatureRow[]): KapWindowStat[] {
+  return KAP_WINDOWS.map((w) => {
+    const counts = features
+      .filter((f) => f.days_before === w)
+      .map((f) => f.kap_count ?? 0);
+    const events = counts.length;
+    const withKap = counts.filter((c) => c >= 1).length;
+    const multi = counts.filter((c) => c >= 2).length;
+    const sum = counts.reduce((a, b) => a + b, 0);
+    const presentSum = counts.filter((c) => c >= 1).reduce((a, b) => a + b, 0);
+    return {
+      daysBefore: w,
+      label: KAP_WINDOW_LABEL[w],
+      events,
+      withKap,
+      withKapPct: events ? (withKap / events) * 100 : 0,
+      avgCount: events ? sum / events : 0,
+      avgWhenPresent: withKap ? presentSum / withKap : null,
+      multiPct: events ? (multi / events) * 100 : 0,
+    };
+  });
+}
+
+/** Share of events that had ANY disclosure across the 1–10 day run-up. */
+export function kapAnyRunupPct(features: FeatureRow[]): number {
+  // Group by event_id; an event "has activity" if any pre-event day carried
+  // a disclosure.
+  const byEvent = new Map<string, number>();
+  for (const f of features) {
+    const prev = byEvent.get(f.event_id) ?? 0;
+    byEvent.set(f.event_id, prev + (f.kap_count ?? 0));
+  }
+  const total = byEvent.size || 1;
+  let active = 0;
+  for (const v of byEvent.values()) if (v >= 1) active += 1;
+  return (active / total) * 100;
+}
