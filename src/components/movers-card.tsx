@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDownRight, ArrowUpRight, RefreshCw, Radio, TrendingUp } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ChevronDown, RefreshCw, Radio, TrendingUp } from "lucide-react";
 
 import { moversQueryOptions, type MoverQuote } from "@/lib/movers";
 import { useMarketOpen } from "@/hooks/use-market-open";
 import { fmtNum, fmtPct, fmtUpdatedTSI } from "@/lib/format";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+
+// How many rows to show before the "show more" toggle is expanded.
+const COLLAPSED_COUNT = 6;
 
 // Poll roughly every minute while the exchange is open; Yahoo intraday data is
 // ~15 min delayed, so a tighter interval adds no freshness.
