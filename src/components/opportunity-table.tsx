@@ -29,6 +29,26 @@ export function ScoreBadge({ score }: { score: number }) {
   );
 }
 
+export function StabilityBadge({ score }: { score: number }) {
+  const t = stabilityTier(score);
+  return (
+    <span
+      className={cn(
+        "inline-flex h-7 min-w-[2.75rem] items-center justify-center gap-1 rounded-md border px-2 font-mono text-sm font-semibold tabular",
+        t.bg,
+        t.border,
+        t.text,
+      )}
+      title={`Kararlılık: ${t.label} — aşırı uzamış/aşırı alım kurulumları düşük puan alır`}
+    >
+      <span className={cn("h-1.5 w-1.5 rounded-full", t.dot)} />
+      {score}
+    </span>
+  );
+}
+
+
+
 function MacdPill({ status }: { status: MacdStatus }) {
   const cls =
     status === "bullish"
