@@ -14,7 +14,7 @@ import { createFileRoute } from "@tanstack/react-router";
 const UNIVERSE = 160; // most liquid symbols scanned each refresh
 const CONCURRENCY = 12;
 const CACHE_TTL_MS = 45_000;
-const TOP_N = 10;
+const TOP_N = 30;
 
 type Quote = {
   symbol: string;
