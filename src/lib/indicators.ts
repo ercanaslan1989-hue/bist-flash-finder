@@ -116,12 +116,42 @@ export function volatility(returnsPct: Series): number | null {
   return Math.sqrt(variance) * Math.sqrt(252);
 }
 
-/** Close-based ATR approximation (no intraday high/low available). */
+/** Close-based ATR approximation (fallback when no intraday high/low). */
 export function atr(closes: Series, period = 14): number | null {
   if (closes.length < period + 1) return null;
   const tr: Series = [];
   for (let i = 1; i < closes.length; i++) tr.push(Math.abs(closes[i] - closes[i - 1]));
   return sma(tr, period);
+}
+
+/**
+ * True ATR (Wilder) from real intraday high/low/close.
+ * TR = max(high-low, |high-prevClose|, |low-prevClose|).
+ * Returns null when high/low data is incomplete — callers fall back to atr().
+ */
+export function atrTrue(
+  highs: Series,
+  lows: Series,
+  closes: Series,
+  period = 14,
+): number | null {
+  const n = Math.min(highs.length, lows.length, closes.length);
+  if (n < period + 1) return null;
+  const tr: Series = [];
+  for (let i = 1; i < n; i++) {
+    const h = highs[i];
+    const l = lows[i];
+    const pc = closes[i - 1];
+    if (!Number.isFinite(h) || !Number.isFinite(l) || !Number.isFinite(pc)) return null;
+    tr.push(Math.max(h - l, Math.abs(h - pc), Math.abs(l - pc)));
+  }
+  if (tr.length < period) return null;
+  // Wilder smoothing.
+  let atrVal = tr.slice(0, period).reduce((a, b) => a + b, 0) / period;
+  for (let i = period; i < tr.length; i++) {
+    atrVal = (atrVal * (period - 1) + tr[i]) / period;
+  }
+  return atrVal;
 }
 
 /** Beta of stock vs market daily returns (aligned, in percent). */
