@@ -60,6 +60,27 @@ const STEPS = [
   },
 ];
 
+// Enrichment layer applied on top of the frozen v1.0 engine to favour durable
+// setups over exhausted momentum spikes.
+const STABILITY_SIGNALS = [
+  {
+    title: "Kararlılık skoru (0–100)",
+    body: "Aşırı alım (yüksek RSI), kısa vadede aşırı yükselmiş (5 günde büyük birikimli getiri) ve oynaklığı yüksek kurulumlar puan kaybeder. Liste, ham AI sinyalinin %60'ı ile kararlılığın %40'ı harmanlanarak sıralanır.",
+  },
+  {
+    title: "Göreli güç (piyasaya göre)",
+    body: "Hissenin son ~20 seansta BIST ortalamasına göre ne kadar öne çıktığı ölçülür. Piyasayla birlikte yükselen değil, piyasayı geride bırakan liderler daha kararlı kabul edilir.",
+  },
+  {
+    title: "Hacim onayı (OBV)",
+    body: "Yükseliş artan hacimle geliyorsa (gerçek birikim) puan eklenir; yükseliş azalan/zayıf hacimle sürüyorsa (dağıtım / tükenme riski) puan düşülür.",
+  },
+  {
+    title: "Likidite (işlem hacmi)",
+    body: "Günlük işlem hacmi düşük, manipülasyona açık ve çıkışı zor 'sığ' hisseler otomatik olarak geri plana atılır ve varsayılan filtrede elenir.",
+  },
+];
+
 function MethodologyPage() {
   return (
     <AppShell>
