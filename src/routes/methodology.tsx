@@ -98,6 +98,8 @@ function MethodologyPage() {
             </span>
             <h2 className="mt-3 font-display text-base font-semibold text-foreground">{s.title}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+          </div>
+        ))}
       </div>
 
       <div className="mt-8 rounded-xl border border-border bg-card p-5">
@@ -126,8 +128,6 @@ function MethodologyPage() {
             </div>
           ))}
         </div>
-      </div>
-        ))}
       </div>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
