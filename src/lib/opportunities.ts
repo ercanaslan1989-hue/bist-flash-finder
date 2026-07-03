@@ -6,6 +6,8 @@ import {
   rsi,
   macd,
   volatility,
+  stabilityScore,
+  blendedScore,
   type MacdStatus,
 } from "@/lib/indicators";
 import type { WatchlistRow, AiPatternRow } from "@/lib/research";
