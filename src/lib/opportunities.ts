@@ -343,7 +343,7 @@ async function fetchStockDetail(symbol: string): Promise<StockDetailData> {
     sector: stock?.sector ?? watchlist?.sector ?? null,
     watchlist,
     aiScore: watchlist ? aiScore(watchlist) : 0,
-    history: { dates, closes, volumes },
+    history: { dates, closes, volumes, highs, lows },
     recentRets,
     marketRet: recent.marketRet,
     patterns,
