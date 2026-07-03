@@ -61,6 +61,29 @@ function MacdPill({ status }: { status: MacdStatus }) {
   return <span className={cn("font-medium", cls)}>{MACD_STATUS_LABELS[status]}</span>;
 }
 
+const OBV_META: Record<ObvTrend, { label: string; cls: string; sym: string }> = {
+  rising: { label: "Hacim onaylı (birikim)", cls: "text-success", sym: "▲" },
+  falling: { label: "Hacim zayıf (dağıtım riski)", cls: "text-destructive", sym: "▼" },
+  flat: { label: "Hacim nötr", cls: "text-muted-foreground", sym: "•" },
+};
+
+export function LiquidityBadge({ level, value }: { level: OpportunityRow["liquidityLevel"]; value: number | null }) {
+  const t = liquidityTier(value);
+  return (
+    <span
+      className={cn(
+        "inline-flex h-6 items-center gap-1 rounded-md border px-1.5 text-xs font-medium",
+        t.bg,
+        t.border,
+        t.text,
+      )}
+      title={value !== null ? `İşlem hacmi: ${fmtMoney(value)}` : "İşlem hacmi bilinmiyor"}
+    >
+      {t.label}
+    </span>
+  );
+}
+
 function rsiClass(rsi: number | null): string {
   if (rsi === null) return "text-muted-foreground";
   if (rsi >= 70) return "text-destructive";
