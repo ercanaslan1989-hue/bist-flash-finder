@@ -276,6 +276,12 @@ function FirsatlarPage() {
             value={f.minMarketCap / 1e6}
             onChange={(v) => set("minMarketCap", v * 1e6)}
           />
+          <NumberField
+            label="Günlük İşlem Hacmi (min ₺M)"
+            value={f.minLiquidity / 1e6}
+            onChange={(v) => set("minLiquidity", v * 1e6)}
+          />
+
         </div>
       </section>
 
