@@ -1814,6 +1814,7 @@ export type Database = {
       ai_stage_single: { Args: never; Returns: undefined }
       ai_stage_triple: { Args: { _pb?: number }; Returns: undefined }
       ai_stage_validate: { Args: never; Returns: undefined }
+      apply_ohlc: { Args: { rows: Json }; Returns: number }
       build_coverage_report: { Args: never; Returns: undefined }
       build_discovery_matrix: { Args: never; Returns: undefined }
       build_research_aggregates: { Args: never; Returns: undefined }
