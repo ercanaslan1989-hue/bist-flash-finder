@@ -248,6 +248,9 @@ function Dashboard() {
         </div>
       </section>
 
+      {/* Pre-event KAP activity */}
+      <KapActivityPanel features={features} />
+
       {/* Sector + profile */}
       <section className="mt-10 grid gap-4 lg:grid-cols-2">
         <DistributionBars
