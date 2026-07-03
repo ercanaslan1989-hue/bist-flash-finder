@@ -193,7 +193,7 @@ function DetailPage() {
           <Metric label="MA 20" value={ma20 === null ? "—" : `₺${ma20.toFixed(2)}`} hint={ma20 && last > ma20 ? "Fiyat üzerinde" : "Fiyat altında"} />
           <Metric label="MA 50" value={ma50 === null ? "—" : `₺${ma50.toFixed(2)}`} hint={ma50 && last > ma50 ? "Fiyat üzerinde" : "Fiyat altında"} />
           <Metric label="MA 200" value={ma200 === null ? "—" : `₺${ma200.toFixed(2)}`} hint={ma200 && last > ma200 ? "Fiyat üzerinde" : "Fiyat altında"} />
-          <Metric label={atrIsTrue ? "ATR (14, gerçek)" : "ATR (14, kapanış)"} value={atrVal === null ? "—" : `₺${atrVal.toFixed(2)}`} hint={atrIsTrue ? "Gün içi yüksek/düşük" : "Yaklaşık"} />>
+          <Metric label={atrIsTrue ? "ATR (14, gerçek)" : "ATR (14, kapanış)"} value={atrVal === null ? "—" : `₺${atrVal.toFixed(2)}`} hint={atrIsTrue ? "Gün içi yüksek/düşük" : "Yaklaşık"} />
           <Metric label="Beta" value={betaVal === null ? "—" : betaVal.toFixed(2)} hint="Piyasaya göre" />
           <Metric
             label="Destek"
