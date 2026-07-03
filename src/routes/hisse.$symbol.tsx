@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { stockDetailQueryOptions, type StockDetailData } from "@/lib/opportunities";
 import {
   atr,
+  atrTrue,
   beta as calcBeta,
   bollinger,
   expectation,
