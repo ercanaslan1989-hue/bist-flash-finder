@@ -340,6 +340,24 @@ export function stabilityScore(i: StabilityInputs): number {
   // A hard down day right before the recommendation is a red flag.
   if (i.dailyReturn !== null && i.dailyReturn < -3) s -= 10;
 
+  // Relative strength vs the market: leaders are more durable than names that
+  // only rose because the whole market did, or that lag it while "running".
+  if (i.relStrength20d !== null && i.relStrength20d !== undefined) {
+    if (i.relStrength20d >= 10) s += 8;
+    else if (i.relStrength20d >= 3) s += 4;
+    else if (i.relStrength20d <= -15) s -= 14;
+    else if (i.relStrength20d <= -5) s -= 7;
+  }
+
+  // Volume confirmation (OBV): a rally on rising volume is real accumulation;
+  // a rally on falling volume is a distribution/exhaustion warning.
+  if (i.obv === "rising") s += 6;
+  else if (i.obv === "falling") s -= 12;
+
+  // Liquidity: thin names are manipulable and hard to exit.
+  if (i.liquidity === "thin") s -= 18;
+  else if (i.liquidity === "low") s -= 8;
+
   return Math.round(Math.max(0, Math.min(100, s)));
 }
 
