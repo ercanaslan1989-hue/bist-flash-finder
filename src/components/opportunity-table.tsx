@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import {
   MACD_STATUS_LABELS,
   scoreTier,
+  stabilityTier,
   expectation,
   probabilityNote,
   type MacdStatus,
@@ -28,6 +29,26 @@ export function ScoreBadge({ score }: { score: number }) {
   );
 }
 
+export function StabilityBadge({ score }: { score: number }) {
+  const t = stabilityTier(score);
+  return (
+    <span
+      className={cn(
+        "inline-flex h-7 min-w-[2.75rem] items-center justify-center gap-1 rounded-md border px-2 font-mono text-sm font-semibold tabular",
+        t.bg,
+        t.border,
+        t.text,
+      )}
+      title={`Kararlılık: ${t.label} — aşırı uzamış/aşırı alım kurulumları düşük puan alır`}
+    >
+      <span className={cn("h-1.5 w-1.5 rounded-full", t.dot)} />
+      {score}
+    </span>
+  );
+}
+
+
+
 function MacdPill({ status }: { status: MacdStatus }) {
   const cls =
     status === "bullish"
@@ -48,16 +69,18 @@ function rsiClass(rsi: number | null): string {
 export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
   return (
     <div className="overflow-x-auto rounded-xl border border-border">
-      <table className="w-full min-w-[920px] text-sm">
+      <table className="w-full min-w-[1000px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <th className="px-3 py-2.5 font-medium">AI Skoru</th>
+            <th className="px-3 py-2.5 font-medium">Kararlılık</th>
             <th className="px-3 py-2.5 font-medium">Hisse</th>
             <th className="px-3 py-2.5 text-right font-medium">Güven</th>
             <th className="px-3 py-2.5 font-medium">Beklenen</th>
             <th className="px-3 py-2.5 text-right font-medium">Kalıp</th>
             <th className="px-3 py-2.5 text-right font-medium">Kapanış</th>
             <th className="px-3 py-2.5 text-right font-medium">Günlük</th>
+            <th className="px-3 py-2.5 text-right font-medium">5g Δ</th>
             <th className="px-3 py-2.5 text-right font-medium">Hacim Δ</th>
             <th className="px-3 py-2.5 text-right font-medium">RSI</th>
             <th className="px-3 py-2.5 font-medium">MACD</th>
@@ -75,6 +98,9 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
             >
               <td className="px-3 py-2.5">
                 <ScoreBadge score={r.aiScore} />
+              </td>
+              <td className="px-3 py-2.5">
+                <StabilityBadge score={r.stability} />
               </td>
               <td className="px-3 py-2.5">
                 <Link
@@ -132,6 +158,21 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
               <td
                 className={cn(
                   "px-3 py-2.5 text-right font-mono tabular",
+                  (r.ret5d ?? 0) >= 25
+                    ? "text-warning"
+                    : (r.ret5d ?? 0) > 0
+                      ? "text-success"
+                      : (r.ret5d ?? 0) < 0
+                        ? "text-destructive"
+                        : "text-muted-foreground",
+                )}
+                title={(r.ret5d ?? 0) >= 25 ? "Son 5 seansta aşırı yükseldi — geri çekilme riski" : undefined}
+              >
+                {fmtPct(r.ret5d)}
+              </td>
+              <td
+                className={cn(
+                  "px-3 py-2.5 text-right font-mono tabular",
                   (r.volumeIncrease ?? 0) > 0 ? "text-foreground" : "text-muted-foreground",
                 )}
               >
@@ -150,7 +191,7 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
           ))}
           {rows.length === 0 && (
             <tr>
-              <td colSpan={11} className="px-3 py-8 text-center text-muted-foreground">
+              <td colSpan={13} className="px-3 py-8 text-center text-muted-foreground">
                 Bu filtrelerle eşleşen hisse bulunamadı.
               </td>
             </tr>

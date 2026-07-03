@@ -35,6 +35,7 @@ const TARGETS = [
 
 interface Filters {
   minScore: number;
+  minStability: number;
   minConfidence: number;
   target: string;
   sector: string;
@@ -48,6 +49,9 @@ interface Filters {
 
 const DEFAULTS: Filters = {
   minScore: 0,
+  // Hide the most fragile (overbought / overextended) setups by default so the
+  // list leans toward steadier candidates rather than exhausted momentum spikes.
+  minStability: 40,
   minConfidence: 0,
   target: "",
   sector: "",
@@ -62,6 +66,7 @@ const DEFAULTS: Filters = {
 function applyFilters(rows: OpportunityRow[], f: Filters): OpportunityRow[] {
   return rows.filter((r) => {
     if (r.aiScore < f.minScore) return false;
+    if (r.stability < f.minStability) return false;
     if ((r.confidence ?? 0) < f.minConfidence) return false;
     if (f.target && r.bestTarget !== f.target) return false;
     if (f.sector && r.sector !== f.sector) return false;
@@ -201,6 +206,13 @@ function FirsatlarPage() {
             min={0}
             max={100}
             onChange={(v) => set("minScore", v)}
+          />
+          <RangeField
+            label="Kararlılık (min)"
+            value={f.minStability}
+            min={0}
+            max={100}
+            onChange={(v) => set("minStability", v)}
           />
           <RangeField
             label="Güven Skoru (min %)"
