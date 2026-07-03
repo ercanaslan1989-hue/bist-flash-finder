@@ -15,6 +15,7 @@ import {
 
 import { AppShell } from "@/components/app-shell";
 import { OpportunitiesCard } from "@/components/opportunities-card";
+import { KapActivityPanel } from "@/components/kap-activity-panel";
 import { StatCard } from "@/components/stat-card";
 import { DistributionBars } from "@/components/distribution-bars";
 import { researchQueryOptions } from "@/lib/research";
