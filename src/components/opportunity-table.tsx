@@ -94,7 +94,7 @@ function rsiClass(rsi: number | null): string {
 export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
   return (
     <div className="overflow-x-auto rounded-xl border border-border">
-      <table className="w-full min-w-[1000px] text-sm">
+      <table className="w-full min-w-[1160px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <th className="px-3 py-2.5 font-medium">AI Skoru</th>
@@ -106,7 +106,9 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
             <th className="px-3 py-2.5 text-right font-medium">Kapanış</th>
             <th className="px-3 py-2.5 text-right font-medium">Günlük</th>
             <th className="px-3 py-2.5 text-right font-medium">5g Δ</th>
+            <th className="px-3 py-2.5 text-right font-medium" title="Piyasaya göre 20 günlük göreli güç">Göreli Güç</th>
             <th className="px-3 py-2.5 text-right font-medium">Hacim Δ</th>
+            <th className="px-3 py-2.5 font-medium">Likidite</th>
             <th className="px-3 py-2.5 text-right font-medium">RSI</th>
             <th className="px-3 py-2.5 font-medium">MACD</th>
             <th className="px-3 py-2.5 font-medium">Sektör</th>
