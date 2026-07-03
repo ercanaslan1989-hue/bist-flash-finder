@@ -66,7 +66,7 @@ async function fetchRecentHistory(): Promise<RecentHistory> {
     reqs.push(
       sb
         .from("daily_snapshots")
-        .select("symbol, snapshot_date, close, daily_return_pct")
+        .select("symbol, snapshot_date, close, daily_return_pct, volume")
         .gte("snapshot_date", since)
         .order("symbol", { ascending: true })
         .order("snapshot_date", { ascending: true })
@@ -74,8 +74,13 @@ async function fetchRecentHistory(): Promise<RecentHistory> {
     );
   }
   const results = await Promise.all(reqs);
-  const rows: { symbol: string; snapshot_date: string; close: number; daily_return_pct: number | null }[] =
-    results.flatMap((r) => r.data ?? []);
+  const rows: {
+    symbol: string;
+    snapshot_date: string;
+    close: number;
+    daily_return_pct: number | null;
+    volume: number | null;
+  }[] = results.flatMap((r) => r.data ?? []);
 
   const bySymbol = new Map<string, SymbolSeries>();
   const retByDate = new Map<string, { sum: number; n: number }>();
