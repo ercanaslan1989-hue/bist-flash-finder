@@ -71,7 +71,9 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
         </div>
       </div>
       <p className="mt-1 text-sm text-muted-foreground">
-        Dondurulmuş v1.0 motorunun günlük puanlarına göre AI skoru en yüksek hisseler. Yatırım tavsiyesi değildir.
+        AI skoru <span className="font-medium text-foreground">kararlılık filtresiyle</span> harmanlanır:
+        aşırı yükselmiş / aşırı alım bölgesindeki (geri çekilmeye açık) hisseler otomatik olarak alt
+        sıralara iner. Yatırım tavsiyesi değildir.
       </p>
 
       {isPending ? (
