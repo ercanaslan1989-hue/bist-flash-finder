@@ -43,6 +43,7 @@ interface Filters {
   rsiMax: number;
   minVolInc: number;
   minMarketCap: number;
+  minLiquidity: number; // min daily traded value (TL)
   minPatterns: number;
   maxVolatility: number;
 }
@@ -59,6 +60,8 @@ const DEFAULTS: Filters = {
   rsiMax: 100,
   minVolInc: -100,
   minMarketCap: 0,
+  // Hide the thinnest / most manipulable names by default (≥ ₺15M daily volume).
+  minLiquidity: 15_000_000,
   minPatterns: 0,
   maxVolatility: 1000,
 };
