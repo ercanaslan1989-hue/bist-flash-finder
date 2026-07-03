@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Database, GitBranch, Microscope, ShieldAlert, Sigma } from "lucide-react";
+import { Activity, Database, GitBranch, Layers, Microscope, ShieldAlert, Sigma } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 
@@ -60,6 +60,27 @@ const STEPS = [
   },
 ];
 
+// Enrichment layer applied on top of the frozen v1.0 engine to favour durable
+// setups over exhausted momentum spikes.
+const STABILITY_SIGNALS = [
+  {
+    title: "Kararlılık skoru (0–100)",
+    body: "Aşırı alım (yüksek RSI), kısa vadede aşırı yükselmiş (5 günde büyük birikimli getiri) ve oynaklığı yüksek kurulumlar puan kaybeder. Liste, ham AI sinyalinin %60'ı ile kararlılığın %40'ı harmanlanarak sıralanır.",
+  },
+  {
+    title: "Göreli güç (piyasaya göre)",
+    body: "Hissenin son ~20 seansta BIST ortalamasına göre ne kadar öne çıktığı ölçülür. Piyasayla birlikte yükselen değil, piyasayı geride bırakan liderler daha kararlı kabul edilir.",
+  },
+  {
+    title: "Hacim onayı (OBV)",
+    body: "Yükseliş artan hacimle geliyorsa (gerçek birikim) puan eklenir; yükseliş azalan/zayıf hacimle sürüyorsa (dağıtım / tükenme riski) puan düşülür.",
+  },
+  {
+    title: "Likidite (işlem hacmi)",
+    body: "Günlük işlem hacmi düşük, manipülasyona açık ve çıkışı zor 'sığ' hisseler otomatik olarak geri plana atılır ve varsayılan filtrede elenir.",
+  },
+];
+
 function MethodologyPage() {
   return (
     <AppShell>
@@ -79,6 +100,34 @@ function MethodologyPage() {
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-8 rounded-xl border border-border bg-card p-5">
+        <div className="flex items-center gap-2">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/15 text-accent">
+            <Layers className="h-5 w-5" />
+          </span>
+          <h2 className="font-display text-base font-semibold text-foreground">
+            Kararlılık & sinyal zenginleştirme katmanı
+          </h2>
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          Dondurulmuş v1.0 motoru bir momentum modelidir ve hisseleri çoğunlukla sert bir
+          yükselişten <span className="font-medium text-foreground">sonra</span> işaretler. Bu katman,
+          kurulumun ne kadar <span className="font-medium text-foreground">sürdürülebilir</span> olduğunu
+          ölçerek aşırı uzamış adayları geri plana atar.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {STABILITY_SIGNALS.map((s) => (
+            <div key={s.title} className="rounded-lg border border-border bg-secondary/20 p-4">
+              <div className="flex items-center gap-2">
+                <Activity className="h-4 w-4 text-primary" />
+                <h3 className="font-display text-sm font-semibold text-foreground">{s.title}</h3>
+              </div>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-2">

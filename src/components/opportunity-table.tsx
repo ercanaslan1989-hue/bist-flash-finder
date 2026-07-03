@@ -3,9 +3,11 @@ import {
   MACD_STATUS_LABELS,
   scoreTier,
   stabilityTier,
+  liquidityTier,
   expectation,
   probabilityNote,
   type MacdStatus,
+  type ObvTrend,
 } from "@/lib/indicators";
 import type { OpportunityRow } from "@/lib/opportunities";
 import { fmtMoney, fmtNum, fmtPct } from "@/lib/format";
@@ -59,6 +61,29 @@ function MacdPill({ status }: { status: MacdStatus }) {
   return <span className={cn("font-medium", cls)}>{MACD_STATUS_LABELS[status]}</span>;
 }
 
+const OBV_META: Record<ObvTrend, { label: string; cls: string; sym: string }> = {
+  rising: { label: "Hacim onaylı (birikim)", cls: "text-success", sym: "▲" },
+  falling: { label: "Hacim zayıf (dağıtım riski)", cls: "text-destructive", sym: "▼" },
+  flat: { label: "Hacim nötr", cls: "text-muted-foreground", sym: "•" },
+};
+
+export function LiquidityBadge({ level, value }: { level: OpportunityRow["liquidityLevel"]; value: number | null }) {
+  const t = liquidityTier(value);
+  return (
+    <span
+      className={cn(
+        "inline-flex h-6 items-center gap-1 rounded-md border px-1.5 text-xs font-medium",
+        t.bg,
+        t.border,
+        t.text,
+      )}
+      title={value !== null ? `İşlem hacmi: ${fmtMoney(value)}` : "İşlem hacmi bilinmiyor"}
+    >
+      {t.label}
+    </span>
+  );
+}
+
 function rsiClass(rsi: number | null): string {
   if (rsi === null) return "text-muted-foreground";
   if (rsi >= 70) return "text-destructive";
@@ -69,7 +94,7 @@ function rsiClass(rsi: number | null): string {
 export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
   return (
     <div className="overflow-x-auto rounded-xl border border-border">
-      <table className="w-full min-w-[1000px] text-sm">
+      <table className="w-full min-w-[1160px] text-sm">
         <thead>
           <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
             <th className="px-3 py-2.5 font-medium">AI Skoru</th>
@@ -81,7 +106,9 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
             <th className="px-3 py-2.5 text-right font-medium">Kapanış</th>
             <th className="px-3 py-2.5 text-right font-medium">Günlük</th>
             <th className="px-3 py-2.5 text-right font-medium">5g Δ</th>
+            <th className="px-3 py-2.5 text-right font-medium" title="Piyasaya göre 20 günlük göreli güç">Göreli Güç</th>
             <th className="px-3 py-2.5 text-right font-medium">Hacim Δ</th>
+            <th className="px-3 py-2.5 font-medium">Likidite</th>
             <th className="px-3 py-2.5 text-right font-medium">RSI</th>
             <th className="px-3 py-2.5 font-medium">MACD</th>
             <th className="px-3 py-2.5 font-medium">Sektör</th>
@@ -173,10 +200,33 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
               <td
                 className={cn(
                   "px-3 py-2.5 text-right font-mono tabular",
+                  (r.relStrength20d ?? 0) > 0
+                    ? "text-success"
+                    : (r.relStrength20d ?? 0) < 0
+                      ? "text-destructive"
+                      : "text-muted-foreground",
+                )}
+                title="Son ~20 seansta piyasa ortalamasına göre üstün/zayıf performans (puan)"
+              >
+                {r.relStrength20d === null
+                  ? "—"
+                  : `${r.relStrength20d > 0 ? "+" : ""}${r.relStrength20d.toFixed(1)}`}
+              </td>
+              <td
+                className={cn(
+                  "px-3 py-2.5 text-right font-mono tabular",
                   (r.volumeIncrease ?? 0) > 0 ? "text-foreground" : "text-muted-foreground",
                 )}
               >
-                {fmtPct(r.volumeIncrease, 0)}
+                <span className="inline-flex items-center justify-end gap-1">
+                  <span className={OBV_META[r.obv].cls} title={OBV_META[r.obv].label}>
+                    {OBV_META[r.obv].sym}
+                  </span>
+                  {fmtPct(r.volumeIncrease, 0)}
+                </span>
+              </td>
+              <td className="px-3 py-2.5">
+                <LiquidityBadge level={r.liquidityLevel} value={r.liquidity} />
               </td>
               <td className={cn("px-3 py-2.5 text-right font-mono tabular", rsiClass(r.rsi))}>
                 {r.rsi === null ? "—" : r.rsi.toFixed(0)}
@@ -191,7 +241,7 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
           ))}
           {rows.length === 0 && (
             <tr>
-              <td colSpan={13} className="px-3 py-8 text-center text-muted-foreground">
+              <td colSpan={16} className="px-3 py-8 text-center text-muted-foreground">
                 Bu filtrelerle eşleşen hisse bulunamadı.
               </td>
             </tr>

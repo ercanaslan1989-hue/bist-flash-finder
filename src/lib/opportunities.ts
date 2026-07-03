@@ -8,7 +8,12 @@ import {
   volatility,
   stabilityScore,
   blendedScore,
+  obvTrend,
+  relativeStrength,
+  liquidityTier,
   type MacdStatus,
+  type ObvTrend,
+  type LiquidityLevel,
 } from "@/lib/indicators";
 import type { WatchlistRow, AiPatternRow } from "@/lib/research";
 
@@ -23,6 +28,7 @@ export interface SymbolSeries {
   dates: string[];
   closes: number[];
   rets: number[];
+  volumes: number[];
 }
 
 export interface RecentHistory {
@@ -60,7 +66,7 @@ async function fetchRecentHistory(): Promise<RecentHistory> {
     reqs.push(
       sb
         .from("daily_snapshots")
-        .select("symbol, snapshot_date, close, daily_return_pct")
+        .select("symbol, snapshot_date, close, daily_return_pct, volume")
         .gte("snapshot_date", since)
         .order("symbol", { ascending: true })
         .order("snapshot_date", { ascending: true })
@@ -68,19 +74,25 @@ async function fetchRecentHistory(): Promise<RecentHistory> {
     );
   }
   const results = await Promise.all(reqs);
-  const rows: { symbol: string; snapshot_date: string; close: number; daily_return_pct: number | null }[] =
-    results.flatMap((r) => r.data ?? []);
+  const rows: {
+    symbol: string;
+    snapshot_date: string;
+    close: number;
+    daily_return_pct: number | null;
+    volume: number | null;
+  }[] = results.flatMap((r) => r.data ?? []);
 
   const bySymbol = new Map<string, SymbolSeries>();
   const retByDate = new Map<string, { sum: number; n: number }>();
   for (const row of rows) {
     let s = bySymbol.get(row.symbol);
     if (!s) {
-      s = { dates: [], closes: [], rets: [] };
+      s = { dates: [], closes: [], rets: [], volumes: [] };
       bySymbol.set(row.symbol, s);
     }
     s.dates.push(row.snapshot_date);
     s.closes.push(Number(row.close));
+    s.volumes.push(row.volume == null ? 0 : Number(row.volume));
     const ret = row.daily_return_pct == null ? 0 : Number(row.daily_return_pct);
     s.rets.push(ret);
     if (row.daily_return_pct != null) {
@@ -127,6 +139,10 @@ export interface OpportunityRow {
   volatility: number | null;
   ret5d: number | null; // accumulated % over last ~5 sessions
   ret20d: number | null; // accumulated % over last ~20 sessions
+  relStrength20d: number | null; // outperformance vs market over ~20 sessions (points)
+  obv: ObvTrend; // volume confirmation of the move
+  liquidity: number | null; // daily traded value (TL)
+  liquidityLevel: LiquidityLevel; // tradeability tier
   stability: number; // 0-100 durability of the setup
   blended: number; // AI signal discounted by stability (default ranking)
   updatedAt: string | null;
@@ -169,7 +185,7 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
   if (latest) {
     const snapRes = await sb
       .from("daily_snapshots")
-      .select("symbol, close, daily_return_pct, vol_ratio_20d, market_value")
+      .select("symbol, close, daily_return_pct, vol_ratio_20d, market_value, daily_traded_value")
       .eq("snapshot_date", latest);
     snapRows = snapRes.data ?? [];
   }
@@ -179,6 +195,7 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
     const snap = snapMap.get(w.symbol);
     const series = history.bySymbol.get(w.symbol);
     const closes = series?.closes ?? [];
+    const volumes = series?.volumes ?? [];
     const m = macd(closes);
     const ai = aiScore(w);
     const vol = series ? volatility(series.rets) : null;
@@ -186,6 +203,13 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
     const ret5d = series ? recentSum(series.rets, 5) : null;
     const ret20d = series ? recentSum(series.rets, 20) : null;
     const dailyReturn = snap?.daily_return_pct != null ? Number(snap.daily_return_pct) : null;
+    const relStrength20d = series
+      ? relativeStrength(series.rets, history.marketRet, 20)
+      : null;
+    const obv = obvTrend(closes, volumes);
+    const liquidity =
+      snap?.daily_traded_value != null ? Number(snap.daily_traded_value) : null;
+    const liquidityLevel = liquidityTier(liquidity).level;
     const stability = stabilityScore({
       rsi: rsiVal,
       ret5d,
@@ -193,6 +217,9 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       macdStatus: m.status,
       volatility: vol,
       dailyReturn,
+      relStrength20d,
+      obv,
+      liquidity: liquidityLevel,
     });
     return {
       symbol: w.symbol,
@@ -214,6 +241,10 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       volatility: vol,
       ret5d,
       ret20d,
+      relStrength20d,
+      obv,
+      liquidity,
+      liquidityLevel,
       stability,
       blended: blendedScore(ai, stability),
       updatedAt: w.updated_at ?? null,

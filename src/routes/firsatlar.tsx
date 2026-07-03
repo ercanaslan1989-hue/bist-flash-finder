@@ -43,6 +43,7 @@ interface Filters {
   rsiMax: number;
   minVolInc: number;
   minMarketCap: number;
+  minLiquidity: number; // min daily traded value (TL)
   minPatterns: number;
   maxVolatility: number;
 }
@@ -59,6 +60,8 @@ const DEFAULTS: Filters = {
   rsiMax: 100,
   minVolInc: -100,
   minMarketCap: 0,
+  // Hide the thinnest / most manipulable names by default (≥ ₺15M daily volume).
+  minLiquidity: 15_000_000,
   minPatterns: 0,
   maxVolatility: 1000,
 };
@@ -73,6 +76,7 @@ function applyFilters(rows: OpportunityRow[], f: Filters): OpportunityRow[] {
     if (r.rsi !== null && (r.rsi < f.rsiMin || r.rsi > f.rsiMax)) return false;
     if ((r.volumeIncrease ?? -Infinity) < f.minVolInc) return false;
     if ((r.marketCap ?? 0) < f.minMarketCap) return false;
+    if ((r.liquidity ?? 0) < f.minLiquidity) return false;
     if (r.matchedPatterns < f.minPatterns) return false;
     if ((r.volatility ?? 0) > f.maxVolatility) return false;
     return true;
@@ -272,6 +276,12 @@ function FirsatlarPage() {
             value={f.minMarketCap / 1e6}
             onChange={(v) => set("minMarketCap", v * 1e6)}
           />
+          <NumberField
+            label="Günlük İşlem Hacmi (min ₺M)"
+            value={f.minLiquidity / 1e6}
+            onChange={(v) => set("minLiquidity", v * 1e6)}
+          />
+
         </div>
       </section>
 
