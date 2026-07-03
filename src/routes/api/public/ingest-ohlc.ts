@@ -97,20 +97,92 @@ export const Route = createFileRoute("/api/public/ingest-ohlc")({
         }
 
         const u = new URL(request.url);
+        const all = u.searchParams.get("all") === "1";
         const offset = Math.max(0, Number(u.searchParams.get("offset") ?? "0") || 0);
         const limit = Math.min(
           60,
           Math.max(1, Number(u.searchParams.get("limit") ?? "40") || 40),
         );
+        // Default lookback: short for the daily cron ("all" mode), longer for
+        // manual backfill batches.
         const days = Math.min(
           365,
-          Math.max(5, Number(u.searchParams.get("days") ?? "10") || 10),
+          Math.max(3, Number(u.searchParams.get("days") ?? (all ? "5" : "10")) || (all ? 5 : 10)),
         );
 
         const { supabaseAdmin } = await import(
           "@/integrations/supabase/client.server"
         );
 
+        const CONCURRENCY = 6;
+
+        // Fetch OHLC for a list of symbols and upsert into daily_snapshots.
+        const processSymbols = async (symbols: string[]) => {
+          const allRows: OhlcRow[] = [];
+          let failed = 0;
+          for (let i = 0; i < symbols.length; i += CONCURRENCY) {
+            const batch = symbols.slice(i, i + CONCURRENCY);
+            const results = await Promise.all(
+              batch.map(async (sym) => {
+                try {
+                  return await fetchYahooOhlc(sym, days);
+                } catch {
+                  failed++;
+                  return [] as OhlcRow[];
+                }
+              }),
+            );
+            for (const r of results) allRows.push(...r);
+          }
+          let updated = 0;
+          if (allRows.length > 0) {
+            const { data: upd, error: rpcErr } = await supabaseAdmin.rpc(
+              "apply_ohlc",
+              { rows: allRows },
+            );
+            if (rpcErr) throw new Error(rpcErr.message);
+            updated = (upd as number) ?? 0;
+          }
+          return { fetched: allRows.length, updated, failed };
+        };
+
+        // ===== Full-universe mode (daily cron) =====
+        if (all) {
+          const { data: stocks, error: stocksErr } = await supabaseAdmin
+            .from("stocks")
+            .select("symbol")
+            .order("symbol", { ascending: true });
+          if (stocksErr) {
+            return new Response(JSON.stringify({ error: stocksErr.message }), {
+              status: 500,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+          const symbols = (stocks ?? []).map((s) => s.symbol as string);
+          try {
+            const res = await processSymbols(symbols);
+            return new Response(
+              JSON.stringify({
+                ok: true,
+                mode: "all",
+                days,
+                symbols: symbols.length,
+                fetchedRows: res.fetched,
+                updatedRows: res.updated,
+                failedSymbols: res.failed,
+                done: true,
+              }),
+              { status: 200, headers: { "Content-Type": "application/json" } },
+            );
+          } catch (e) {
+            return new Response(
+              JSON.stringify({ error: e instanceof Error ? e.message : "failed" }),
+              { status: 500, headers: { "Content-Type": "application/json" } },
+            );
+          }
+        }
+
+        // ===== Batched mode (manual backfill) =====
         const { data: stocks, error: stocksErr } = await supabaseAdmin
           .from("stocks")
           .select("symbol")
@@ -118,46 +190,21 @@ export const Route = createFileRoute("/api/public/ingest-ohlc")({
           .range(offset, offset + limit - 1);
 
         if (stocksErr) {
-          return new Response(
-            JSON.stringify({ error: stocksErr.message }),
-            { status: 500, headers: { "Content-Type": "application/json" } },
-          );
+          return new Response(JSON.stringify({ error: stocksErr.message }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
         }
 
         const symbols = (stocks ?? []).map((s) => s.symbol as string);
-        const allRows: OhlcRow[] = [];
-        let failed = 0;
-
-        // Small concurrency to stay within Worker limits and be polite to Yahoo.
-        const CONCURRENCY = 6;
-        for (let i = 0; i < symbols.length; i += CONCURRENCY) {
-          const batch = symbols.slice(i, i + CONCURRENCY);
-          const results = await Promise.all(
-            batch.map(async (sym) => {
-              try {
-                return await fetchYahooOhlc(sym, days);
-              } catch {
-                failed++;
-                return [] as OhlcRow[];
-              }
-            }),
+        let res;
+        try {
+          res = await processSymbols(symbols);
+        } catch (e) {
+          return new Response(
+            JSON.stringify({ error: e instanceof Error ? e.message : "failed" }),
+            { status: 500, headers: { "Content-Type": "application/json" } },
           );
-          for (const r of results) allRows.push(...r);
-        }
-
-        let updated = 0;
-        if (allRows.length > 0) {
-          const { data: upd, error: rpcErr } = await supabaseAdmin.rpc(
-            "apply_ohlc",
-            { rows: allRows },
-          );
-          if (rpcErr) {
-            return new Response(
-              JSON.stringify({ error: rpcErr.message, fetched: allRows.length }),
-              { status: 500, headers: { "Content-Type": "application/json" } },
-            );
-          }
-          updated = (upd as number) ?? 0;
         }
 
         const processed = symbols.length;
@@ -169,9 +216,9 @@ export const Route = createFileRoute("/api/public/ingest-ohlc")({
             limit,
             days,
             symbols: processed,
-            fetchedRows: allRows.length,
-            updatedRows: updated,
-            failedSymbols: failed,
+            fetchedRows: res.fetched,
+            updatedRows: res.updated,
+            failedSymbols: res.failed,
             nextOffset: done ? null : offset + limit,
             done,
           }),
