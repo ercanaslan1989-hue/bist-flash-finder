@@ -208,6 +208,13 @@ function FirsatlarPage() {
             onChange={(v) => set("minScore", v)}
           />
           <RangeField
+            label="Kararlılık (min)"
+            value={f.minStability}
+            min={0}
+            max={100}
+            onChange={(v) => set("minStability", v)}
+          />
+          <RangeField
             label="Güven Skoru (min %)"
             value={f.minConfidence}
             min={0}
