@@ -125,6 +125,10 @@ export interface OpportunityRow {
   rsi: number | null;
   macdStatus: MacdStatus;
   volatility: number | null;
+  ret5d: number | null; // accumulated % over last ~5 sessions
+  ret20d: number | null; // accumulated % over last ~20 sessions
+  stability: number; // 0-100 durability of the setup
+  blended: number; // AI signal discounted by stability (default ranking)
   updatedAt: string | null;
 }
 
@@ -135,6 +139,12 @@ export interface OpportunitiesData {
   /** Most recent updated_at timestamp across the scored rows. */
   updatedAt: string | null;
   sectors: string[];
+}
+
+/** Sum of the last `n` daily returns (already in percent). */
+function recentSum(rets: number[], n: number): number | null {
+  if (!rets.length) return null;
+  return rets.slice(-n).reduce((a, b) => a + b, 0);
 }
 
 async function fetchOpportunities(): Promise<OpportunitiesData> {
