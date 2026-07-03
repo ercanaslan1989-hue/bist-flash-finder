@@ -11,10 +11,10 @@ import { createFileRoute } from "@tanstack/react-router";
 // Results are cached in-worker for a short TTL so repeated client polls don't
 // re-hammer Yahoo. The client polls this route while the market is open.
 
-const UNIVERSE = 160; // most liquid symbols scanned each refresh
-const CONCURRENCY = 12;
+const UNIVERSE = 700; // scan the full tracked universe so limit-up small caps are not missed
+const CONCURRENCY = 24;
 const CACHE_TTL_MS = 45_000;
-const TOP_N = 30;
+const TOP_N = 40;
 
 type Quote = {
   symbol: string;
@@ -128,7 +128,18 @@ export const Route = createFileRoute("/api/public/live-movers")({
         const nameMap = new Map<string, string | null>(
           (stocksRes.data ?? []).map((s) => [s.symbol as string, s.company_name as string | null]),
         );
-        const symbols = (snapRes.data ?? []).map((r) => r.symbol as string);
+
+        // Scan the FULL tracked universe (every stock we know about), not just
+        // the most-liquid slice — otherwise limit-up small caps never appear.
+        // Order by traded value so busiest symbols are fetched first.
+        const liquidityOrder = new Map<string, number>(
+          (snapRes.data ?? []).map((r, i) => [r.symbol as string, i]),
+        );
+        const symbols = [...nameMap.keys()].sort((a, b) => {
+          const ra = liquidityOrder.get(a) ?? Number.MAX_SAFE_INTEGER;
+          const rb = liquidityOrder.get(b) ?? Number.MAX_SAFE_INTEGER;
+          return ra - rb;
+        });
 
         const quotes: Quote[] = [];
         for (let i = 0; i < symbols.length; i += CONCURRENCY) {
