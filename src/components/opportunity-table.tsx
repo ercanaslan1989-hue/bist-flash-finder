@@ -158,6 +158,21 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
               <td
                 className={cn(
                   "px-3 py-2.5 text-right font-mono tabular",
+                  (r.ret5d ?? 0) >= 25
+                    ? "text-warning"
+                    : (r.ret5d ?? 0) > 0
+                      ? "text-success"
+                      : (r.ret5d ?? 0) < 0
+                        ? "text-destructive"
+                        : "text-muted-foreground",
+                )}
+                title={(r.ret5d ?? 0) >= 25 ? "Son 5 seansta aşırı yükseldi — geri çekilme riski" : undefined}
+              >
+                {fmtPct(r.ret5d)}
+              </td>
+              <td
+                className={cn(
+                  "px-3 py-2.5 text-right font-mono tabular",
                   (r.volumeIncrease ?? 0) > 0 ? "text-foreground" : "text-muted-foreground",
                 )}
               >
