@@ -180,29 +180,48 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
     const series = history.bySymbol.get(w.symbol);
     const closes = series?.closes ?? [];
     const m = macd(closes);
+    const ai = aiScore(w);
+    const vol = series ? volatility(series.rets) : null;
+    const rsiVal = rsi(closes);
+    const ret5d = series ? recentSum(series.rets, 5) : null;
+    const ret20d = series ? recentSum(series.rets, 20) : null;
+    const dailyReturn = snap?.daily_return_pct != null ? Number(snap.daily_return_pct) : null;
+    const stability = stabilityScore({
+      rsi: rsiVal,
+      ret5d,
+      ret20d,
+      macdStatus: m.status,
+      volatility: vol,
+      dailyReturn,
+    });
     return {
       symbol: w.symbol,
       company_name: w.company_name,
       sector: w.sector,
-      aiScore: aiScore(w),
+      aiScore: ai,
       confidence: w.confidence,
       probability: w.probability,
       matchedPatterns: w.matched_patterns ?? 0,
       bestTarget: w.best_target,
       histSuccess: w.hist_success_pct,
       close: snap ? Number(snap.close) : (closes[closes.length - 1] ?? null),
-      dailyReturn: snap?.daily_return_pct != null ? Number(snap.daily_return_pct) : null,
+      dailyReturn,
       volumeIncrease:
         snap?.vol_ratio_20d != null ? (Number(snap.vol_ratio_20d) - 1) * 100 : null,
       marketCap: snap?.market_value != null ? Number(snap.market_value) : null,
-      rsi: rsi(closes),
+      rsi: rsiVal,
       macdStatus: m.status,
-      volatility: series ? volatility(series.rets) : null,
+      volatility: vol,
+      ret5d,
+      ret20d,
+      stability,
+      blended: blendedScore(ai, stability),
       updatedAt: w.updated_at ?? null,
     };
   });
 
-  rows.sort((a, b) => b.aiScore - a.aiScore);
+  // Default ranking now favours durable setups over exhausted momentum spikes.
+  rows.sort((a, b) => b.blended - a.blended);
   const sectors = [...new Set(rows.map((r) => r.sector).filter(Boolean) as string[])].sort();
   const updatedAt = wl.reduce<string | null>((max, w) => {
     const u = w.updated_at ?? null;
