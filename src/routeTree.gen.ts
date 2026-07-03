@@ -23,6 +23,7 @@ import { Route as BacktestRouteImport } from './routes/backtest'
 import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HisseSymbolRouteImport } from './routes/hisse.$symbol'
+import { Route as ApiPublicLiveMoversRouteImport } from './routes/api/public/live-movers'
 import { Route as ApiPublicIngestOhlcRouteImport } from './routes/api/public/ingest-ohlc'
 
 const WatchlistRoute = WatchlistRouteImport.update({
@@ -95,6 +96,11 @@ const HisseSymbolRoute = HisseSymbolRouteImport.update({
   path: '/hisse/$symbol',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicLiveMoversRoute = ApiPublicLiveMoversRouteImport.update({
+  id: '/api/public/live-movers',
+  path: '/api/public/live-movers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicIngestOhlcRoute = ApiPublicIngestOhlcRouteImport.update({
   id: '/api/public/ingest-ohlc',
   path: '/api/public/ingest-ohlc',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
+  '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
+  '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
+  '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-ohlc'
+    | '/api/public/live-movers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-ohlc'
+    | '/api/public/live-movers'
   id:
     | '__root__'
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-ohlc'
+    | '/api/public/live-movers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,6 +235,7 @@ export interface RootRouteChildren {
   WatchlistRoute: typeof WatchlistRoute
   HisseSymbolRoute: typeof HisseSymbolRoute
   ApiPublicIngestOhlcRoute: typeof ApiPublicIngestOhlcRoute
+  ApiPublicLiveMoversRoute: typeof ApiPublicLiveMoversRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -325,6 +338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HisseSymbolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/live-movers': {
+      id: '/api/public/live-movers'
+      path: '/api/public/live-movers'
+      fullPath: '/api/public/live-movers'
+      preLoaderRoute: typeof ApiPublicLiveMoversRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/ingest-ohlc': {
       id: '/api/public/ingest-ohlc'
       path: '/api/public/ingest-ohlc'
@@ -351,17 +371,8 @@ const rootRouteChildren: RootRouteChildren = {
   WatchlistRoute: WatchlistRoute,
   HisseSymbolRoute: HisseSymbolRoute,
   ApiPublicIngestOhlcRoute: ApiPublicIngestOhlcRoute,
+  ApiPublicLiveMoversRoute: ApiPublicLiveMoversRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
