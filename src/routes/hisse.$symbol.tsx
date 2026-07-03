@@ -275,7 +275,7 @@ function DetailPage() {
       </section>
 
       <p className="mt-8 text-xs text-muted-foreground">
-        Teknik göstergeler kapanış fiyatları üzerinden hesaplanır (ATR yaklaşıktır). Son veri tarihi:{" "}
+        Teknik göstergeler kapanış fiyatları üzerinden hesaplanır{atrIsTrue ? "; ATR gerçek gün içi yüksek/düşük verisiyle hesaplanır" : " (ATR yaklaşıktır)"}. Son veri tarihi:{" "}
         {fmtDate(data.latestDate)}. Yalnızca araştırma amaçlıdır — yatırım tavsiyesi değildir.
       </p>
     </AppShell>
