@@ -74,6 +74,10 @@ function Column({
   loading: boolean;
 }) {
   const up = kind === "up";
+  const [expanded, setExpanded] = useState(false);
+  const visibleRows = expanded ? rows : rows.slice(0, COLLAPSED_COUNT);
+  const hiddenCount = rows.length - visibleRows.length;
+
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-card">
       <div className="flex items-center gap-2 border-b border-border px-3 py-2.5">
@@ -99,11 +103,23 @@ function Column({
       ) : rows.length === 0 ? (
         <p className="px-3 py-6 text-center text-sm text-muted-foreground">Veri yok</p>
       ) : (
-        <div className="divide-y divide-border/50">
-          {rows.map((q, idx) => (
-            <MoverRow key={q.symbol} q={q} kind={kind} idx={idx} />
-          ))}
-        </div>
+        <>
+          <div className="divide-y divide-border/50">
+            {visibleRows.map((q, idx) => (
+              <MoverRow key={q.symbol} q={q} kind={kind} idx={idx} />
+            ))}
+          </div>
+          {rows.length > COLLAPSED_COUNT ? (
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              className="flex w-full items-center justify-center gap-1.5 border-t border-border bg-secondary/30 px-3 py-2.5 text-xs font-medium text-foreground transition hover:bg-secondary/60"
+            >
+              {expanded ? "Daha az göster" : `Daha fazla göster (${hiddenCount})`}
+              <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", expanded && "rotate-180")} />
+            </button>
+          ) : null}
+        </>
       )}
     </div>
   );
