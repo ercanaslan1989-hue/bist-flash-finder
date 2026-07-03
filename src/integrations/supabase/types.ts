@@ -955,16 +955,20 @@ export type Database = {
       }
       daily_snapshots: {
         Row: {
+          adj_close: number | null
           close: number
           created_at: string
           daily_return_pct: number | null
           daily_traded_value: number | null
           day_index: number | null
           fwd_max_20d: number | null
+          high: number | null
           id: string
           kap_count: number
           last_kap_date: string | null
+          low: number | null
           market_value: number | null
+          open: number | null
           ret_10d: number | null
           ret_20d: number | null
           ret_2d: number | null
@@ -981,16 +985,20 @@ export type Database = {
           volume: number
         }
         Insert: {
+          adj_close?: number | null
           close: number
           created_at?: string
           daily_return_pct?: number | null
           daily_traded_value?: number | null
           day_index?: number | null
           fwd_max_20d?: number | null
+          high?: number | null
           id?: string
           kap_count?: number
           last_kap_date?: string | null
+          low?: number | null
           market_value?: number | null
+          open?: number | null
           ret_10d?: number | null
           ret_20d?: number | null
           ret_2d?: number | null
@@ -1007,16 +1015,20 @@ export type Database = {
           volume: number
         }
         Update: {
+          adj_close?: number | null
           close?: number
           created_at?: string
           daily_return_pct?: number | null
           daily_traded_value?: number | null
           day_index?: number | null
           fwd_max_20d?: number | null
+          high?: number | null
           id?: string
           kap_count?: number
           last_kap_date?: string | null
+          low?: number | null
           market_value?: number | null
+          open?: number | null
           ret_10d?: number | null
           ret_20d?: number | null
           ret_2d?: number | null
@@ -1802,6 +1814,7 @@ export type Database = {
       ai_stage_single: { Args: never; Returns: undefined }
       ai_stage_triple: { Args: { _pb?: number }; Returns: undefined }
       ai_stage_validate: { Args: never; Returns: undefined }
+      apply_ohlc: { Args: { rows: Json }; Returns: number }
       build_coverage_report: { Args: never; Returns: undefined }
       build_discovery_matrix: { Args: never; Returns: undefined }
       build_research_aggregates: { Args: never; Returns: undefined }

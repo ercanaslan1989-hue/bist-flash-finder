@@ -23,6 +23,7 @@ import { Route as BacktestRouteImport } from './routes/backtest'
 import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HisseSymbolRouteImport } from './routes/hisse.$symbol'
+import { Route as ApiPublicIngestOhlcRouteImport } from './routes/api/public/ingest-ohlc'
 
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
@@ -94,6 +95,11 @@ const HisseSymbolRoute = HisseSymbolRouteImport.update({
   path: '/hisse/$symbol',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicIngestOhlcRoute = ApiPublicIngestOhlcRouteImport.update({
+  id: '/api/public/ingest-ohlc',
+  path: '/api/public/ingest-ohlc',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/stocks': typeof StocksRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/stocks': typeof StocksRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/stocks': typeof StocksRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/stocks'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-ohlc'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/stocks'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-ohlc'
   id:
     | '__root__'
     | '/'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/stocks'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-ohlc'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,6 +222,7 @@ export interface RootRouteChildren {
   StocksRoute: typeof StocksRoute
   WatchlistRoute: typeof WatchlistRoute
   HisseSymbolRoute: typeof HisseSymbolRoute
+  ApiPublicIngestOhlcRoute: typeof ApiPublicIngestOhlcRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -312,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HisseSymbolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ingest-ohlc': {
+      id: '/api/public/ingest-ohlc'
+      path: '/api/public/ingest-ohlc'
+      fullPath: '/api/public/ingest-ohlc'
+      preLoaderRoute: typeof ApiPublicIngestOhlcRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -330,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   StocksRoute: StocksRoute,
   WatchlistRoute: WatchlistRoute,
   HisseSymbolRoute: HisseSymbolRoute,
+  ApiPublicIngestOhlcRoute: ApiPublicIngestOhlcRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
