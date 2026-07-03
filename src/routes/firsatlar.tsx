@@ -76,6 +76,7 @@ function applyFilters(rows: OpportunityRow[], f: Filters): OpportunityRow[] {
     if (r.rsi !== null && (r.rsi < f.rsiMin || r.rsi > f.rsiMax)) return false;
     if ((r.volumeIncrease ?? -Infinity) < f.minVolInc) return false;
     if ((r.marketCap ?? 0) < f.minMarketCap) return false;
+    if ((r.liquidity ?? 0) < f.minLiquidity) return false;
     if (r.matchedPatterns < f.minPatterns) return false;
     if ((r.volatility ?? 0) > f.maxVolatility) return false;
     return true;
