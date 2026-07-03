@@ -286,7 +286,7 @@ export interface StockDetailData {
   sector: string | null;
   watchlist: WatchlistRow | null;
   aiScore: number;
-  history: { dates: string[]; closes: number[]; volumes: number[] };
+  history: { dates: string[]; closes: number[]; volumes: number[]; highs: number[]; lows: number[] };
   recentRets: number[];
   marketRet: number[];
   patterns: StockPattern[];
