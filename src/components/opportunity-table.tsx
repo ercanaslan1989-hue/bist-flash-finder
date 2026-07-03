@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import {
   MACD_STATUS_LABELS,
   scoreTier,
+  stabilityTier,
   expectation,
   probabilityNote,
   type MacdStatus,
