@@ -139,6 +139,10 @@ export interface OpportunityRow {
   volatility: number | null;
   ret5d: number | null; // accumulated % over last ~5 sessions
   ret20d: number | null; // accumulated % over last ~20 sessions
+  relStrength20d: number | null; // outperformance vs market over ~20 sessions (points)
+  obv: ObvTrend; // volume confirmation of the move
+  liquidity: number | null; // daily traded value (TL)
+  liquidityLevel: LiquidityLevel; // tradeability tier
   stability: number; // 0-100 durability of the setup
   blended: number; // AI signal discounted by stability (default ranking)
   updatedAt: string | null;
