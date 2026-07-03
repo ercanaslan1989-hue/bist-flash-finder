@@ -12,32 +12,48 @@ import { cn } from "@/lib/utils";
 // ~15 min delayed, so a tighter interval adds no freshness.
 const LIVE_REFRESH_MS = 60_000;
 
-function MoverRow({ q, kind }: { q: MoverQuote; kind: "up" | "down" }) {
+/** HH:mm:ss in Istanbul time from a unix (seconds) timestamp. */
+function fmtRowTime(asOf: number | null): string {
+  if (asOf == null) return "—";
+  return new Date(asOf * 1000).toLocaleTimeString("tr-TR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+    timeZone: "Europe/Istanbul",
+  });
+}
+
+function MoverRow({ q, kind, idx }: { q: MoverQuote; kind: "up" | "down"; idx: number }) {
   const up = kind === "up";
   return (
     <Link
       to="/hisse/$symbol"
       params={{ symbol: q.symbol }}
-      className="flex items-center justify-between gap-2 rounded-lg px-3 py-2 transition hover:bg-secondary/60"
+      className={cn(
+        "grid grid-cols-[minmax(0,1fr)_auto_auto_auto] items-center gap-2 px-3 py-2.5 transition hover:bg-secondary/60",
+        idx % 2 === 1 && "bg-secondary/20",
+      )}
     >
       <div className="min-w-0">
         <span className="font-mono text-sm font-semibold text-foreground">{q.symbol}</span>
-        {q.company_name ? (
-          <p className="truncate text-xs text-muted-foreground">{q.company_name}</p>
-        ) : null}
+        <p className="truncate text-[11px] text-muted-foreground tabular">{fmtRowTime(q.asOf)}</p>
       </div>
-      <div className="flex items-center gap-3 text-right">
-        <span className="font-mono text-sm text-foreground tabular">{fmtNum(q.price, 2)}</span>
-        <span
-          className={cn(
-            "inline-flex w-[74px] items-center justify-end gap-1 font-mono text-sm font-semibold tabular",
-            up ? "text-success" : "text-destructive",
-          )}
-        >
-          {up ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}
-          {fmtPct(q.changePct)}
-        </span>
-      </div>
+      <span className="w-16 text-right font-mono text-sm text-foreground tabular">
+        {fmtNum(q.price, 2)}
+      </span>
+      <span className="hidden w-16 text-right font-mono text-sm text-muted-foreground tabular sm:inline-block">
+        {fmtNum(q.dayHigh, 2)}
+      </span>
+      <span
+        className={cn(
+          "inline-flex w-[76px] items-center justify-end gap-1 font-mono text-sm font-semibold tabular",
+          up ? "text-success" : "text-destructive",
+        )}
+      >
+        {up ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}
+        {fmtPct(q.changePct)}
+      </span>
     </Link>
   );
 }
@@ -55,8 +71,8 @@ function Column({
 }) {
   const up = kind === "up";
   return (
-    <div className="rounded-xl border border-border bg-card p-3">
-      <div className="flex items-center gap-2 px-2 pb-2">
+    <div className="overflow-hidden rounded-xl border border-border bg-card">
+      <div className="flex items-center gap-2 border-b border-border px-3 py-2.5">
         {up ? (
           <ArrowUpRight className="h-4 w-4 text-success" />
         ) : (
@@ -64,18 +80,24 @@ function Column({
         )}
         <h3 className="font-display text-sm font-semibold text-foreground">{title}</h3>
       </div>
+      <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto] gap-2 border-b border-border bg-secondary/40 px-3 py-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+        <span>Sembol</span>
+        <span className="w-16 text-right">Son</span>
+        <span className="hidden w-16 text-right sm:inline-block">Yüksek</span>
+        <span className="w-[76px] text-right">%G</span>
+      </div>
       {loading ? (
-        <div className="space-y-1.5 px-1">
+        <div className="space-y-1.5 p-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-10 w-full" />
+            <Skeleton key={i} className="h-9 w-full" />
           ))}
         </div>
       ) : rows.length === 0 ? (
         <p className="px-3 py-6 text-center text-sm text-muted-foreground">Veri yok</p>
       ) : (
-        <div className="divide-y divide-border/60">
-          {rows.map((q) => (
-            <MoverRow key={q.symbol} q={q} kind={kind} />
+        <div className="divide-y divide-border/50">
+          {rows.map((q, idx) => (
+            <MoverRow key={q.symbol} q={q} kind={kind} idx={idx} />
           ))}
         </div>
       )}
