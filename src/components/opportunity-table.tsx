@@ -56,7 +56,7 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
           <div
             key={r.symbol}
             className={cn(
-              "grid grid-cols-[5rem_5rem_minmax(0,1fr)_5rem] items-center gap-2 px-3 py-3 transition-colors hover:bg-secondary/40",
+              "grid grid-cols-[5rem_5rem_minmax(0,1fr)_5rem] items-center gap-2 px-3 py-3 transition-colors hover:bg-secondary/40 sm:grid-cols-[6rem_6rem_minmax(0,1fr)_6rem] lg:grid-cols-[7rem_7rem_minmax(0,1fr)_7rem]",
               idx % 2 === 0 ? "bg-secondary/20" : "bg-card",
             )}
           >
