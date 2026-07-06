@@ -1,16 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import {
-  MACD_STATUS_LABELS,
-  scoreTier,
-  stabilityTier,
-  liquidityTier,
-  expectation,
-  probabilityNote,
-  type MacdStatus,
-  type ObvTrend,
-} from "@/lib/indicators";
+import { scoreTier, stabilityTier } from "@/lib/indicators";
 import type { OpportunityRow } from "@/lib/opportunities";
-import { fmtMoney, fmtNum, fmtPct } from "@/lib/format";
+import { fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function ScoreBadge({ score }: { score: number }) {
@@ -49,207 +40,58 @@ export function StabilityBadge({ score }: { score: number }) {
   );
 }
 
-
-
-function MacdPill({ status }: { status: MacdStatus }) {
-  const cls =
-    status === "bullish"
-      ? "text-success"
-      : status === "bearish"
-        ? "text-destructive"
-        : "text-muted-foreground";
-  return <span className={cn("font-medium", cls)}>{MACD_STATUS_LABELS[status]}</span>;
-}
-
-const OBV_META: Record<ObvTrend, { label: string; cls: string; sym: string }> = {
-  rising: { label: "Hacim onaylı (birikim)", cls: "text-success", sym: "▲" },
-  falling: { label: "Hacim zayıf (dağıtım riski)", cls: "text-destructive", sym: "▼" },
-  flat: { label: "Hacim nötr", cls: "text-muted-foreground", sym: "•" },
-};
-
-export function LiquidityBadge({ level, value }: { level: OpportunityRow["liquidityLevel"]; value: number | null }) {
-  const t = liquidityTier(value);
-  return (
-    <span
-      className={cn(
-        "inline-flex h-6 items-center gap-1 rounded-md border px-1.5 text-xs font-medium",
-        t.bg,
-        t.border,
-        t.text,
-      )}
-      title={value !== null ? `İşlem hacmi: ${fmtMoney(value)}` : "İşlem hacmi bilinmiyor"}
-    >
-      {t.label}
-    </span>
-  );
-}
-
-function rsiClass(rsi: number | null): string {
-  if (rsi === null) return "text-muted-foreground";
-  if (rsi >= 70) return "text-destructive";
-  if (rsi <= 30) return "text-success";
-  return "text-foreground";
-}
-
 export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-border">
-      <table className="w-full min-w-[1160px] text-sm">
-        <thead>
-          <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
-            <th className="px-3 py-2.5 font-medium">AI Skoru</th>
-            <th className="px-3 py-2.5 font-medium">Kararlılık</th>
-            <th className="px-3 py-2.5 font-medium">Hisse</th>
-            <th className="px-3 py-2.5 text-right font-medium">Güven</th>
-            <th className="px-3 py-2.5 font-medium">Beklenen</th>
-            <th className="px-3 py-2.5 text-right font-medium">Kalıp</th>
-            <th className="px-3 py-2.5 text-right font-medium">Kapanış</th>
-            <th className="px-3 py-2.5 text-right font-medium">Günlük</th>
-            <th className="px-3 py-2.5 text-right font-medium">5g Δ</th>
-            <th className="px-3 py-2.5 text-right font-medium" title="Piyasaya göre 20 günlük göreli güç">Göreli Güç</th>
-            <th className="px-3 py-2.5 text-right font-medium">Hacim Δ</th>
-            <th className="px-3 py-2.5 font-medium">Likidite</th>
-            <th className="px-3 py-2.5 text-right font-medium">RSI</th>
-            <th className="px-3 py-2.5 font-medium">MACD</th>
-            <th className="px-3 py-2.5 font-medium">Sektör</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, idx) => (
-            <tr
-              key={r.symbol}
+    <div className="rounded-xl border border-border bg-card">
+      <div className="sticky top-0 z-10 rounded-t-xl bg-card">
+        <div className="grid grid-cols-[5rem_5rem_minmax(0,1fr)_5rem] items-center gap-2 border-b border-border bg-secondary/40 px-3 py-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground sm:grid-cols-[6rem_6rem_minmax(0,1fr)_6rem] lg:grid-cols-[7rem_7rem_minmax(0,1fr)_7rem]">
+          <span className="text-center">AI Skoru</span>
+          <span className="text-center">Kararlılık</span>
+          <span>Hisse</span>
+          <span className="text-right">Günlük</span>
+        </div>
+      </div>
+      <div className="divide-y divide-border/50">
+        {rows.map((r, idx) => (
+          <div
+            key={r.symbol}
+            className={cn(
+              "grid grid-cols-[5rem_5rem_minmax(0,1fr)_5rem] items-center gap-2 px-3 py-3 transition-colors hover:bg-secondary/40 sm:grid-cols-[6rem_6rem_minmax(0,1fr)_6rem] lg:grid-cols-[7rem_7rem_minmax(0,1fr)_7rem]",
+              idx % 2 === 0 ? "bg-secondary/20" : "bg-card",
+            )}
+          >
+            <ScoreBadge score={r.aiScore} />
+            <StabilityBadge score={r.stability} />
+            <div className="min-w-0">
+              <Link
+                to="/hisse/$symbol"
+                params={{ symbol: r.symbol }}
+                className="font-mono text-sm font-semibold text-foreground hover:text-primary"
+              >
+                {r.symbol}
+              </Link>
+              <p className="truncate text-xs text-muted-foreground">{r.company_name ?? "—"}</p>
+            </div>
+            <span
               className={cn(
-                "transition-colors hover:bg-secondary/40",
-                idx % 2 ? "bg-card" : "bg-secondary/20",
+                "text-right font-mono text-sm font-semibold tabular",
+                (r.dailyReturn ?? 0) > 0
+                  ? "text-success"
+                  : (r.dailyReturn ?? 0) < 0
+                    ? "text-destructive"
+                    : "text-muted-foreground",
               )}
             >
-              <td className="px-3 py-2.5">
-                <ScoreBadge score={r.aiScore} />
-              </td>
-              <td className="px-3 py-2.5">
-                <StabilityBadge score={r.stability} />
-              </td>
-              <td className="px-3 py-2.5">
-                <Link
-                  to="/hisse/$symbol"
-                  params={{ symbol: r.symbol }}
-                  className="font-mono font-semibold text-foreground hover:text-primary"
-                >
-                  {r.symbol}
-                </Link>
-                <div className="max-w-[180px] truncate text-xs text-muted-foreground">
-                  {r.company_name ?? "—"}
-                </div>
-              </td>
-              <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
-                {r.confidence === null ? "—" : `%${r.confidence.toFixed(0)}`}
-              </td>
-              <td className="px-3 py-2.5">
-                {(() => {
-                  const e = expectation(r.aiScore);
-                  const note = probabilityNote(r.probability);
-                  return (
-                    <div className="leading-tight">
-                      <span className={cn("font-medium", e.text)}>{e.label}</span>
-                      {note ? (
-                        <span className="block text-xs text-muted-foreground">{note}</span>
-                      ) : null}
-                    </div>
-                  );
-                })()}
-              </td>
-              <td className="px-3 py-2.5 text-right font-mono tabular">
-                {r.matchedPatterns > 0 ? (
-                  <span className="rounded bg-primary/15 px-1.5 py-0.5 text-xs font-semibold text-primary">
-                    {r.matchedPatterns}
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">0</span>
-                )}
-              </td>
-              <td className="px-3 py-2.5 text-right font-mono text-foreground tabular">
-                {r.close === null ? "—" : `₺${r.close.toFixed(2)}`}
-              </td>
-              <td
-                className={cn(
-                  "px-3 py-2.5 text-right font-mono tabular",
-                  (r.dailyReturn ?? 0) > 0
-                    ? "text-success"
-                    : (r.dailyReturn ?? 0) < 0
-                      ? "text-destructive"
-                      : "text-muted-foreground",
-                )}
-              >
-                {fmtPct(r.dailyReturn)}
-              </td>
-              <td
-                className={cn(
-                  "px-3 py-2.5 text-right font-mono tabular",
-                  (r.ret5d ?? 0) >= 25
-                    ? "text-warning"
-                    : (r.ret5d ?? 0) > 0
-                      ? "text-success"
-                      : (r.ret5d ?? 0) < 0
-                        ? "text-destructive"
-                        : "text-muted-foreground",
-                )}
-                title={(r.ret5d ?? 0) >= 25 ? "Son 5 seansta aşırı yükseldi — geri çekilme riski" : undefined}
-              >
-                {fmtPct(r.ret5d)}
-              </td>
-              <td
-                className={cn(
-                  "px-3 py-2.5 text-right font-mono tabular",
-                  (r.relStrength20d ?? 0) > 0
-                    ? "text-success"
-                    : (r.relStrength20d ?? 0) < 0
-                      ? "text-destructive"
-                      : "text-muted-foreground",
-                )}
-                title="Son ~20 seansta piyasa ortalamasına göre üstün/zayıf performans (puan)"
-              >
-                {r.relStrength20d === null
-                  ? "—"
-                  : `${r.relStrength20d > 0 ? "+" : ""}${r.relStrength20d.toFixed(1)}`}
-              </td>
-              <td
-                className={cn(
-                  "px-3 py-2.5 text-right font-mono tabular",
-                  (r.volumeIncrease ?? 0) > 0 ? "text-foreground" : "text-muted-foreground",
-                )}
-              >
-                <span className="inline-flex items-center justify-end gap-1">
-                  <span className={OBV_META[r.obv].cls} title={OBV_META[r.obv].label}>
-                    {OBV_META[r.obv].sym}
-                  </span>
-                  {fmtPct(r.volumeIncrease, 0)}
-                </span>
-              </td>
-              <td className="px-3 py-2.5">
-                <LiquidityBadge level={r.liquidityLevel} value={r.liquidity} />
-              </td>
-              <td className={cn("px-3 py-2.5 text-right font-mono tabular", rsiClass(r.rsi))}>
-                {r.rsi === null ? "—" : r.rsi.toFixed(0)}
-              </td>
-              <td className="px-3 py-2.5">
-                <MacdPill status={r.macdStatus} />
-              </td>
-              <td className="px-3 py-2.5 text-muted-foreground">
-                <span className="block max-w-[140px] truncate">{r.sector ?? "—"}</span>
-              </td>
-            </tr>
-          ))}
-          {rows.length === 0 && (
-            <tr>
-              <td colSpan={16} className="px-3 py-8 text-center text-muted-foreground">
-                Bu filtrelerle eşleşen hisse bulunamadı.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+              {fmtPct(r.dailyReturn)}
+            </span>
+          </div>
+        ))}
+        {rows.length === 0 && (
+          <p className="px-3 py-8 text-center text-sm text-muted-foreground">
+            Bu filtrelerle eşleşen hisse bulunamadı.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
-
-export { fmtMoney, fmtNum };
