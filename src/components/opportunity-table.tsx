@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { scoreTier, stabilityTier, type OpportunityRow } from "@/lib/indicators";
+import { scoreTier, stabilityTier } from "@/lib/indicators";
+import type { OpportunityRow } from "@/lib/opportunities";
 import { fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
