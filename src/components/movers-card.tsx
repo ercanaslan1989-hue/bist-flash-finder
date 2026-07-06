@@ -79,20 +79,22 @@ function Column({
   const hiddenCount = rows.length - visibleRows.length;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-card">
-      <div className="flex items-center gap-2 border-b border-border px-3 py-2.5">
-        {up ? (
-          <ArrowUpRight className="h-4 w-4 text-success" />
-        ) : (
-          <ArrowDownRight className="h-4 w-4 text-destructive" />
-        )}
-        <h3 className="font-display text-sm font-semibold text-foreground">{title}</h3>
-      </div>
-      <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto] gap-2 border-b border-border bg-secondary/40 px-3 py-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-        <span>Sembol</span>
-        <span className="w-16 text-right">Son</span>
-        <span className="hidden w-16 text-right sm:inline-block">Yüksek</span>
-        <span className="w-[76px] text-right">%G</span>
+    <div className="rounded-xl border border-border bg-card">
+      <div className="sticky top-0 z-10 rounded-t-xl bg-card">
+        <div className="flex items-center gap-2 border-b border-border px-3 py-2.5">
+          {up ? (
+            <ArrowUpRight className="h-4 w-4 text-success" />
+          ) : (
+            <ArrowDownRight className="h-4 w-4 text-destructive" />
+          )}
+          <h3 className="font-display text-sm font-semibold text-foreground">{title}</h3>
+        </div>
+        <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto] gap-2 border-b border-border bg-secondary/40 px-3 py-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+          <span>Sembol</span>
+          <span className="w-16 text-right">Son</span>
+          <span className="hidden w-16 text-right sm:inline-block">Yüksek</span>
+          <span className="w-[76px] text-right">%G</span>
+        </div>
       </div>
       {loading ? (
         <div className="space-y-1.5 p-3">
