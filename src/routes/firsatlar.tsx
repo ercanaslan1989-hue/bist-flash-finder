@@ -128,16 +128,32 @@ function FirsatlarPage() {
             </span>
           ) : null}
         </div>
-        <button
-          type="button"
-          onClick={() => refetch()}
-          disabled={isFetching}
-          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
-          title="En son veriyi kontrol et"
-        >
-          <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
-          {isFetching ? "Yenileniyor" : "Yenile"}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => toggleDevMode()}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition",
+              devMode
+                ? "border-primary/40 bg-primary/10 text-primary"
+                : "border-border bg-secondary/40 text-muted-foreground hover:text-foreground",
+            )}
+            title="Eski AI skoru ile yeni skorlama motorunu karşılaştır"
+          >
+            <FlaskConical className="h-3.5 w-3.5" />
+            Geliştirici modu {devMode ? "açık" : "kapalı"}
+          </button>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
+            title="En son veriyi kontrol et"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
+            {isFetching ? "Yenileniyor" : "Yenile"}
+          </button>
+        </div>
       </div>
 
       {!isPending && fresh.tier !== "fresh" && (
