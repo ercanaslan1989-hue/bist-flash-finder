@@ -3,6 +3,7 @@ import { scoreTier, stabilityTier } from "@/lib/indicators";
 import type { OpportunityRow } from "@/lib/opportunities";
 import { fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { ScoreCompare } from "@/components/score-compare";
 
 export function ScoreBadge({ score }: { score: number }) {
   const t = scoreTier(score);
