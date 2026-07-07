@@ -5,6 +5,9 @@ import {
   beta as calcBeta,
   rsi,
   macd,
+  ema,
+  sma,
+  bollinger,
   volatility,
   stabilityScore,
   blendedScore,
@@ -15,6 +18,7 @@ import {
   type ObvTrend,
   type LiquidityLevel,
 } from "@/lib/indicators";
+import { computeFinalScore, type FinalScore } from "@/lib/scoring";
 import type { WatchlistRow, AiPatternRow } from "@/lib/research";
 
 const sb = supabase as unknown as { from: (table: string) => any };
@@ -145,6 +149,14 @@ export interface OpportunityRow {
   liquidityLevel: LiquidityLevel; // tradeability tier
   stability: number; // 0-100 durability of the setup
   blended: number; // AI signal discounted by stability (default ranking)
+  // ===== New parallel scoring engine (FAZ 2A) — additive, non-breaking =====
+  finalScore: number; // 0-100 confidence-weighted blend from the new engine
+  technicalScore: number; // 0-100 technical module sub-score
+  volumeScore: number; // 0-100 volume module sub-score
+  riskScore: number; // 0-100 risk module sub-score (higher = safer)
+  scoreConfidence: number; // 0-1 aggregate data sufficiency of the new engine
+  scoreDelta: number; // finalScore - aiScore (new engine vs legacy)
+  engine: FinalScore; // full breakdown (components + reasons) for dev mode
   updatedAt: string | null;
 }
 
@@ -221,6 +233,37 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       obv,
       liquidity: liquidityLevel,
     });
+
+    const volumeIncrease =
+      snap?.vol_ratio_20d != null ? (Number(snap.vol_ratio_20d) - 1) * 100 : null;
+    const marketCap = snap?.market_value != null ? Number(snap.market_value) : null;
+    const lastClose = snap ? Number(snap.close) : (closes[closes.length - 1] ?? null);
+
+    // New parallel scoring engine (runs alongside the legacy AI score).
+    const engine = computeFinalScore({
+      symbol: w.symbol,
+      lastClose,
+      rsi: rsiVal,
+      macdStatus: m.status,
+      macdHist: m.hist,
+      ema20: ema(closes, 20),
+      ema50: ema(closes, 50),
+      sma20: sma(closes, 20),
+      bollingerPctB: bollinger(closes).pctB,
+      ret5d,
+      ret20d,
+      dailyReturn,
+      relStrength20d,
+      obv,
+      volumeIncrease,
+      liquidityValue: liquidity,
+      liquidityLevel,
+      volatility: vol,
+      marketCap,
+      sector: w.sector,
+      kapCount: null,
+      legacyAiScore: ai,
+    });
     return {
       symbol: w.symbol,
       company_name: w.company_name,
@@ -231,11 +274,10 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       matchedPatterns: w.matched_patterns ?? 0,
       bestTarget: w.best_target,
       histSuccess: w.hist_success_pct,
-      close: snap ? Number(snap.close) : (closes[closes.length - 1] ?? null),
+      close: lastClose,
       dailyReturn,
-      volumeIncrease:
-        snap?.vol_ratio_20d != null ? (Number(snap.vol_ratio_20d) - 1) * 100 : null,
-      marketCap: snap?.market_value != null ? Number(snap.market_value) : null,
+      volumeIncrease,
+      marketCap,
       rsi: rsiVal,
       macdStatus: m.status,
       volatility: vol,
@@ -247,6 +289,13 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       liquidityLevel,
       stability,
       blended: blendedScore(ai, stability),
+      finalScore: engine.total,
+      technicalScore: engine.components.technical?.score ?? 0,
+      volumeScore: engine.components.volume?.score ?? 0,
+      riskScore: engine.components.risk?.score ?? 0,
+      scoreConfidence: engine.confidence,
+      scoreDelta: engine.delta,
+      engine,
       updatedAt: w.updated_at ?? null,
     };
   });

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { AlertTriangle, AlertOctagon, Filter, Radio, RefreshCw, RotateCcw, SlidersHorizontal } from "lucide-react";
+import { AlertTriangle, AlertOctagon, Filter, FlaskConical, Radio, RefreshCw, RotateCcw, SlidersHorizontal } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { StatCard } from "@/components/stat-card";
@@ -9,7 +9,9 @@ import { OpportunityTable } from "@/components/opportunity-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { opportunitiesQueryOptions, type OpportunityRow } from "@/lib/opportunities";
 import { useMarketOpen, REFRESH_MS } from "@/hooks/use-market-open";
+import { useDevMode } from "@/hooks/use-dev-mode";
 import { fmtDate, fmtDateShort, fmtUpdatedTSI, dataFreshness } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/firsatlar")({
   head: () => ({
@@ -91,6 +93,7 @@ function FirsatlarPage() {
     refetchOnWindowFocus: marketOpen,
   });
   const [f, setF] = useState<Filters>(DEFAULTS);
+  const [devMode, toggleDevMode] = useDevMode();
 
   const rows = data?.rows ?? [];
   const filtered = useMemo(() => applyFilters(rows, f), [rows, f]);
@@ -125,16 +128,32 @@ function FirsatlarPage() {
             </span>
           ) : null}
         </div>
-        <button
-          type="button"
-          onClick={() => refetch()}
-          disabled={isFetching}
-          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
-          title="En son veriyi kontrol et"
-        >
-          <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
-          {isFetching ? "Yenileniyor" : "Yenile"}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => toggleDevMode()}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition",
+              devMode
+                ? "border-primary/40 bg-primary/10 text-primary"
+                : "border-border bg-secondary/40 text-muted-foreground hover:text-foreground",
+            )}
+            title="Eski AI skoru ile yeni skorlama motorunu karşılaştır"
+          >
+            <FlaskConical className="h-3.5 w-3.5" />
+            Geliştirici modu {devMode ? "açık" : "kapalı"}
+          </button>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
+            title="En son veriyi kontrol et"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
+            {isFetching ? "Yenileniyor" : "Yenile"}
+          </button>
+        </div>
       </div>
 
       {!isPending && fresh.tier !== "fresh" && (
@@ -293,7 +312,7 @@ function FirsatlarPage() {
             ))}
           </div>
         ) : (
-          <OpportunityTable rows={filtered} />
+          <OpportunityTable rows={filtered} devMode={devMode} />
         )}
       </section>
     </AppShell>

@@ -3,6 +3,7 @@ import { scoreTier, stabilityTier } from "@/lib/indicators";
 import type { OpportunityRow } from "@/lib/opportunities";
 import { fmtPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { ScoreCompare } from "@/components/score-compare";
 
 export function ScoreBadge({ score }: { score: number }) {
   const t = scoreTier(score);
@@ -40,7 +41,13 @@ export function StabilityBadge({ score }: { score: number }) {
   );
 }
 
-export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
+export function OpportunityTable({
+  rows,
+  devMode = false,
+}: {
+  rows: OpportunityRow[];
+  devMode?: boolean;
+}) {
   return (
     <div className="rounded-xl border border-border bg-card">
       <div className="sticky top-0 z-10 rounded-t-xl bg-card">
@@ -53,37 +60,39 @@ export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
       </div>
       <div className="divide-y divide-border/50">
         {rows.map((r, idx) => (
-          <div
-            key={r.symbol}
-            className={cn(
-              "grid grid-cols-[5rem_5rem_minmax(0,1fr)_5rem] items-center gap-2 px-3 py-3 transition-colors hover:bg-secondary/40 sm:grid-cols-[6rem_6rem_minmax(0,1fr)_6rem] lg:grid-cols-[7rem_7rem_minmax(0,1fr)_7rem]",
-              idx % 2 === 0 ? "bg-secondary/20" : "bg-card",
-            )}
-          >
-            <ScoreBadge score={r.aiScore} />
-            <StabilityBadge score={r.stability} />
-            <div className="min-w-0">
-              <Link
-                to="/hisse/$symbol"
-                params={{ symbol: r.symbol }}
-                className="font-mono text-sm font-semibold text-foreground hover:text-primary"
-              >
-                {r.symbol}
-              </Link>
-              <p className="truncate text-xs text-muted-foreground">{r.company_name ?? "—"}</p>
-            </div>
-            <span
+          <div key={r.symbol}>
+            <div
               className={cn(
-                "text-right font-mono text-sm font-semibold tabular",
-                (r.dailyReturn ?? 0) > 0
-                  ? "text-success"
-                  : (r.dailyReturn ?? 0) < 0
-                    ? "text-destructive"
-                    : "text-muted-foreground",
+                "grid grid-cols-[5rem_5rem_minmax(0,1fr)_5rem] items-center gap-2 px-3 py-3 transition-colors hover:bg-secondary/40 sm:grid-cols-[6rem_6rem_minmax(0,1fr)_6rem] lg:grid-cols-[7rem_7rem_minmax(0,1fr)_7rem]",
+                idx % 2 === 0 ? "bg-secondary/20" : "bg-card",
               )}
             >
-              {fmtPct(r.dailyReturn)}
-            </span>
+              <ScoreBadge score={r.aiScore} />
+              <StabilityBadge score={r.stability} />
+              <div className="min-w-0">
+                <Link
+                  to="/hisse/$symbol"
+                  params={{ symbol: r.symbol }}
+                  className="font-mono text-sm font-semibold text-foreground hover:text-primary"
+                >
+                  {r.symbol}
+                </Link>
+                <p className="truncate text-xs text-muted-foreground">{r.company_name ?? "—"}</p>
+              </div>
+              <span
+                className={cn(
+                  "text-right font-mono text-sm font-semibold tabular",
+                  (r.dailyReturn ?? 0) > 0
+                    ? "text-success"
+                    : (r.dailyReturn ?? 0) < 0
+                      ? "text-destructive"
+                      : "text-muted-foreground",
+                )}
+              >
+                {fmtPct(r.dailyReturn)}
+              </span>
+            </div>
+            {devMode && <ScoreCompare row={r} />}
           </div>
         ))}
         {rows.length === 0 && (

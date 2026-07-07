@@ -1,16 +1,18 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, RefreshCw, Radio, CheckCircle2, AlertTriangle, AlertOctagon } from "lucide-react";
+import { Flame, FlaskConical, RefreshCw, Radio, CheckCircle2, AlertTriangle, AlertOctagon } from "lucide-react";
 
 import { opportunitiesQueryOptions } from "@/lib/opportunities";
 import { OpportunityTable } from "@/components/opportunity-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMarketOpen, REFRESH_MS } from "@/hooks/use-market-open";
+import { useDevMode } from "@/hooks/use-dev-mode";
 import { fmtUpdatedTSI, dataFreshness } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
   const marketOpen = useMarketOpen();
+  const [devMode, toggleDevMode] = useDevMode();
   const { data, isPending, isFetching, refetch } = useQuery({
     ...opportunitiesQueryOptions(),
     refetchInterval: marketOpen ? REFRESH_MS : false,
@@ -60,6 +62,21 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
 
           <button
             type="button"
+            onClick={() => toggleDevMode()}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-medium transition",
+              devMode
+                ? "border-primary/40 bg-primary/10 text-primary"
+                : "border-border bg-secondary/40 text-muted-foreground hover:text-foreground",
+            )}
+            title="Eski AI skoru ile yeni skorlama motorunu karşılaştır"
+          >
+            <FlaskConical className="h-3 w-3" />
+            {devMode ? "Geliştirici: açık" : "Geliştirici"}
+          </button>
+
+          <button
+            type="button"
             onClick={() => refetch()}
             disabled={isFetching}
             className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-2.5 py-1 font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
@@ -84,7 +101,7 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
         </div>
       ) : (
         <div className="mt-4">
-          <OpportunityTable rows={(data?.rows ?? []).slice(0, limit)} />
+          <OpportunityTable rows={(data?.rows ?? []).slice(0, limit)} devMode={devMode} />
           <div className="mt-3 flex justify-end">
             <Link
               to="/firsatlar"
