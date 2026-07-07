@@ -863,6 +863,178 @@ export type Database = {
         }
         Relationships: []
       }
+      backtest_metrics: {
+        Row: {
+          avg_holding: number | null
+          avg_return: number | null
+          best_streak: number | null
+          created_at: string
+          hit_rate: number | null
+          horizon: number
+          id: string
+          max_drawdown: number | null
+          median_return: number | null
+          profit_factor: number | null
+          run_id: string
+          sharpe: number | null
+          signals: number | null
+          strategy_id: string
+          strategy_label: string | null
+          worst_streak: number | null
+        }
+        Insert: {
+          avg_holding?: number | null
+          avg_return?: number | null
+          best_streak?: number | null
+          created_at?: string
+          hit_rate?: number | null
+          horizon?: number
+          id?: string
+          max_drawdown?: number | null
+          median_return?: number | null
+          profit_factor?: number | null
+          run_id: string
+          sharpe?: number | null
+          signals?: number | null
+          strategy_id: string
+          strategy_label?: string | null
+          worst_streak?: number | null
+        }
+        Update: {
+          avg_holding?: number | null
+          avg_return?: number | null
+          best_streak?: number | null
+          created_at?: string
+          hit_rate?: number | null
+          horizon?: number
+          id?: string
+          max_drawdown?: number | null
+          median_return?: number | null
+          profit_factor?: number | null
+          run_id?: string
+          sharpe?: number | null
+          signals?: number | null
+          strategy_id?: string
+          strategy_label?: string | null
+          worst_streak?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "backtest_metrics_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "backtest_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      backtest_predictions: {
+        Row: {
+          created_at: string
+          days_to_hit: number | null
+          entry_close: number | null
+          hit: boolean | null
+          id: string
+          max_ret: number | null
+          ret_10d: number | null
+          ret_1d: number | null
+          ret_20d: number | null
+          ret_3d: number | null
+          ret_5d: number | null
+          run_id: string
+          score: number | null
+          signal_date: string
+          strategy_id: string
+          symbol: string
+        }
+        Insert: {
+          created_at?: string
+          days_to_hit?: number | null
+          entry_close?: number | null
+          hit?: boolean | null
+          id?: string
+          max_ret?: number | null
+          ret_10d?: number | null
+          ret_1d?: number | null
+          ret_20d?: number | null
+          ret_3d?: number | null
+          ret_5d?: number | null
+          run_id: string
+          score?: number | null
+          signal_date: string
+          strategy_id: string
+          symbol: string
+        }
+        Update: {
+          created_at?: string
+          days_to_hit?: number | null
+          entry_close?: number | null
+          hit?: boolean | null
+          id?: string
+          max_ret?: number | null
+          ret_10d?: number | null
+          ret_1d?: number | null
+          ret_20d?: number | null
+          ret_3d?: number | null
+          ret_5d?: number | null
+          run_id?: string
+          score?: number | null
+          signal_date?: string
+          strategy_id?: string
+          symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "backtest_predictions_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "backtest_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      backtest_runs: {
+        Row: {
+          created_at: string
+          end_date: string | null
+          horizons: number[] | null
+          id: string
+          label: string | null
+          min_score: number | null
+          params: Json | null
+          start_date: string | null
+          status: string
+          total_predictions: number | null
+          universe_size: number | null
+        }
+        Insert: {
+          created_at?: string
+          end_date?: string | null
+          horizons?: number[] | null
+          id?: string
+          label?: string | null
+          min_score?: number | null
+          params?: Json | null
+          start_date?: string | null
+          status?: string
+          total_predictions?: number | null
+          universe_size?: number | null
+        }
+        Update: {
+          created_at?: string
+          end_date?: string | null
+          horizons?: number[] | null
+          id?: string
+          label?: string | null
+          min_score?: number | null
+          params?: Json | null
+          start_date?: string | null
+          status?: string
+          total_predictions?: number | null
+          universe_size?: number | null
+        }
+        Relationships: []
+      }
       bist_active_universe: {
         Row: {
           company_name: string | null
