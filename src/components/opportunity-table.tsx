@@ -250,7 +250,7 @@ export function OpportunityTable({
                   </td>
                 </tr>
               )}
-            </>
+            </Fragment>
           ))}
           {rows.length === 0 && (
             <tr>
