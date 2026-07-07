@@ -15,6 +15,7 @@ import { Route as StocksRouteImport } from './routes/stocks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as OosRouteImport } from './routes/oos'
+import { Route as MlLabRouteImport } from './routes/ml-lab'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as FirsatlarRouteImport } from './routes/firsatlar'
 import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
@@ -56,6 +57,11 @@ const SignalsRoute = SignalsRouteImport.update({
 const OosRoute = OosRouteImport.update({
   id: '/oos',
   path: '/oos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MlLabRoute = MlLabRouteImport.update({
+  id: '/ml-lab',
+  path: '/ml-lab',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MethodologyRoute = MethodologyRouteImport.update({
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
   '/methodology': typeof MethodologyRoute
+  '/ml-lab': typeof MlLabRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
   '/methodology': typeof MethodologyRoute
+  '/ml-lab': typeof MlLabRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
   '/methodology': typeof MethodologyRoute
+  '/ml-lab': typeof MlLabRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/feature-importance'
     | '/firsatlar'
     | '/methodology'
+    | '/ml-lab'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/feature-importance'
     | '/firsatlar'
     | '/methodology'
+    | '/ml-lab'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/feature-importance'
     | '/firsatlar'
     | '/methodology'
+    | '/ml-lab'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   FeatureImportanceRoute: typeof FeatureImportanceRoute
   FirsatlarRoute: typeof FirsatlarRoute
   MethodologyRoute: typeof MethodologyRoute
+  MlLabRoute: typeof MlLabRoute
   OosRoute: typeof OosRoute
   SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/oos'
       fullPath: '/oos'
       preLoaderRoute: typeof OosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ml-lab': {
+      id: '/ml-lab'
+      path: '/ml-lab'
+      fullPath: '/ml-lab'
+      preLoaderRoute: typeof MlLabRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/methodology': {
@@ -405,6 +425,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeatureImportanceRoute: FeatureImportanceRoute,
   FirsatlarRoute: FirsatlarRoute,
   MethodologyRoute: MethodologyRoute,
+  MlLabRoute: MlLabRoute,
   OosRoute: OosRoute,
   SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

@@ -19,6 +19,7 @@ const NAV = [
   { to: "/watchlist", label: "İzleme Listesi" },
   { to: "/backtest", label: "Geçmiş Performans" },
   { to: "/backtest-lab", label: "Backtest Motoru" },
+  { to: "/ml-lab", label: "ML Lab" },
   { to: "/oos", label: "Canlı Doğrulama" },
   { to: "/events", label: "Olaylar" },
   { to: "/stocks", label: "Evren" },
