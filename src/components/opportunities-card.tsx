@@ -62,6 +62,21 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
 
           <button
             type="button"
+            onClick={() => toggleDevMode()}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-medium transition",
+              devMode
+                ? "border-primary/40 bg-primary/10 text-primary"
+                : "border-border bg-secondary/40 text-muted-foreground hover:text-foreground",
+            )}
+            title="Eski AI skoru ile yeni skorlama motorunu karşılaştır"
+          >
+            <FlaskConical className="h-3 w-3" />
+            {devMode ? "Geliştirici: açık" : "Geliştirici"}
+          </button>
+
+          <button
+            type="button"
             onClick={() => refetch()}
             disabled={isFetching}
             className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/40 px-2.5 py-1 font-medium text-foreground transition hover:bg-secondary disabled:opacity-60"
