@@ -149,6 +149,14 @@ export interface OpportunityRow {
   liquidityLevel: LiquidityLevel; // tradeability tier
   stability: number; // 0-100 durability of the setup
   blended: number; // AI signal discounted by stability (default ranking)
+  // ===== New parallel scoring engine (FAZ 2A) — additive, non-breaking =====
+  finalScore: number; // 0-100 confidence-weighted blend from the new engine
+  technicalScore: number; // 0-100 technical module sub-score
+  volumeScore: number; // 0-100 volume module sub-score
+  riskScore: number; // 0-100 risk module sub-score (higher = safer)
+  scoreConfidence: number; // 0-1 aggregate data sufficiency of the new engine
+  scoreDelta: number; // finalScore - aiScore (new engine vs legacy)
+  engine: FinalScore; // full breakdown (components + reasons) for dev mode
   updatedAt: string | null;
 }
 
