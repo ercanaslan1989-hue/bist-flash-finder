@@ -5,6 +5,9 @@ import {
   beta as calcBeta,
   rsi,
   macd,
+  ema,
+  sma,
+  bollinger,
   volatility,
   stabilityScore,
   blendedScore,
@@ -15,6 +18,7 @@ import {
   type ObvTrend,
   type LiquidityLevel,
 } from "@/lib/indicators";
+import { computeFinalScore, type FinalScore } from "@/lib/scoring";
 import type { WatchlistRow, AiPatternRow } from "@/lib/research";
 
 const sb = supabase as unknown as { from: (table: string) => any };
