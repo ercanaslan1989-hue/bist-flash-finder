@@ -234,7 +234,11 @@ async function fetchPredictionReview(): Promise<PredictionReviewData> {
     let daysToHit: number | null = null;
     let marketWindowRet = 0;
     let hit = false;
+    let corporateAction = false;
     for (let i = entryIdx + 1; i <= windowEnd; i++) {
+      // BIST daily band is ±%10; a move well beyond that is a corporate action
+      // (split / capital increase) in the unadjusted series, not a real move.
+      if (Math.abs(series.rets[i]) > 14) corporateAction = true;
       const cum = (series.closes[i] / entry - 1) * 100;
       if (cum > maxRet) maxRet = cum;
       finalRet = cum;
@@ -250,6 +254,11 @@ async function fetchPredictionReview(): Promise<PredictionReviewData> {
         daysToHit = dayN;
       }
     }
+
+    // Skip predictions whose window is distorted by an unadjusted corporate
+    // action (unless the target was already reached before it happened).
+    if (corporateAction && !hit) continue;
+
 
     let status: OutcomeStatus;
     if (hit) status = "hit";
