@@ -141,3 +141,59 @@ export async function fetchModelMetrics(modelId: string): Promise<StoredModelMet
   const res = await sb.from("ml_metrics").select("*").eq("model_id", modelId);
   return (res.data ?? []) as StoredModelMetric[];
 }
+
+export interface StoredComparison {
+  id: string;
+  run_date: string;
+  horizon: number;
+  champion_id: string;
+  champion_label: string | null;
+  challenger_model_id: string | null;
+  challenger_label: string | null;
+  champion_precision: number | null;
+  challenger_precision: number | null;
+  champion_avg_return: number | null;
+  challenger_avg_return: number | null;
+  champion_signals: number | null;
+  challenger_signals: number | null;
+  winner: string | null;
+  is_candidate: boolean;
+  created_at: string;
+}
+
+/** Persist a Champion–Challenger comparison. Returns the row id. */
+export async function saveComparison(
+  challengerModelId: string | null,
+  cmp: Comparison,
+): Promise<string | null> {
+  const res = await sb
+    .from("ml_champion_challenger")
+    .insert({
+      horizon: cmp.horizon,
+      champion_id: cmp.champion.id,
+      champion_label: cmp.champion.label,
+      challenger_model_id: challengerModelId,
+      challenger_label: cmp.challenger.label,
+      champion_precision: finite(cmp.champion.precision),
+      challenger_precision: finite(cmp.challenger.precision),
+      champion_avg_return: finite(cmp.champion.avgReturn),
+      challenger_avg_return: finite(cmp.challenger.avgReturn),
+      champion_signals: cmp.champion.signals,
+      challenger_signals: cmp.challenger.signals,
+      winner: cmp.winner,
+      is_candidate: cmp.isCandidate,
+    })
+    .select("id")
+    .single();
+  return res.data?.id ?? null;
+}
+
+/** List recent Champion–Challenger comparisons, newest first. */
+export async function fetchComparisons(limit = 40): Promise<StoredComparison[]> {
+  const res = await sb
+    .from("ml_champion_challenger")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  return (res.data ?? []) as StoredComparison[];
+}
