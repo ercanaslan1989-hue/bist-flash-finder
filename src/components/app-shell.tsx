@@ -18,6 +18,7 @@ const NAV = [
   { to: "/feature-importance", label: "Göstergeler" },
   { to: "/watchlist", label: "İzleme Listesi" },
   { to: "/backtest", label: "Geçmiş Performans" },
+  { to: "/backtest-lab", label: "Backtest Motoru" },
   { to: "/oos", label: "Canlı Doğrulama" },
   { to: "/events", label: "Olaylar" },
   { to: "/stocks", label: "Evren" },

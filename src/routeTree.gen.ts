@@ -20,6 +20,7 @@ import { Route as FirsatlarRouteImport } from './routes/firsatlar'
 import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CoverageRouteImport } from './routes/coverage'
+import { Route as BacktestLabRouteImport } from './routes/backtest-lab'
 import { Route as BacktestRouteImport } from './routes/backtest'
 import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
@@ -82,6 +83,11 @@ const CoverageRoute = CoverageRouteImport.update({
   path: '/coverage',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BacktestLabRoute = BacktestLabRouteImport.update({
+  id: '/backtest-lab',
+  path: '/backtest-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BacktestRoute = BacktestRouteImport.update({
   id: '/backtest',
   path: '/backtest',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
   '/backtest': typeof BacktestRoute
+  '/backtest-lab': typeof BacktestLabRoute
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
   '/backtest': typeof BacktestRoute
+  '/backtest-lab': typeof BacktestLabRoute
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai-patterns': typeof AiPatternsRoute
   '/backtest': typeof BacktestRoute
+  '/backtest-lab': typeof BacktestLabRoute
   '/coverage': typeof CoverageRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-patterns'
     | '/backtest'
+    | '/backtest-lab'
     | '/coverage'
     | '/events'
     | '/feature-importance'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-patterns'
     | '/backtest'
+    | '/backtest-lab'
     | '/coverage'
     | '/events'
     | '/feature-importance'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-patterns'
     | '/backtest'
+    | '/backtest-lab'
     | '/coverage'
     | '/events'
     | '/feature-importance'
@@ -235,6 +247,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiPatternsRoute: typeof AiPatternsRoute
   BacktestRoute: typeof BacktestRoute
+  BacktestLabRoute: typeof BacktestLabRoute
   CoverageRoute: typeof CoverageRoute
   EventsRoute: typeof EventsRoute
   FeatureImportanceRoute: typeof FeatureImportanceRoute
@@ -330,6 +343,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoverageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/backtest-lab': {
+      id: '/backtest-lab'
+      path: '/backtest-lab'
+      fullPath: '/backtest-lab'
+      preLoaderRoute: typeof BacktestLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/backtest': {
       id: '/backtest'
       path: '/backtest'
@@ -379,6 +399,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiPatternsRoute: AiPatternsRoute,
   BacktestRoute: BacktestRoute,
+  BacktestLabRoute: BacktestLabRoute,
   CoverageRoute: CoverageRoute,
   EventsRoute: EventsRoute,
   FeatureImportanceRoute: FeatureImportanceRoute,
