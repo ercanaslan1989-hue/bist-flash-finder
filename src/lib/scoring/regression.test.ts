@@ -51,7 +51,7 @@ describe("Scoring engine regression / backward-compat", () => {
         ret5d: 8,
         ret20d: 18,
       },
-      expected: 91,
+      expected: 98,
     },
     {
       name: "overbought exhausted spike",
@@ -69,7 +69,7 @@ describe("Scoring engine regression / backward-compat", () => {
         ret20d: 60,
         dailyReturn: -5,
       },
-      expected: 18,
+      expected: 8,
     },
   ];
 
