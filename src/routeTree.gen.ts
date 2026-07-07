@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WatchlistRouteImport } from './routes/watchlist'
+import { Route as TahminTakibiRouteImport } from './routes/tahmin-takibi'
 import { Route as StocksRouteImport } from './routes/stocks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
@@ -29,6 +30,11 @@ import { Route as ApiPublicIngestOhlcRouteImport } from './routes/api/public/ing
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
   path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TahminTakibiRoute = TahminTakibiRouteImport.update({
+  id: '/tahmin-takibi',
+  path: '/tahmin-takibi',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StocksRoute = StocksRouteImport.update({
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
+  '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
+  '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stocks': typeof StocksRoute
+  '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
+    | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-ohlc'
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
+    | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-ohlc'
@@ -213,6 +224,7 @@ export interface FileRouteTypes {
     | '/signals'
     | '/sitemap.xml'
     | '/stocks'
+    | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-ohlc'
@@ -232,6 +244,7 @@ export interface RootRouteChildren {
   SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StocksRoute: typeof StocksRoute
+  TahminTakibiRoute: typeof TahminTakibiRoute
   WatchlistRoute: typeof WatchlistRoute
   HisseSymbolRoute: typeof HisseSymbolRoute
   ApiPublicIngestOhlcRoute: typeof ApiPublicIngestOhlcRoute
@@ -245,6 +258,13 @@ declare module '@tanstack/react-router' {
       path: '/watchlist'
       fullPath: '/watchlist'
       preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tahmin-takibi': {
+      id: '/tahmin-takibi'
+      path: '/tahmin-takibi'
+      fullPath: '/tahmin-takibi'
+      preLoaderRoute: typeof TahminTakibiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stocks': {
@@ -368,6 +388,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StocksRoute: StocksRoute,
+  TahminTakibiRoute: TahminTakibiRoute,
   WatchlistRoute: WatchlistRoute,
   HisseSymbolRoute: HisseSymbolRoute,
   ApiPublicIngestOhlcRoute: ApiPublicIngestOhlcRoute,
@@ -376,13 +397,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
