@@ -41,7 +41,13 @@ export function StabilityBadge({ score }: { score: number }) {
   );
 }
 
-export function OpportunityTable({ rows }: { rows: OpportunityRow[] }) {
+export function OpportunityTable({
+  rows,
+  devMode = false,
+}: {
+  rows: OpportunityRow[];
+  devMode?: boolean;
+}) {
   return (
     <div className="rounded-xl border border-border bg-card">
       <div className="sticky top-0 z-10 rounded-t-xl bg-card">
