@@ -59,7 +59,6 @@ export function makePrediction(p: Partial<Prediction> & { signalDate: string }):
     strategyId: "test",
     score: 70,
     symbol: "TEST",
-    signalDate: p.signalDate,
     entryClose: 100,
     ret1d: null,
     ret3d: null,
