@@ -121,9 +121,8 @@ export function OpportunityTable({
         </thead>
         <tbody>
           {rows.map((r, idx) => (
-            <>
+            <Fragment key={r.symbol}>
               <tr
-                key={r.symbol}
                 className={cn(
                   "transition-colors hover:bg-secondary/40",
                   idx % 2 ? "bg-card" : "bg-secondary/20",
