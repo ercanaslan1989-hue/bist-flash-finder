@@ -312,7 +312,7 @@ function FirsatlarPage() {
             ))}
           </div>
         ) : (
-          <OpportunityTable rows={filtered} />
+          <OpportunityTable rows={filtered} devMode={devMode} />
         )}
       </section>
     </AppShell>
