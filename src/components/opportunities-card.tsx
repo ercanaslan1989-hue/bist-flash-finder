@@ -101,7 +101,7 @@ export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
         </div>
       ) : (
         <div className="mt-4">
-          <OpportunityTable rows={(data?.rows ?? []).slice(0, limit)} />
+          <OpportunityTable rows={(data?.rows ?? []).slice(0, limit)} devMode={devMode} />
           <div className="mt-3 flex justify-end">
             <Link
               to="/firsatlar"
