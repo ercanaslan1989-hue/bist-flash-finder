@@ -274,11 +274,10 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       matchedPatterns: w.matched_patterns ?? 0,
       bestTarget: w.best_target,
       histSuccess: w.hist_success_pct,
-      close: snap ? Number(snap.close) : (closes[closes.length - 1] ?? null),
+      close: lastClose,
       dailyReturn,
-      volumeIncrease:
-        snap?.vol_ratio_20d != null ? (Number(snap.vol_ratio_20d) - 1) * 100 : null,
-      marketCap: snap?.market_value != null ? Number(snap.market_value) : null,
+      volumeIncrease,
+      marketCap,
       rsi: rsiVal,
       macdStatus: m.status,
       volatility: vol,
@@ -290,6 +289,13 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       liquidityLevel,
       stability,
       blended: blendedScore(ai, stability),
+      finalScore: engine.total,
+      technicalScore: engine.components.technical?.score ?? 0,
+      volumeScore: engine.components.volume?.score ?? 0,
+      riskScore: engine.components.risk?.score ?? 0,
+      scoreConfidence: engine.confidence,
+      scoreDelta: engine.delta,
+      engine,
       updatedAt: w.updated_at ?? null,
     };
   });
