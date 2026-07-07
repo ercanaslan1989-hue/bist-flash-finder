@@ -1626,6 +1626,202 @@ export type Database = {
         }
         Relationships: []
       }
+      ml_champion_challenger: {
+        Row: {
+          challenger_avg_return: number | null
+          challenger_label: string | null
+          challenger_model_id: string | null
+          challenger_precision: number | null
+          challenger_signals: number | null
+          champion_avg_return: number | null
+          champion_id: string
+          champion_label: string | null
+          champion_precision: number | null
+          champion_signals: number | null
+          created_at: string
+          horizon: number
+          id: string
+          is_candidate: boolean
+          run_date: string
+          winner: string | null
+        }
+        Insert: {
+          challenger_avg_return?: number | null
+          challenger_label?: string | null
+          challenger_model_id?: string | null
+          challenger_precision?: number | null
+          challenger_signals?: number | null
+          champion_avg_return?: number | null
+          champion_id?: string
+          champion_label?: string | null
+          champion_precision?: number | null
+          champion_signals?: number | null
+          created_at?: string
+          horizon: number
+          id?: string
+          is_candidate?: boolean
+          run_date?: string
+          winner?: string | null
+        }
+        Update: {
+          challenger_avg_return?: number | null
+          challenger_label?: string | null
+          challenger_model_id?: string | null
+          challenger_precision?: number | null
+          challenger_signals?: number | null
+          champion_avg_return?: number | null
+          champion_id?: string
+          champion_label?: string | null
+          champion_precision?: number | null
+          champion_signals?: number | null
+          created_at?: string
+          horizon?: number
+          id?: string
+          is_candidate?: boolean
+          run_date?: string
+          winner?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ml_champion_challenger_challenger_model_id_fkey"
+            columns: ["challenger_model_id"]
+            isOneToOne: false
+            referencedRelation: "ml_models"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ml_metrics: {
+        Row: {
+          accuracy: number | null
+          avg_return: number | null
+          created_at: string
+          dataset: string
+          f1: number | null
+          horizon: number
+          id: string
+          max_drawdown: number | null
+          model_id: string
+          pr_auc: number | null
+          precision: number | null
+          profit_factor: number | null
+          recall: number | null
+          roc_auc: number | null
+          sharpe: number | null
+          signals: number | null
+          threshold: number | null
+        }
+        Insert: {
+          accuracy?: number | null
+          avg_return?: number | null
+          created_at?: string
+          dataset: string
+          f1?: number | null
+          horizon: number
+          id?: string
+          max_drawdown?: number | null
+          model_id: string
+          pr_auc?: number | null
+          precision?: number | null
+          profit_factor?: number | null
+          recall?: number | null
+          roc_auc?: number | null
+          sharpe?: number | null
+          signals?: number | null
+          threshold?: number | null
+        }
+        Update: {
+          accuracy?: number | null
+          avg_return?: number | null
+          created_at?: string
+          dataset?: string
+          f1?: number | null
+          horizon?: number
+          id?: string
+          max_drawdown?: number | null
+          model_id?: string
+          pr_auc?: number | null
+          precision?: number | null
+          profit_factor?: number | null
+          recall?: number | null
+          roc_auc?: number | null
+          sharpe?: number | null
+          signals?: number | null
+          threshold?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ml_metrics_model_id_fkey"
+            columns: ["model_id"]
+            isOneToOne: false
+            referencedRelation: "ml_models"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ml_models: {
+        Row: {
+          created_at: string
+          data_end: string | null
+          data_start: string | null
+          feature_names: string[]
+          feature_version: string
+          horizon: number
+          id: string
+          label_type: string
+          model_blob: Json | null
+          model_type: string
+          notes: string | null
+          params: Json | null
+          status: string
+          test_samples: number | null
+          train_samples: number | null
+          up_threshold: number
+          val_samples: number | null
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          data_end?: string | null
+          data_start?: string | null
+          feature_names: string[]
+          feature_version: string
+          horizon: number
+          id?: string
+          label_type?: string
+          model_blob?: Json | null
+          model_type: string
+          notes?: string | null
+          params?: Json | null
+          status?: string
+          test_samples?: number | null
+          train_samples?: number | null
+          up_threshold?: number
+          val_samples?: number | null
+          version: string
+        }
+        Update: {
+          created_at?: string
+          data_end?: string | null
+          data_start?: string | null
+          feature_names?: string[]
+          feature_version?: string
+          horizon?: number
+          id?: string
+          label_type?: string
+          model_blob?: Json | null
+          model_type?: string
+          notes?: string | null
+          params?: Json | null
+          status?: string
+          test_samples?: number | null
+          train_samples?: number | null
+          up_threshold?: number
+          val_samples?: number | null
+          version?: string
+        }
+        Relationships: []
+      }
       pred_catalog: {
         Row: {
           feature_group: string | null
