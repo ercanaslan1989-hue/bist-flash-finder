@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 export function OpportunitiesCard({ limit = 12 }: { limit?: number }) {
   const marketOpen = useMarketOpen();
+  const [devMode, toggleDevMode] = useDevMode();
   const { data, isPending, isFetching, refetch } = useQuery({
     ...opportunitiesQueryOptions(),
     refetchInterval: marketOpen ? REFRESH_MS : false,
