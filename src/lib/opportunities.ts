@@ -233,6 +233,37 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       obv,
       liquidity: liquidityLevel,
     });
+
+    const volumeIncrease =
+      snap?.vol_ratio_20d != null ? (Number(snap.vol_ratio_20d) - 1) * 100 : null;
+    const marketCap = snap?.market_value != null ? Number(snap.market_value) : null;
+    const lastClose = snap ? Number(snap.close) : (closes[closes.length - 1] ?? null);
+
+    // New parallel scoring engine (runs alongside the legacy AI score).
+    const engine = computeFinalScore({
+      symbol: w.symbol,
+      lastClose,
+      rsi: rsiVal,
+      macdStatus: m.status,
+      macdHist: m.hist,
+      ema20: ema(closes, 20),
+      ema50: ema(closes, 50),
+      sma20: sma(closes, 20),
+      bollingerPctB: bollinger(closes).pctB,
+      ret5d,
+      ret20d,
+      dailyReturn,
+      relStrength20d,
+      obv,
+      volumeIncrease,
+      liquidityValue: liquidity,
+      liquidityLevel,
+      volatility: vol,
+      marketCap,
+      sector: w.sector,
+      kapCount: null,
+      legacyAiScore: ai,
+    });
     return {
       symbol: w.symbol,
       company_name: w.company_name,
