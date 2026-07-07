@@ -9,6 +9,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { serializeModel } from "./model-store";
+import type { Comparison } from "./champion-challenger";
 import type { EvalReport, TrainedModel } from "./types";
 
 const sb = supabase as unknown as { from: (table: string) => any };
