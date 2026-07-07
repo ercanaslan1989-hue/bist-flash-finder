@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, RefreshCw, Radio, CheckCircle2, AlertTriangle, AlertOctagon } from "lucide-react";
+import { Flame, FlaskConical, RefreshCw, Radio, CheckCircle2, AlertTriangle, AlertOctagon } from "lucide-react";
 
 import { opportunitiesQueryOptions } from "@/lib/opportunities";
 import { OpportunityTable } from "@/components/opportunity-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMarketOpen, REFRESH_MS } from "@/hooks/use-market-open";
+import { useDevMode } from "@/hooks/use-dev-mode";
 import { fmtUpdatedTSI, dataFreshness } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
