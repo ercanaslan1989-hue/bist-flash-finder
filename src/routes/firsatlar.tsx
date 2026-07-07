@@ -93,6 +93,7 @@ function FirsatlarPage() {
     refetchOnWindowFocus: marketOpen,
   });
   const [f, setF] = useState<Filters>(DEFAULTS);
+  const [devMode, toggleDevMode] = useDevMode();
 
   const rows = data?.rows ?? [];
   const filtered = useMemo(() => applyFilters(rows, f), [rows, f]);
