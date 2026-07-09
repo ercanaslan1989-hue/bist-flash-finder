@@ -17,6 +17,7 @@ import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as OosRouteImport } from './routes/oos'
 import { Route as MlLabRouteImport } from './routes/ml-lab'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as MarketIntelligenceRouteImport } from './routes/market-intelligence'
 import { Route as FirsatlarRouteImport } from './routes/firsatlar'
 import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
 import { Route as EventsRouteImport } from './routes/events'
@@ -67,6 +68,11 @@ const MlLabRoute = MlLabRouteImport.update({
 const MethodologyRoute = MethodologyRouteImport.update({
   id: '/methodology',
   path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketIntelligenceRoute = MarketIntelligenceRouteImport.update({
+  id: '/market-intelligence',
+  path: '/market-intelligence',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FirsatlarRoute = FirsatlarRouteImport.update({
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
+  '/market-intelligence': typeof MarketIntelligenceRoute
   '/methodology': typeof MethodologyRoute
   '/ml-lab': typeof MlLabRoute
   '/oos': typeof OosRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
+  '/market-intelligence': typeof MarketIntelligenceRoute
   '/methodology': typeof MethodologyRoute
   '/ml-lab': typeof MlLabRoute
   '/oos': typeof OosRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
+  '/market-intelligence': typeof MarketIntelligenceRoute
   '/methodology': typeof MethodologyRoute
   '/ml-lab': typeof MlLabRoute
   '/oos': typeof OosRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/feature-importance'
     | '/firsatlar'
+    | '/market-intelligence'
     | '/methodology'
     | '/ml-lab'
     | '/oos'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/feature-importance'
     | '/firsatlar'
+    | '/market-intelligence'
     | '/methodology'
     | '/ml-lab'
     | '/oos'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/feature-importance'
     | '/firsatlar'
+    | '/market-intelligence'
     | '/methodology'
     | '/ml-lab'
     | '/oos'
@@ -264,6 +276,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   FeatureImportanceRoute: typeof FeatureImportanceRoute
   FirsatlarRoute: typeof FirsatlarRoute
+  MarketIntelligenceRoute: typeof MarketIntelligenceRoute
   MethodologyRoute: typeof MethodologyRoute
   MlLabRoute: typeof MlLabRoute
   OosRoute: typeof OosRoute
@@ -333,6 +346,13 @@ declare module '@tanstack/react-router' {
       path: '/methodology'
       fullPath: '/methodology'
       preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/market-intelligence': {
+      id: '/market-intelligence'
+      path: '/market-intelligence'
+      fullPath: '/market-intelligence'
+      preLoaderRoute: typeof MarketIntelligenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/firsatlar': {
@@ -424,6 +444,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   FeatureImportanceRoute: FeatureImportanceRoute,
   FirsatlarRoute: FirsatlarRoute,
+  MarketIntelligenceRoute: MarketIntelligenceRoute,
   MethodologyRoute: MethodologyRoute,
   MlLabRoute: MlLabRoute,
   OosRoute: OosRoute,
