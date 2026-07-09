@@ -2,8 +2,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { queryOptions } from "@tanstack/react-query";
 
 import { KapCollector, type RawKapDisclosure, type KapDisclosure } from "./kap-collector";
-import { computeSectorStats, type RawSectorRow, type SectorStats } from "./sector-collector";
-import { computeBreadth, type RawBreadthRow, type MarketBreadth } from "./market-breadth-collector";
+import {
+  SectorCollector,
+  computeSectorStats,
+  type RawSectorRow,
+  type SectorStats,
+} from "./sector-collector";
+import {
+  MarketBreadthCollector,
+  computeBreadth,
+  type RawBreadthRow,
+  type MarketBreadth,
+} from "./market-breadth-collector";
 
 // Live data reader for the Market Intelligence dashboard. It reuses the same
 // loosely-typed Supabase handle pattern as research.ts and feeds real rows
@@ -42,8 +52,9 @@ async function fetchMarketIntel(): Promise<MarketIntelData> {
       : Promise.resolve({ data: [] }),
   ]);
 
-  const kapCollector = new KapCollector(async () => (kapRes.data ?? []) as RawKapDisclosure[]);
-  const kapResult = await kapCollector.collect({}, { backoffMs: 0 });
+  const kapResult = await new KapCollector(
+    async () => (kapRes.data ?? []) as RawKapDisclosure[],
+  ).collect({}, { backoffMs: 0 });
 
   const snaps = (snapRes.data ?? []) as Array<{
     symbol: string;
@@ -64,10 +75,10 @@ async function fetchMarketIntel(): Promise<MarketIntelData> {
     ret_20d: s.ret_20d,
     traded_value: s.daily_traded_value,
   }));
-  const sectorCollector = new (await import("./sector-collector")).SectorCollector(
-    async () => sectorRows,
+  const sectorResult = await new SectorCollector(async () => sectorRows).collect(
+    {},
+    { backoffMs: 0 },
   );
-  const sectorResult = await sectorCollector.collect({}, { backoffMs: 0 });
   const sectors = computeSectorStats(sectorResult.items);
 
   const breadthRows: RawBreadthRow[] = snaps.map((s) => ({
@@ -76,20 +87,14 @@ async function fetchMarketIntel(): Promise<MarketIntelData> {
     ret_1d: s.daily_return_pct,
     close: s.close,
   }));
-  const breadthCollector = new MarketBreadthCollectorLazy(async () => breadthRows);
-  const breadthResult = await breadthCollector.collect({}, { backoffMs: 0 });
+  const breadthResult = await new MarketBreadthCollector(async () => breadthRows).collect(
+    {},
+    { backoffMs: 0 },
+  );
   const breadth = computeBreadth(breadthResult.items);
 
-  return {
-    kap: kapResult.items.slice().reverse(),
-    sectors,
-    breadth,
-    lastDate,
-  };
+  return { kap: kapResult.items.slice().reverse(), sectors, breadth, lastDate };
 }
-
-// Local re-import to avoid a circular top-level dependency during SSR.
-import { MarketBreadthCollector as MarketBreadthCollectorLazy } from "./market-breadth-collector";
 
 export const marketIntelQueryOptions = () =>
   queryOptions({
