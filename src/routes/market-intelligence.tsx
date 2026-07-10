@@ -120,6 +120,44 @@ function MarketIntelligencePage() {
         />
       </section>
 
+      {/* Macro indicators */}
+      <section className="mt-10">
+        <div className="flex items-center gap-2">
+          <LineChart className="h-5 w-5 text-primary" />
+          <h2 className="font-display text-xl font-bold text-foreground">Makro göstergeler</h2>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {data.macro.map((m) => (
+            <div key={m.indicator} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-baseline justify-between">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  {m.label}
+                </p>
+                {m.changePct != null && (
+                  <span
+                    className={cn(
+                      "font-mono text-xs font-semibold tabular",
+                      m.changePct >= 0 ? "text-success" : "text-destructive",
+                    )}
+                  >
+                    {m.changePct >= 0 ? "▲" : "▼"} {Math.abs(m.changePct).toFixed(2)}%
+                  </span>
+                )}
+              </div>
+              <p className="mt-1 font-display text-2xl font-bold tabular text-foreground">
+                {m.latest != null ? fmtNum(m.latest) : "—"}
+              </p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {m.date ? fmtDate(m.date) : "veri yok"}
+              </p>
+            </div>
+          ))}
+          {data.macro.every((m) => m.latest == null) && (
+            <p className="text-sm text-muted-foreground">Makro göstergesi henüz beslenmedi.</p>
+          )}
+        </div>
+      </section>
+
       {/* Sector ranking */}
       <section className="mt-10">
         <div className="flex items-center gap-2">
