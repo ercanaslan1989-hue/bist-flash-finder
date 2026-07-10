@@ -30,6 +30,7 @@ import { Route as HisseSymbolRouteImport } from './routes/hisse.$symbol'
 import { Route as ApiPublicLiveMoversRouteImport } from './routes/api/public/live-movers'
 import { Route as ApiPublicIngestOhlcRouteImport } from './routes/api/public/ingest-ohlc'
 import { Route as ApiPublicIngestNewsRouteImport } from './routes/api/public/ingest-news'
+import { Route as ApiPublicIngestMacroRouteImport } from './routes/api/public/ingest-macro'
 
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
@@ -136,6 +137,11 @@ const ApiPublicIngestNewsRoute = ApiPublicIngestNewsRouteImport.update({
   path: '/api/public/ingest-news',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicIngestMacroRoute = ApiPublicIngestMacroRouteImport.update({
+  id: '/api/public/ingest-macro',
+  path: '/api/public/ingest-macro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-macro': typeof ApiPublicIngestMacroRoute
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-macro': typeof ApiPublicIngestMacroRoute
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-macro': typeof ApiPublicIngestMacroRoute
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-macro'
     | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-macro'
     | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
@@ -274,6 +285,7 @@ export interface FileRouteTypes {
     | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-macro'
     | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
@@ -298,6 +310,7 @@ export interface RootRouteChildren {
   TahminTakibiRoute: typeof TahminTakibiRoute
   WatchlistRoute: typeof WatchlistRoute
   HisseSymbolRoute: typeof HisseSymbolRoute
+  ApiPublicIngestMacroRoute: typeof ApiPublicIngestMacroRoute
   ApiPublicIngestNewsRoute: typeof ApiPublicIngestNewsRoute
   ApiPublicIngestOhlcRoute: typeof ApiPublicIngestOhlcRoute
   ApiPublicLiveMoversRoute: typeof ApiPublicLiveMoversRoute
@@ -452,6 +465,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicIngestNewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ingest-macro': {
+      id: '/api/public/ingest-macro'
+      path: '/api/public/ingest-macro'
+      fullPath: '/api/public/ingest-macro'
+      preLoaderRoute: typeof ApiPublicIngestMacroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -474,6 +494,7 @@ const rootRouteChildren: RootRouteChildren = {
   TahminTakibiRoute: TahminTakibiRoute,
   WatchlistRoute: WatchlistRoute,
   HisseSymbolRoute: HisseSymbolRoute,
+  ApiPublicIngestMacroRoute: ApiPublicIngestMacroRoute,
   ApiPublicIngestNewsRoute: ApiPublicIngestNewsRoute,
   ApiPublicIngestOhlcRoute: ApiPublicIngestOhlcRoute,
   ApiPublicLiveMoversRoute: ApiPublicLiveMoversRoute,
