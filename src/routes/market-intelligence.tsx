@@ -410,7 +410,7 @@ function MarketIntelligencePage() {
           ))}
         </div>
       </section>
-
+    </AppShell>
   );
 }
 
