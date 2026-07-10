@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { Activity, Layers, Megaphone, Newspaper, ShieldCheck } from "lucide-react";
+import { Activity, Gauge, Layers, LineChart, Megaphone, Newspaper, ShieldCheck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { marketIntelQueryOptions } from "@/lib/collectors/market-intel-data";
