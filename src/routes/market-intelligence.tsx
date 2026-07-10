@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { Activity, Layers, Megaphone, Newspaper, ShieldCheck } from "lucide-react";
+import { Activity, Gauge, Layers, LineChart, Megaphone, Newspaper, ShieldCheck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { marketIntelQueryOptions } from "@/lib/collectors/market-intel-data";
@@ -120,6 +120,44 @@ function MarketIntelligencePage() {
         />
       </section>
 
+      {/* Macro indicators */}
+      <section className="mt-10">
+        <div className="flex items-center gap-2">
+          <LineChart className="h-5 w-5 text-primary" />
+          <h2 className="font-display text-xl font-bold text-foreground">Makro göstergeler</h2>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {data.macro.map((m) => (
+            <div key={m.indicator} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-baseline justify-between">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  {m.label}
+                </p>
+                {m.changePct != null && (
+                  <span
+                    className={cn(
+                      "font-mono text-xs font-semibold tabular",
+                      m.changePct >= 0 ? "text-success" : "text-destructive",
+                    )}
+                  >
+                    {m.changePct >= 0 ? "▲" : "▼"} {Math.abs(m.changePct).toFixed(2)}%
+                  </span>
+                )}
+              </div>
+              <p className="mt-1 font-display text-2xl font-bold tabular text-foreground">
+                {m.latest != null ? fmtNum(m.latest) : "—"}
+              </p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {m.date ? fmtDate(m.date) : "veri yok"}
+              </p>
+            </div>
+          ))}
+          {data.macro.every((m) => m.latest == null) && (
+            <p className="text-sm text-muted-foreground">Makro göstergesi henüz beslenmedi.</p>
+          )}
+        </div>
+      </section>
+
       {/* Sector ranking */}
       <section className="mt-10">
         <div className="flex items-center gap-2">
@@ -217,7 +255,91 @@ function MarketIntelligencePage() {
         </div>
       </section>
 
-      {/* Alt-data features registered for the Feature Store / ML */}
+      {/* News sentiment */}
+      <section className="mt-10">
+        <div className="flex items-center gap-2">
+          <Newspaper className="h-5 w-5 text-chart-4" />
+          <h2 className="font-display text-xl font-bold text-foreground">Haber duyarlılığı</h2>
+        </div>
+        <div className="mt-4 grid gap-4 lg:grid-cols-[280px_1fr]">
+          <div className="rounded-xl border border-primary/40 bg-card p-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Net duyarlılık
+            </p>
+            <p
+              className={cn(
+                "mt-1 font-display text-3xl font-bold tabular",
+                data.newsSummary.netScore >= 0.15
+                  ? "text-success"
+                  : data.newsSummary.netScore <= -0.15
+                    ? "text-destructive"
+                    : "text-foreground",
+              )}
+            >
+              {data.newsSummary.netScore >= 0 ? "+" : ""}
+              {data.newsSummary.netScore.toFixed(2)}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2 text-xs">
+              <span className="rounded-full border border-success/30 bg-success/15 px-2 py-0.5 text-success">
+                Pozitif {data.newsSummary.positive}
+              </span>
+              <span className="rounded-full border border-border bg-secondary px-2 py-0.5 text-muted-foreground">
+                Nötr {data.newsSummary.neutral}
+              </span>
+              <span className="rounded-full border border-destructive/30 bg-destructive/15 px-2 py-0.5 text-destructive">
+                Negatif {data.newsSummary.negative}
+              </span>
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              {data.newsSummary.count} haber · ort. güven{" "}
+              {(data.newsSummary.avgConfidence * 100).toFixed(0)}%
+            </p>
+          </div>
+          <div className="overflow-hidden rounded-xl border border-border">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
+                  <th className="px-3 py-2.5 font-medium">Tarih</th>
+                  <th className="px-3 py-2.5 font-medium">Kaynak</th>
+                  <th className="px-3 py-2.5 font-medium">Başlık</th>
+                  <th className="px-3 py-2.5 text-right font-medium">Duyarlılık</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.news.slice(0, 20).map((n, idx) => (
+                  <tr key={n.id} className={idx % 2 ? "bg-card" : "bg-secondary/20"}>
+                    <td className="whitespace-nowrap px-3 py-2.5 font-mono text-xs text-muted-foreground">
+                      {fmtDate(n.date)}
+                    </td>
+                    <td className="px-3 py-2.5 text-xs text-muted-foreground">{n.source}</td>
+                    <td className="max-w-[420px] truncate px-3 py-2.5 text-muted-foreground">
+                      {n.title}
+                    </td>
+                    <td className="px-3 py-2.5 text-right">
+                      <span
+                        className={cn(
+                          "inline-flex rounded-full border px-2 py-0.5 text-xs font-medium",
+                          SENTIMENT_STYLES[n.sentiment],
+                        )}
+                      >
+                        {SENTIMENT_LABELS[n.sentiment]}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {data.news.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="px-3 py-6 text-center text-muted-foreground">
+                      Haber kaydı bulunamadı.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <section className="mt-10">
         <div className="flex items-center gap-2">
           <ShieldCheck className="h-5 w-5 text-primary" />
@@ -234,6 +356,57 @@ function MarketIntelligencePage() {
               <span className="text-foreground">{altFeatureLabel(name)}</span>
               <span className="font-mono text-[10px] text-muted-foreground">{name}</span>
             </span>
+          ))}
+        </div>
+      </section>
+
+      {/* Data quality per source */}
+      <section className="mt-10">
+        <div className="flex items-center gap-2">
+          <Gauge className="h-5 w-5 text-primary" />
+          <h2 className="font-display text-xl font-bold text-foreground">Veri kalitesi</h2>
+        </div>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Her kaynağın güven skoru (kaynak güvenilirliği × tamlık), tamlık oranı ve tazeliği.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {data.quality.map((q) => (
+            <div key={q.id} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-foreground">{q.label}</p>
+                <span
+                  className={cn(
+                    "rounded-full px-2 py-0.5 text-[10px] font-medium",
+                    q.count > 0
+                      ? "bg-success/15 text-success"
+                      : "bg-secondary text-muted-foreground",
+                  )}
+                >
+                  {q.count} kayıt
+                </span>
+              </div>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-secondary">
+                <div
+                  className={cn(
+                    "h-full rounded-full",
+                    q.confidence >= 0.7
+                      ? "bg-success"
+                      : q.confidence >= 0.4
+                        ? "bg-warning"
+                        : "bg-destructive",
+                  )}
+                  style={{ width: `${Math.round(q.confidence * 100)}%` }}
+                />
+              </div>
+              <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+                <span>Güven {(q.confidence * 100).toFixed(0)}%</span>
+                <span>Tamlık {(q.completeness * 100).toFixed(0)}%</span>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {q.asOf ? `Son: ${fmtDate(q.asOf)}` : "veri yok"}
+                {q.ageDays != null ? ` · ${Math.round(q.ageDays)} gün` : ""}
+              </p>
+            </div>
           ))}
         </div>
       </section>
