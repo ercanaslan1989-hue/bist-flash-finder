@@ -1611,6 +1611,63 @@ export type Database = {
         }
         Relationships: []
       }
+      macro_indicators: {
+        Row: {
+          created_at: string
+          id: string
+          indicator: string
+          obs_date: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          indicator: string
+          obs_date: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          indicator?: string
+          obs_date?: string
+          value?: number
+        }
+        Relationships: []
+      }
+      market_news: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          published_at: string
+          source: string
+          symbol: string | null
+          title: string
+          url: string | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          published_at?: string
+          source?: string
+          symbol?: string | null
+          title: string
+          url?: string | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          published_at?: string
+          source?: string
+          symbol?: string | null
+          title?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
       matrix_flags: {
         Row: {
           pred_key: string
