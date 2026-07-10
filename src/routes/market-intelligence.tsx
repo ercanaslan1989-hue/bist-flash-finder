@@ -359,7 +359,58 @@ function MarketIntelligencePage() {
           ))}
         </div>
       </section>
-    </AppShell>
+
+      {/* Data quality per source */}
+      <section className="mt-10">
+        <div className="flex items-center gap-2">
+          <Gauge className="h-5 w-5 text-primary" />
+          <h2 className="font-display text-xl font-bold text-foreground">Veri kalitesi</h2>
+        </div>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Her kaynağın güven skoru (kaynak güvenilirliği × tamlık), tamlık oranı ve tazeliği.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {data.quality.map((q) => (
+            <div key={q.id} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-foreground">{q.label}</p>
+                <span
+                  className={cn(
+                    "rounded-full px-2 py-0.5 text-[10px] font-medium",
+                    q.count > 0
+                      ? "bg-success/15 text-success"
+                      : "bg-secondary text-muted-foreground",
+                  )}
+                >
+                  {q.count} kayıt
+                </span>
+              </div>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-secondary">
+                <div
+                  className={cn(
+                    "h-full rounded-full",
+                    q.confidence >= 0.7
+                      ? "bg-success"
+                      : q.confidence >= 0.4
+                        ? "bg-warning"
+                        : "bg-destructive",
+                  )}
+                  style={{ width: `${Math.round(q.confidence * 100)}%` }}
+                />
+              </div>
+              <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+                <span>Güven {(q.confidence * 100).toFixed(0)}%</span>
+                <span>Tamlık {(q.completeness * 100).toFixed(0)}%</span>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {q.asOf ? `Son: ${fmtDate(q.asOf)}` : "veri yok"}
+                {q.ageDays != null ? ` · ${Math.round(q.ageDays)} gün` : ""}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
   );
 }
 
