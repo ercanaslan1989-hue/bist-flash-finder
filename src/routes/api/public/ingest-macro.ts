@@ -72,7 +72,10 @@ export const Route = createFileRoute("/api/public/ingest-macro")({
         const { supabaseAdmin } = await import(
           "@/integrations/supabase/client.server"
         );
-        const { error } = await supabaseAdmin
+        const admin = supabaseAdmin as unknown as {
+          from: (t: string) => any;
+        };
+        const { error } = await admin
           .from("macro_indicators")
           .upsert(rows, { onConflict: "indicator,obs_date" } as never);
         if (error) return json({ error: error.message }, 500);
