@@ -61,7 +61,10 @@ export const Route = createFileRoute("/api/public/ingest-news")({
         const { supabaseAdmin } = await import(
           "@/integrations/supabase/client.server"
         );
-        const { error } = await supabaseAdmin
+        const admin = supabaseAdmin as unknown as {
+          from: (t: string) => any;
+        };
+        const { error } = await admin
           .from("market_news")
           .upsert(rows, {
             onConflict: "source,published_at,title",
