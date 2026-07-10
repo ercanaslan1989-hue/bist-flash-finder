@@ -3,6 +3,19 @@ import { queryOptions } from "@tanstack/react-query";
 
 import { KapCollector, type RawKapDisclosure, type KapDisclosure } from "./kap-collector";
 import {
+  NewsCollector,
+  summarizeNews,
+  type RawNews,
+  type NewsItem,
+  type NewsSentimentSummary,
+} from "./news-collector";
+import {
+  MacroCollector,
+  macroSnapshots,
+  type RawMacro,
+  type MacroSnapshot,
+} from "./macro-collector";
+import {
   SectorCollector,
   computeSectorStats,
   type RawSectorRow,
@@ -14,6 +27,7 @@ import {
   type RawBreadthRow,
   type MarketBreadth,
 } from "./market-breadth-collector";
+import { type CollectorResult } from "./types";
 
 // Live data reader for the Market Intelligence dashboard. It reuses the same
 // loosely-typed Supabase handle pattern as research.ts and feeds real rows
@@ -21,10 +35,42 @@ import {
 // empty state (the collectors never throw).
 const sb = supabase as unknown as { from: (table: string) => any };
 
+/** Per-source data-quality summary derived from a collector run's provenance. */
+export interface SourceQuality {
+  id: string;
+  label: string;
+  count: number;
+  /** 0-1 aggregate confidence (source reliability × completeness). */
+  confidence: number;
+  /** 0-1 mean field completeness. */
+  completeness: number;
+  /** Average age of the data in days (null when unknown). */
+  ageDays: number | null;
+  asOf: string | null;
+  ok: boolean;
+}
+
+function qualityFrom<T>(label: string, r: CollectorResult<T>): SourceQuality {
+  return {
+    id: r.source,
+    label,
+    count: r.items.length,
+    confidence: r.provenance.confidence,
+    completeness: r.provenance.quality.completeness,
+    ageDays: r.provenance.quality.ageDays,
+    asOf: r.provenance.asOf,
+    ok: r.ok,
+  };
+}
+
 export interface MarketIntelData {
   kap: KapDisclosure[];
+  news: NewsItem[];
+  newsSummary: NewsSentimentSummary;
+  macro: MacroSnapshot[];
   sectors: SectorStats[];
   breadth: MarketBreadth;
+  quality: SourceQuality[];
   lastDate: string | null;
 }
 
@@ -36,12 +82,22 @@ async function fetchMarketIntel(): Promise<MarketIntelData> {
     .limit(1);
   const lastDate: string | null = lastRes.data?.[0]?.snapshot_date ?? null;
 
-  const [kapRes, snapRes] = await Promise.all([
+  const [kapRes, newsRes, macroRes, snapRes] = await Promise.all([
     sb
       .from("kap_disclosures")
       .select("*")
       .order("disclosure_date", { ascending: false })
       .limit(100),
+    sb
+      .from("market_news")
+      .select("id, symbol, source, title, body, url, published_at")
+      .order("published_at", { ascending: false })
+      .limit(100),
+    sb
+      .from("macro_indicators")
+      .select("indicator, obs_date, value")
+      .order("obs_date", { ascending: true })
+      .limit(2000),
     lastDate
       ? sb
           .from("daily_snapshots")
@@ -52,9 +108,41 @@ async function fetchMarketIntel(): Promise<MarketIntelData> {
       : Promise.resolve({ data: [] }),
   ]);
 
+  // ---- KAP ----
   const kapResult = await new KapCollector(
     async () => (kapRes.data ?? []) as RawKapDisclosure[],
   ).collect({}, { backoffMs: 0 });
+
+  // ---- News ----
+  const newsResult = await new NewsCollector(
+    async () =>
+      ((newsRes.data ?? []) as Array<Record<string, unknown>>).map(
+        (n): RawNews => ({
+          id: n.id as string,
+          symbol: (n.symbol as string) ?? null,
+          source: (n.source as string) ?? null,
+          title: n.title as string,
+          body: (n.body as string) ?? null,
+          published_at: n.published_at as string,
+          url: (n.url as string) ?? null,
+        }),
+      ),
+  ).collect({}, { backoffMs: 0 });
+  const news = newsResult.items.slice().reverse();
+  const newsSummary = summarizeNews(newsResult.items);
+
+  // ---- Macro ----
+  const macroResult = await new MacroCollector(
+    async () =>
+      ((macroRes.data ?? []) as Array<Record<string, unknown>>).map(
+        (m): RawMacro => ({
+          indicator: m.indicator as string,
+          date: (m.obs_date as string)?.slice(0, 10),
+          value: m.value as number,
+        }),
+      ),
+  ).collect({}, { backoffMs: 0 });
+  const macro = macroSnapshots(macroResult.items);
 
   const snaps = (snapRes.data ?? []) as Array<{
     symbol: string;
@@ -93,7 +181,24 @@ async function fetchMarketIntel(): Promise<MarketIntelData> {
   );
   const breadth = computeBreadth(breadthResult.items);
 
-  return { kap: kapResult.items.slice().reverse(), sectors, breadth, lastDate };
+  const quality: SourceQuality[] = [
+    qualityFrom("KAP Bildirimleri", kapResult),
+    qualityFrom("Haber Akışı", newsResult),
+    qualityFrom("Makro Göstergeler", macroResult),
+    qualityFrom("Sektör Verisi", sectorResult),
+    qualityFrom("Piyasa Genişliği", breadthResult),
+  ];
+
+  return {
+    kap: kapResult.items.slice().reverse(),
+    news,
+    newsSummary,
+    macro,
+    sectors,
+    breadth,
+    quality,
+    lastDate,
+  };
 }
 
 export const marketIntelQueryOptions = () =>
