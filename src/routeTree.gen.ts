@@ -29,6 +29,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as HisseSymbolRouteImport } from './routes/hisse.$symbol'
 import { Route as ApiPublicLiveMoversRouteImport } from './routes/api/public/live-movers'
 import { Route as ApiPublicIngestOhlcRouteImport } from './routes/api/public/ingest-ohlc'
+import { Route as ApiPublicIngestNewsRouteImport } from './routes/api/public/ingest-news'
 
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
@@ -130,6 +131,11 @@ const ApiPublicIngestOhlcRoute = ApiPublicIngestOhlcRouteImport.update({
   path: '/api/public/ingest-ohlc',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicIngestNewsRoute = ApiPublicIngestNewsRouteImport.update({
+  id: '/api/public/ingest-news',
+  path: '/api/public/ingest-news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
 }
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
 }
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/tahmin-takibi': typeof TahminTakibiRoute
   '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
+  '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
 }
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
   fileRoutesByTo: FileRoutesByTo
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
   id:
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/tahmin-takibi'
     | '/watchlist'
     | '/hisse/$symbol'
+    | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
   fileRoutesById: FileRoutesById
@@ -286,6 +298,7 @@ export interface RootRouteChildren {
   TahminTakibiRoute: typeof TahminTakibiRoute
   WatchlistRoute: typeof WatchlistRoute
   HisseSymbolRoute: typeof HisseSymbolRoute
+  ApiPublicIngestNewsRoute: typeof ApiPublicIngestNewsRoute
   ApiPublicIngestOhlcRoute: typeof ApiPublicIngestOhlcRoute
   ApiPublicLiveMoversRoute: typeof ApiPublicLiveMoversRoute
 }
@@ -432,6 +445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicIngestOhlcRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ingest-news': {
+      id: '/api/public/ingest-news'
+      path: '/api/public/ingest-news'
+      fullPath: '/api/public/ingest-news'
+      preLoaderRoute: typeof ApiPublicIngestNewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -454,6 +474,7 @@ const rootRouteChildren: RootRouteChildren = {
   TahminTakibiRoute: TahminTakibiRoute,
   WatchlistRoute: WatchlistRoute,
   HisseSymbolRoute: HisseSymbolRoute,
+  ApiPublicIngestNewsRoute: ApiPublicIngestNewsRoute,
   ApiPublicIngestOhlcRoute: ApiPublicIngestOhlcRoute,
   ApiPublicLiveMoversRoute: ApiPublicLiveMoversRoute,
 }
