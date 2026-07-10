@@ -255,7 +255,91 @@ function MarketIntelligencePage() {
         </div>
       </section>
 
-      {/* Alt-data features registered for the Feature Store / ML */}
+      {/* News sentiment */}
+      <section className="mt-10">
+        <div className="flex items-center gap-2">
+          <Newspaper className="h-5 w-5 text-chart-4" />
+          <h2 className="font-display text-xl font-bold text-foreground">Haber duyarlılığı</h2>
+        </div>
+        <div className="mt-4 grid gap-4 lg:grid-cols-[280px_1fr]">
+          <div className="rounded-xl border border-primary/40 bg-card p-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Net duyarlılık
+            </p>
+            <p
+              className={cn(
+                "mt-1 font-display text-3xl font-bold tabular",
+                data.newsSummary.netScore >= 0.15
+                  ? "text-success"
+                  : data.newsSummary.netScore <= -0.15
+                    ? "text-destructive"
+                    : "text-foreground",
+              )}
+            >
+              {data.newsSummary.netScore >= 0 ? "+" : ""}
+              {data.newsSummary.netScore.toFixed(2)}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2 text-xs">
+              <span className="rounded-full border border-success/30 bg-success/15 px-2 py-0.5 text-success">
+                Pozitif {data.newsSummary.positive}
+              </span>
+              <span className="rounded-full border border-border bg-secondary px-2 py-0.5 text-muted-foreground">
+                Nötr {data.newsSummary.neutral}
+              </span>
+              <span className="rounded-full border border-destructive/30 bg-destructive/15 px-2 py-0.5 text-destructive">
+                Negatif {data.newsSummary.negative}
+              </span>
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              {data.newsSummary.count} haber · ort. güven{" "}
+              {(data.newsSummary.avgConfidence * 100).toFixed(0)}%
+            </p>
+          </div>
+          <div className="overflow-hidden rounded-xl border border-border">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-secondary/50 text-left text-xs uppercase tracking-wider text-muted-foreground">
+                  <th className="px-3 py-2.5 font-medium">Tarih</th>
+                  <th className="px-3 py-2.5 font-medium">Kaynak</th>
+                  <th className="px-3 py-2.5 font-medium">Başlık</th>
+                  <th className="px-3 py-2.5 text-right font-medium">Duyarlılık</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.news.slice(0, 20).map((n, idx) => (
+                  <tr key={n.id} className={idx % 2 ? "bg-card" : "bg-secondary/20"}>
+                    <td className="whitespace-nowrap px-3 py-2.5 font-mono text-xs text-muted-foreground">
+                      {fmtDate(n.date)}
+                    </td>
+                    <td className="px-3 py-2.5 text-xs text-muted-foreground">{n.source}</td>
+                    <td className="max-w-[420px] truncate px-3 py-2.5 text-muted-foreground">
+                      {n.title}
+                    </td>
+                    <td className="px-3 py-2.5 text-right">
+                      <span
+                        className={cn(
+                          "inline-flex rounded-full border px-2 py-0.5 text-xs font-medium",
+                          SENTIMENT_STYLES[n.sentiment],
+                        )}
+                      >
+                        {SENTIMENT_LABELS[n.sentiment]}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {data.news.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="px-3 py-6 text-center text-muted-foreground">
+                      Haber kaydı bulunamadı.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <section className="mt-10">
         <div className="flex items-center gap-2">
           <ShieldCheck className="h-5 w-5 text-primary" />
