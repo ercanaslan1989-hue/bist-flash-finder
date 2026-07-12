@@ -16,7 +16,6 @@ import {
   defaultConfig,
   ModelServer,
   fitServingStacker,
-  normalizeChampionScore,
   saveEnsemble,
   fetchEnsembles,
   setActiveEnsemble,
