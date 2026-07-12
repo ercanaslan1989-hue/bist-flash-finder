@@ -104,3 +104,33 @@ export {
   type Comparison,
   type SideMetrics,
 } from "./champion-challenger";
+
+export {
+  blendScores,
+  evaluateBlend,
+  fitLogisticStacker,
+  rankNormalize,
+  type BlendMetrics,
+  type EnsembleConfig,
+  type EnsembleMember,
+  type EnsembleMethod,
+  type StackerOptions,
+} from "./ensemble";
+
+export {
+  ModelServer,
+  normalizeChampionScore,
+  fitServingStacker,
+  type ServingChallenger,
+  type ServingConfig,
+  type ServedPrediction,
+  type ServedMemberScore,
+} from "./model-server";
+
+export {
+  saveEnsemble,
+  fetchEnsembles,
+  setActiveEnsemble,
+  type StoredEnsemble,
+  type SaveEnsembleInput,
+} from "./ensemble-registry";

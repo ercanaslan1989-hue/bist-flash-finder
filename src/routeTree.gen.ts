@@ -21,6 +21,7 @@ import { Route as MarketIntelligenceRouteImport } from './routes/market-intellig
 import { Route as FirsatlarRouteImport } from './routes/firsatlar'
 import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as EnsembleLabRouteImport } from './routes/ensemble-lab'
 import { Route as CoverageRouteImport } from './routes/coverage'
 import { Route as BacktestLabRouteImport } from './routes/backtest-lab'
 import { Route as BacktestRouteImport } from './routes/backtest'
@@ -92,6 +93,11 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnsembleLabRoute = EnsembleLabRouteImport.update({
+  id: '/ensemble-lab',
+  path: '/ensemble-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoverageRoute = CoverageRouteImport.update({
   id: '/coverage',
   path: '/coverage',
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/backtest': typeof BacktestRoute
   '/backtest-lab': typeof BacktestLabRoute
   '/coverage': typeof CoverageRoute
+  '/ensemble-lab': typeof EnsembleLabRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/backtest': typeof BacktestRoute
   '/backtest-lab': typeof BacktestLabRoute
   '/coverage': typeof CoverageRoute
+  '/ensemble-lab': typeof EnsembleLabRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
@@ -198,6 +206,7 @@ export interface FileRoutesById {
   '/backtest': typeof BacktestRoute
   '/backtest-lab': typeof BacktestLabRoute
   '/coverage': typeof CoverageRoute
+  '/ensemble-lab': typeof EnsembleLabRoute
   '/events': typeof EventsRoute
   '/feature-importance': typeof FeatureImportanceRoute
   '/firsatlar': typeof FirsatlarRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/backtest'
     | '/backtest-lab'
     | '/coverage'
+    | '/ensemble-lab'
     | '/events'
     | '/feature-importance'
     | '/firsatlar'
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/backtest'
     | '/backtest-lab'
     | '/coverage'
+    | '/ensemble-lab'
     | '/events'
     | '/feature-importance'
     | '/firsatlar'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/backtest'
     | '/backtest-lab'
     | '/coverage'
+    | '/ensemble-lab'
     | '/events'
     | '/feature-importance'
     | '/firsatlar'
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   BacktestRoute: typeof BacktestRoute
   BacktestLabRoute: typeof BacktestLabRoute
   CoverageRoute: typeof CoverageRoute
+  EnsembleLabRoute: typeof EnsembleLabRoute
   EventsRoute: typeof EventsRoute
   FeatureImportanceRoute: typeof FeatureImportanceRoute
   FirsatlarRoute: typeof FirsatlarRoute
@@ -402,6 +415,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ensemble-lab': {
+      id: '/ensemble-lab'
+      path: '/ensemble-lab'
+      fullPath: '/ensemble-lab'
+      preLoaderRoute: typeof EnsembleLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/coverage': {
       id: '/coverage'
       path: '/coverage'
@@ -481,6 +501,7 @@ const rootRouteChildren: RootRouteChildren = {
   BacktestRoute: BacktestRoute,
   BacktestLabRoute: BacktestLabRoute,
   CoverageRoute: CoverageRoute,
+  EnsembleLabRoute: EnsembleLabRoute,
   EventsRoute: EventsRoute,
   FeatureImportanceRoute: FeatureImportanceRoute,
   FirsatlarRoute: FirsatlarRoute,

@@ -1748,6 +1748,66 @@ export type Database = {
           },
         ]
       }
+      ml_ensembles: {
+        Row: {
+          avg_return: number | null
+          champion_weight: number | null
+          config: Json
+          created_at: string
+          gate_confidence: number | null
+          hit_rate: number | null
+          horizon: number
+          id: string
+          is_active: boolean
+          member_model_ids: string[]
+          method: string
+          name: string
+          notes: string | null
+          precision: number | null
+          signals: number | null
+          test_samples: number | null
+          updated_at: string
+        }
+        Insert: {
+          avg_return?: number | null
+          champion_weight?: number | null
+          config?: Json
+          created_at?: string
+          gate_confidence?: number | null
+          hit_rate?: number | null
+          horizon: number
+          id?: string
+          is_active?: boolean
+          member_model_ids?: string[]
+          method: string
+          name: string
+          notes?: string | null
+          precision?: number | null
+          signals?: number | null
+          test_samples?: number | null
+          updated_at?: string
+        }
+        Update: {
+          avg_return?: number | null
+          champion_weight?: number | null
+          config?: Json
+          created_at?: string
+          gate_confidence?: number | null
+          hit_rate?: number | null
+          horizon?: number
+          id?: string
+          is_active?: boolean
+          member_model_ids?: string[]
+          method?: string
+          name?: string
+          notes?: string | null
+          precision?: number | null
+          signals?: number | null
+          test_samples?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       ml_metrics: {
         Row: {
           accuracy: number | null
