@@ -310,8 +310,37 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       scoreDelta: engine.delta,
       engine,
       updatedAt: w.updated_at ?? null,
+      ensembleScore: null,
+      ensembleDecision: null,
+      ensembleMembers: null,
     };
   });
+
+  // ===== Ensemble serving (FAZ 5) — additive; Champion remains the live path.
+  // Attach ensemble scores by index BEFORE ranking. If no ensemble is active or
+  // it references no available models, rows keep null ensemble fields and the
+  // legacy behaviour is unchanged. Failures never break the recommendations.
+  let ensemble: OpportunitiesData["ensemble"] = null;
+  try {
+    const active = await loadActiveServer();
+    if (active) {
+      const preds = servePredictions(active.server, contexts);
+      rows.forEach((row, i) => {
+        const p = preds[i];
+        if (!p) return;
+        row.ensembleScore = Math.round(p.score * 100);
+        row.ensembleDecision = p.decision;
+        row.ensembleMembers = p.members;
+      });
+      ensemble = {
+        name: active.ensemble.name,
+        method: active.ensemble.method,
+        horizon: active.ensemble.horizon,
+      };
+    }
+  } catch {
+    // graceful fallback: Champion-only, ensemble fields stay null
+  }
 
   // Default ranking now favours durable setups over exhausted momentum spikes.
   rows.sort((a, b) => b.blended - a.blended);
@@ -321,7 +350,7 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
     if (!u) return max;
     return !max || u > max ? u : max;
   }, null);
-  return { rows, scoreDate: scoreDate ?? null, latestDate: latest, updatedAt, sectors };
+  return { rows, scoreDate: scoreDate ?? null, latestDate: latest, updatedAt, sectors, ensemble };
 }
 
 export const opportunitiesQueryOptions = () =>
