@@ -134,3 +134,13 @@ export {
   type StoredEnsemble,
   type SaveEnsembleInput,
 } from "./ensemble-registry";
+
+export {
+  buildServingConfig,
+  buildActiveServer,
+  selectActiveServer,
+  loadActiveServer,
+  servePredictions,
+  servePrediction,
+  type ActiveServer,
+} from "./serving";
