@@ -248,7 +248,7 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
     const lastClose = snap ? Number(snap.close) : (closes[closes.length - 1] ?? null);
 
     // New parallel scoring engine (runs alongside the legacy AI score).
-    const engine = computeFinalScore({
+    const ctx: ScoreContext = {
       symbol: w.symbol,
       lastClose,
       rsi: rsiVal,
@@ -271,7 +271,9 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
       sector: w.sector,
       kapCount: null,
       legacyAiScore: ai,
-    });
+    };
+    contexts.push(ctx);
+    const engine = computeFinalScore(ctx);
     return {
       symbol: w.symbol,
       company_name: w.company_name,
