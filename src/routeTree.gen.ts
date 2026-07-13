@@ -28,6 +28,7 @@ import { Route as BacktestRouteImport } from './routes/backtest'
 import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HisseSymbolRouteImport } from './routes/hisse.$symbol'
+import { Route as ApiPublicPredictionsRouteImport } from './routes/api/public/predictions'
 import { Route as ApiPublicLiveMoversRouteImport } from './routes/api/public/live-movers'
 import { Route as ApiPublicIngestOhlcRouteImport } from './routes/api/public/ingest-ohlc'
 import { Route as ApiPublicIngestNewsRouteImport } from './routes/api/public/ingest-news'
@@ -128,6 +129,11 @@ const HisseSymbolRoute = HisseSymbolRouteImport.update({
   path: '/hisse/$symbol',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPredictionsRoute = ApiPublicPredictionsRouteImport.update({
+  id: '/api/public/predictions',
+  path: '/api/public/predictions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLiveMoversRoute = ApiPublicLiveMoversRouteImport.update({
   id: '/api/public/live-movers',
   path: '/api/public/live-movers',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
+  '/api/public/predictions': typeof ApiPublicPredictionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
+  '/api/public/predictions': typeof ApiPublicPredictionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
+  '/api/public/predictions': typeof ApiPublicPredictionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
+    | '/api/public/predictions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
+    | '/api/public/predictions'
   id:
     | '__root__'
     | '/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/api/public/ingest-news'
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
+    | '/api/public/predictions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   ApiPublicIngestNewsRoute: typeof ApiPublicIngestNewsRoute
   ApiPublicIngestOhlcRoute: typeof ApiPublicIngestOhlcRoute
   ApiPublicLiveMoversRoute: typeof ApiPublicLiveMoversRoute
+  ApiPublicPredictionsRoute: typeof ApiPublicPredictionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -464,6 +477,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HisseSymbolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/predictions': {
+      id: '/api/public/predictions'
+      path: '/api/public/predictions'
+      fullPath: '/api/public/predictions'
+      preLoaderRoute: typeof ApiPublicPredictionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/live-movers': {
       id: '/api/public/live-movers'
       path: '/api/public/live-movers'
@@ -519,6 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicIngestNewsRoute: ApiPublicIngestNewsRoute,
   ApiPublicIngestOhlcRoute: ApiPublicIngestOhlcRoute,
   ApiPublicLiveMoversRoute: ApiPublicLiveMoversRoute,
+  ApiPublicPredictionsRoute: ApiPublicPredictionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
