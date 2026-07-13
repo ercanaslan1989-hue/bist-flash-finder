@@ -158,6 +158,10 @@ export interface OpportunityRow {
   scoreDelta: number; // finalScore - aiScore (new engine vs legacy)
   engine: FinalScore; // full breakdown (components + reasons) for dev mode
   updatedAt: string | null;
+  // ===== Ensemble serving (FAZ 5) — additive, Champion stays live =====
+  ensembleScore: number | null; // 0-100 blended Champion+Challenger score (null when no active ensemble)
+  ensembleDecision: boolean | null; // ensemble buy/skip decision at its threshold
+  ensembleMembers: ServedMemberScore[] | null; // per-member 0-1 breakdown (transparency)
 }
 
 export interface OpportunitiesData {
@@ -167,6 +171,8 @@ export interface OpportunitiesData {
   /** Most recent updated_at timestamp across the scored rows. */
   updatedAt: string | null;
   sectors: string[];
+  /** Active ensemble metadata when one is serving, else null. */
+  ensemble: { name: string; method: string; horizon: number } | null;
 }
 
 /** Sum of the last `n` daily returns (already in percent). */
