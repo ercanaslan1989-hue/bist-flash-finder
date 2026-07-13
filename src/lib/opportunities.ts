@@ -18,7 +18,9 @@ import {
   type ObvTrend,
   type LiquidityLevel,
 } from "@/lib/indicators";
-import { computeFinalScore, type FinalScore } from "@/lib/scoring";
+import { computeFinalScore, type FinalScore, type ScoreContext } from "@/lib/scoring";
+import { loadActiveServer, servePredictions } from "@/lib/ml/serving";
+import type { ServedMemberScore } from "@/lib/ml/model-server";
 import type { WatchlistRow, AiPatternRow } from "@/lib/research";
 
 const sb = supabase as unknown as { from: (table: string) => any };
