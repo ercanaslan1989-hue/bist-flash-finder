@@ -18,7 +18,8 @@ import { ModelServer, type ServingConfig, type ServedPrediction } from "./model-
 import type { StoredEnsemble } from "./ensemble-registry";
 import { fetchEnsembles } from "./ensemble-registry";
 import { fetchModels, type StoredModel } from "./model-registry";
-import type { EnsembleMethod, MlHorizon, Sample } from "./types";
+import type { EnsembleMethod } from "./ensemble";
+import type { MlHorizon, Sample } from "./types";
 import type { ScoreContext } from "@/lib/scoring";
 
 /** A ready-to-serve active ensemble: its stored record plus the built server. */
