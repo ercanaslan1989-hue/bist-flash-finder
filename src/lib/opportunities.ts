@@ -183,7 +183,7 @@ function recentSum(rets: number[], n: number): number | null {
   return rets.slice(-n).reduce((a, b) => a + b, 0);
 }
 
-async function fetchOpportunities(): Promise<OpportunitiesData> {
+export async function fetchOpportunities(): Promise<OpportunitiesData> {
   const wlDateRes = await sb
     .from("ai_watchlist")
     .select("score_date")
