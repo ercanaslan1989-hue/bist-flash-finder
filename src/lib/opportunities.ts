@@ -211,6 +211,9 @@ async function fetchOpportunities(): Promise<OpportunitiesData> {
   }
   const snapMap = new Map<string, any>(snapRows.map((r) => [r.symbol, r]));
 
+  // Look-ahead-free contexts captured per row so the ensemble serving layer can
+  // reuse the exact same features the scoring engine sees.
+  const contexts: ScoreContext[] = [];
   const rows: OpportunityRow[] = wl.map((w) => {
     const snap = snapMap.get(w.symbol);
     const series = history.bySymbol.get(w.symbol);
