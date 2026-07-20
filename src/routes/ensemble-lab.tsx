@@ -253,6 +253,70 @@ function EnsembleLabPage() {
     }
   }
 
+  async function handleAutoOptimize() {
+    setError(null);
+    setAutoOut(null);
+    setAutoCharts(null);
+    setAutoSavedId(null);
+    setAutoProgress(null);
+    setAutoDatasetProgress(null);
+    setAutoRunning(true);
+    const controller = new AbortController();
+    autoAbortRef.current = controller;
+    try {
+      const output = await runAutoOptimization(params, horizon, {
+        signal: controller.signal,
+        onPhase: setAutoPhase,
+        onDatasetProgress: setAutoDatasetProgress,
+        onProgress: setAutoProgress,
+      });
+      const charts = buildBestCharts(output.best, output.bestArtifacts);
+      setAutoOut(output);
+      setAutoCharts(charts);
+
+      // Auto-save the F1-best combo as the active "Şampiyon Ensemble".
+      try {
+        const cfg: ServingConfig = {
+          method: output.best.combo.method,
+          horizon,
+          threshold: output.best.combo.decisionThreshold,
+          championWeight: output.best.combo.championWeight,
+          gateConfidence: output.best.combo.gateConfidence,
+          logisticWeights:
+            output.best.combo.method === "logistic" ? output.bestArtifacts.logisticWeights ?? undefined : undefined,
+        };
+        const blendMetrics: BlendMetrics = {
+          signals: output.best.metrics.totalTrades,
+          precision: output.best.metrics.precision,
+          avgReturn: output.best.metrics.avgReturn,
+          hitRate: output.best.metrics.winRate,
+        };
+        const id = await saveEnsemble({
+          name: `Auto Şampiyon • ${horizon}g • %${output.best.combo.upThreshold} • ${output.best.combo.method}`,
+          config: cfg,
+          memberModelIds: [],
+          metrics: blendMetrics,
+          testSamples: output.bestArtifacts.testSamples,
+          notes: `Otomatik optimizasyon • F1 ${output.best.metrics.f1.toFixed(3)} • ${output.totalCombos} kombinasyon`,
+        });
+        if (id) {
+          await setActiveEnsemble(id, horizon);
+          setAutoSavedId(id);
+          saved.refetch();
+        }
+      } catch {
+        // Non-blocking: results still shown.
+      }
+    } catch (e) {
+      if (e instanceof MlAbortError) setError("Otomatik optimizasyon durduruldu.");
+      else setError(e instanceof Error ? e.message : "Bilinmeyen hata");
+    } finally {
+      setAutoRunning(false);
+      setAutoPhase("");
+      autoAbortRef.current = null;
+    }
+  }
+
   const selected = useMemo(
     () => out?.methods.find((m) => m.method === method) ?? null,
     [out, method],
