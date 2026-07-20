@@ -480,7 +480,37 @@ function EnsembleLabPage() {
               {progress ? ` ${progress.percent}%` : ""}
             </div>
           ) : null}
+          {!autoRunning ? (
+            <Button
+              variant="outline"
+              onClick={handleAutoOptimize}
+              disabled={running || !params.startDate || !params.endDate}
+            >
+              <Sparkles className="h-4 w-4" /> Otomatik Optimizasyon
+            </Button>
+          ) : (
+            <Button variant="destructive" onClick={() => autoAbortRef.current?.abort()}>
+              <Square className="h-4 w-4" /> Otomatik Durdur
+            </Button>
+          )}
+          {autoRunning ? (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              {autoPhase}
+              {autoProgress ? ` • ${autoProgress.percent}% (${autoProgress.processed}/${autoProgress.total})` : ""}
+              {autoDatasetProgress && !autoProgress ? ` • ${autoDatasetProgress.percent}%` : ""}
+            </div>
+          ) : null}
         </div>
+
+        {autoRunning && (autoProgress || autoDatasetProgress) ? (
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full bg-accent transition-all"
+              style={{ width: `${autoProgress?.percent ?? autoDatasetProgress?.percent ?? 0}%` }}
+            />
+          </div>
+        ) : null}
 
         {running && progress ? (
           <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-secondary">
