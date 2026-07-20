@@ -838,7 +838,7 @@ function AutoOptimizationResults({
           value={fmtPct(best.metrics.maxDrawdown, 2)}
           sub={`Kazanma ${fmtNum(best.metrics.winRate, 1)}%`}
           icon={<Gauge className="h-4 w-4" />}
-          accent="destructive"
+          accent="accent"
         />
         <StatCard
           label="Kombinasyon"
