@@ -661,6 +661,15 @@ function EnsembleLabPage() {
         </>
       ) : null}
 
+      {autoOut && autoCharts ? (
+        <AutoOptimizationResults
+          output={autoOut}
+          charts={autoCharts}
+          horizon={horizon}
+          savedId={autoSavedId}
+        />
+      ) : null}
+
       <SavedEnsembles rows={saved.data ?? []} loading={saved.isLoading} onActivated={() => saved.refetch()} />
 
       <p className="mt-8 text-xs leading-relaxed text-muted-foreground">
