@@ -17,11 +17,13 @@ import {
   ModelServer,
   fitServingStacker,
   saveEnsemble,
-  fetchEnsembles,
   setActiveEnsemble,
+  fetchEnsembles,
   DEFAULT_MODEL_TYPES,
   ML_HORIZONS,
   MlAbortError,
+  runAutoOptimization,
+  buildBestCharts,
   type DatasetParams,
   type MlHorizon,
   type MlProgress,
@@ -31,6 +33,8 @@ import {
   type ServingConfig,
   type StoredEnsemble,
   type TrainedModel,
+  type AutoRunOutput,
+  type BestCharts,
 } from "@/lib/ml";
 
 export const Route = createFileRoute("/ensemble-lab")({
