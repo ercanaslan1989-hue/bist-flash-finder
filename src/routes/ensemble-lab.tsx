@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useState } from "react";
-import { Layers, Loader2, Play, Save, Square, Trophy, Gauge, Target, Cpu } from "lucide-react";
+import { Layers, Loader2, Play, Save, Square, Trophy, Gauge, Target, Cpu, Sparkles } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { StatCard } from "@/components/stat-card";
