@@ -144,3 +144,19 @@ export {
   servePrediction,
   type ActiveServer,
 } from "./serving";
+
+export {
+  runAutoOptimization,
+  buildBestCharts,
+  AUTO_LABEL_THRESHOLDS,
+  AUTO_DECISION_THRESHOLDS,
+  AUTO_GATE_CONFIDENCES,
+  AUTO_CHAMPION_WEIGHTS,
+  AUTO_METHODS,
+  type AutoCombo,
+  type AutoMetrics,
+  type AutoResult,
+  type AutoRunOutput,
+  type AutoBestArtifacts,
+  type BestCharts,
+} from "./auto-optimizer";
