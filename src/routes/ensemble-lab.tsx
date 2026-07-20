@@ -131,6 +131,18 @@ function EnsembleLabPage() {
   const abortRef = useRef<AbortController | null>(null);
   const challengersRef = useRef<ServingChallenger[]>([]);
 
+  // Auto-optimisation state
+  const [autoRunning, setAutoRunning] = useState(false);
+  const [autoPhase, setAutoPhase] = useState("");
+  const [autoProgress, setAutoProgress] = useState<{ processed: number; total: number; percent: number } | null>(
+    null,
+  );
+  const [autoDatasetProgress, setAutoDatasetProgress] = useState<MlProgress | null>(null);
+  const [autoOut, setAutoOut] = useState<AutoRunOutput | null>(null);
+  const [autoCharts, setAutoCharts] = useState<BestCharts | null>(null);
+  const [autoSavedId, setAutoSavedId] = useState<string | null>(null);
+  const autoAbortRef = useRef<AbortController | null>(null);
+
   if (latest.data && !datesInit) {
     setParams((p) => ({ ...p, endDate: latest.data!, startDate: isoMinusDays(latest.data!, 400) }));
     setDatesInit(true);
