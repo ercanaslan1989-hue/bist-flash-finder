@@ -285,12 +285,37 @@ export async function fetchOpportunities(): Promise<OpportunitiesData> {
     };
     contexts.push(ctx);
     const engine = computeFinalScore(ctx);
+    // Composite güven — ci_low tavanının ötesinde gerçek çoklu sinyal harmanı.
+    const ciLow = w.confidence ?? 0;
+    const patternStrength = ciLow > 0 ? Math.min(100, ciLow * 3) : 0;
+    const matched = w.matched_patterns ?? 0;
+    const depth = Math.min(100, Math.log10(1 + matched) * 45);
+    const hist = w.hist_success_pct ?? 0;
+    const histBonus = Math.max(0, Math.min(100, (hist - 20) * 4));
+    const engineConfPct = engine.confidence * 100;
+    let sc =
+      0.30 * patternStrength +
+      0.15 * depth +
+      0.15 * histBonus +
+      0.20 * engineConfPct +
+      0.20 * stability;
+    if (obv === "rising") sc += 5;
+    else if (obv === "falling") sc -= 5;
+    if (volumeIncrease != null) {
+      if (volumeIncrease >= 50) sc += 4;
+      else if (volumeIncrease <= -50) sc -= 4;
+    }
+    if (liquidityLevel === "high") sc += 3;
+    else if (liquidityLevel === "low") sc -= 4;
+    else if (liquidityLevel === "thin") sc -= 8;
+    const signalConfidence = Math.round(Math.max(0, Math.min(100, sc)));
     return {
       symbol: w.symbol,
       company_name: w.company_name,
       sector: w.sector,
       aiScore: ai,
       confidence: w.confidence,
+      signalConfidence,
       probability: w.probability,
       matchedPatterns: w.matched_patterns ?? 0,
       bestTarget: w.best_target,
