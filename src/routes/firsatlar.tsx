@@ -72,7 +72,7 @@ function applyFilters(rows: OpportunityRow[], f: Filters): OpportunityRow[] {
   return rows.filter((r) => {
     if (r.aiScore < f.minScore) return false;
     if (r.stability < f.minStability) return false;
-    if ((r.confidence ?? 0) < f.minConfidence) return false;
+    if (r.signalConfidence < f.minConfidence) return false;
     if (f.target && r.bestTarget !== f.target) return false;
     if (f.sector && r.sector !== f.sector) return false;
     if (r.rsi !== null && (r.rsi < f.rsiMin || r.rsi > f.rsiMax)) return false;

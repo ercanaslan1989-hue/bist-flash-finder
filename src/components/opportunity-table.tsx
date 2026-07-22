@@ -147,8 +147,23 @@ export function OpportunityTable({
                     {r.company_name ?? "—"}
                   </div>
                 </td>
-                <td className="px-3 py-2.5 text-right font-mono text-muted-foreground tabular">
-                  {r.confidence === null ? "—" : `%${r.confidence.toFixed(0)}`}
+                <td
+                  className="px-3 py-2.5 text-right font-mono tabular"
+                  title={`Kalıp güveni (ci_low): ${r.confidence === null ? "—" : `%${r.confidence.toFixed(0)}`} • Kompozit güven kalıp gücü, eşleşme derinliği, tarihsel isabet, motor veri yeterliliği, kararlılık ve hacim/OBV/likidite teyidini harmanlar.`}
+                >
+                  <span
+                    className={cn(
+                      r.signalConfidence >= 65
+                        ? "text-success"
+                        : r.signalConfidence >= 50
+                          ? "text-primary"
+                          : r.signalConfidence >= 35
+                            ? "text-foreground"
+                            : "text-muted-foreground",
+                    )}
+                  >
+                    %{r.signalConfidence}
+                  </span>
                 </td>
                 <td className="px-3 py-2.5">
                   {(() => {
