@@ -343,7 +343,31 @@ export async function fetchOpportunities(): Promise<OpportunitiesData> {
   }
 
   // Default ranking now favours durable setups over exhausted momentum spikes.
-  rows.sort((a, b) => b.blended - a.blended);
+  // NOTE: `blended`, `aiScore` ve `stability` sonuç değerleri integer'a yuvarlanıyor
+  // ve watchlist'te yalnız ~24 farklı confidence/probability değeri var — bu yüzden
+  // yüzlerce hisse aynı `blended` skorunu paylaşıyordu ve sıralama DB satır sırasına
+  // düşüp her gün aynı isimler tepede çıkıyordu. Sıralamayı yuvarlanmamış bileşenler
+  // ve çoklu tiebreaker ile yeniden ayrıştırıyoruz (görüntülenen skorlar aynı kalır).
+  const rankKey = (r: OpportunityRow): number => {
+    const aiRaw =
+      0.45 * Math.max(0, Math.min(1, ((r.probability ?? 0) - 17) / 19)) +
+      0.30 * Math.max(0, Math.min(1, (r.matchedPatterns ?? 0) / 100)) +
+      0.15 * Math.max(0, Math.min(1, (r.confidence ?? 0) / 33.3)) +
+      0.10 * Math.max(0, Math.min(1, ((r.histSuccess ?? 0) - 17) / 14));
+    const aiPct = aiRaw * 100; // 0-100, float
+    const blendedRaw = 0.6 * aiPct + 0.4 * r.stability;
+    // Yeni skorlama motoru (finalScore) yuvarlanmış ama sürekli değerli sinyaller
+    // içeriyor; küçük katsayılarla tiebreaker olarak katıyoruz.
+    return (
+      blendedRaw * 1000 +
+      r.finalScore * 10 +
+      r.technicalScore * 1 +
+      r.volumeScore * 0.1 +
+      (r.relStrength20d ?? 0) * 0.05 +
+      (r.scoreConfidence ?? 0)
+    );
+  };
+  rows.sort((a, b) => rankKey(b) - rankKey(a));
   const sectors = [...new Set(rows.map((r) => r.sector).filter(Boolean) as string[])].sort();
   const updatedAt = wl.reduce<string | null>((max, w) => {
     const u = w.updated_at ?? null;
