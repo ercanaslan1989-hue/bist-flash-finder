@@ -132,6 +132,14 @@ export interface OpportunityRow {
   sector: string | null;
   aiScore: number;
   confidence: number | null;
+  /**
+   * Composite 0-100 güven skoru — SQL kalıp motorunun tavan yapan `ci_low`
+   * değerinin ötesinde gerçek sinyalleri (kalıp gücü + eşleşme derinliği +
+   * tarihsel isabet + motor veri yeterliliği + kararlılık + hacim/OBV/likidite
+   * teyidi) harmanlar. Yapay %33 tavanını kırar; %50+ değerler ancak çok
+   * kanaldan teyitli kurulumlarda oluşur.
+   */
+  signalConfidence: number;
   probability: number | null;
   matchedPatterns: number;
   bestTarget: string | null;
