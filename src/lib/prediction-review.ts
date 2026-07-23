@@ -163,7 +163,7 @@ function classifyMiss(o: {
   return "flat";
 }
 
-async function fetchPredictionReview(): Promise<PredictionReviewData> {
+export async function fetchPredictionReview(): Promise<PredictionReviewData> {
   const wl = await fetchAllWatchlist();
   if (wl.length === 0) {
     return {

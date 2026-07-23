@@ -6,7 +6,7 @@
 // remain aligned with the current market state.
 
 import { createFileRoute } from "@tanstack/react-router";
-import { fetchPredictionOutcomes } from "@/lib/prediction-review";
+import { fetchPredictionReview } from "@/lib/prediction-review";
 import { detectRegime } from "@/lib/ml/regime";
 import { detectDrift } from "@/lib/ml/drift";
 import { computeCalibration } from "@/lib/ml/calibration";
