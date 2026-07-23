@@ -9,24 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as TahminTakibiRouteImport } from './routes/tahmin-takibi'
-import { Route as StocksRouteImport } from './routes/stocks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SignalsRouteImport } from './routes/signals'
-import { Route as OosRouteImport } from './routes/oos'
 import { Route as ModelHealthRouteImport } from './routes/model-health'
-import { Route as MlLabRouteImport } from './routes/ml-lab'
-import { Route as MethodologyRouteImport } from './routes/methodology'
-import { Route as MarketIntelligenceRouteImport } from './routes/market-intelligence'
-import { Route as FirsatlarRouteImport } from './routes/firsatlar'
-import { Route as FeatureImportanceRouteImport } from './routes/feature-importance'
-import { Route as EventsRouteImport } from './routes/events'
-import { Route as EnsembleLabRouteImport } from './routes/ensemble-lab'
-import { Route as CoverageRouteImport } from './routes/coverage'
-import { Route as BacktestLabRouteImport } from './routes/backtest-lab'
-import { Route as BacktestRouteImport } from './routes/backtest'
-import { Route as AiPatternsRouteImport } from './routes/ai-patterns'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HisseSymbolRouteImport } from './routes/hisse.$symbol'
 import { Route as ApiPublicPredictionsRouteImport } from './routes/api/public/predictions'
@@ -37,19 +22,9 @@ import { Route as ApiPublicIngestMacroRouteImport } from './routes/api/public/in
 import { Route as ApiPublicHooksWeeklyRetrainRouteImport } from './routes/api/public/hooks/weekly-retrain'
 import { Route as ApiPublicHooksDailyAuditRouteImport } from './routes/api/public/hooks/daily-audit'
 
-const WatchlistRoute = WatchlistRouteImport.update({
-  id: '/watchlist',
-  path: '/watchlist',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TahminTakibiRoute = TahminTakibiRouteImport.update({
   id: '/tahmin-takibi',
   path: '/tahmin-takibi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StocksRoute = StocksRouteImport.update({
-  id: '/stocks',
-  path: '/stocks',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -57,74 +32,9 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SignalsRoute = SignalsRouteImport.update({
-  id: '/signals',
-  path: '/signals',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OosRoute = OosRouteImport.update({
-  id: '/oos',
-  path: '/oos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ModelHealthRoute = ModelHealthRouteImport.update({
   id: '/model-health',
   path: '/model-health',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MlLabRoute = MlLabRouteImport.update({
-  id: '/ml-lab',
-  path: '/ml-lab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MethodologyRoute = MethodologyRouteImport.update({
-  id: '/methodology',
-  path: '/methodology',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MarketIntelligenceRoute = MarketIntelligenceRouteImport.update({
-  id: '/market-intelligence',
-  path: '/market-intelligence',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FirsatlarRoute = FirsatlarRouteImport.update({
-  id: '/firsatlar',
-  path: '/firsatlar',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FeatureImportanceRoute = FeatureImportanceRouteImport.update({
-  id: '/feature-importance',
-  path: '/feature-importance',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnsembleLabRoute = EnsembleLabRouteImport.update({
-  id: '/ensemble-lab',
-  path: '/ensemble-lab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CoverageRoute = CoverageRouteImport.update({
-  id: '/coverage',
-  path: '/coverage',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BacktestLabRoute = BacktestLabRouteImport.update({
-  id: '/backtest-lab',
-  path: '/backtest-lab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BacktestRoute = BacktestRouteImport.update({
-  id: '/backtest',
-  path: '/backtest',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AiPatternsRoute = AiPatternsRouteImport.update({
-  id: '/ai-patterns',
-  path: '/ai-patterns',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -177,24 +87,9 @@ const ApiPublicHooksDailyAuditRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/ai-patterns': typeof AiPatternsRoute
-  '/backtest': typeof BacktestRoute
-  '/backtest-lab': typeof BacktestLabRoute
-  '/coverage': typeof CoverageRoute
-  '/ensemble-lab': typeof EnsembleLabRoute
-  '/events': typeof EventsRoute
-  '/feature-importance': typeof FeatureImportanceRoute
-  '/firsatlar': typeof FirsatlarRoute
-  '/market-intelligence': typeof MarketIntelligenceRoute
-  '/methodology': typeof MethodologyRoute
-  '/ml-lab': typeof MlLabRoute
   '/model-health': typeof ModelHealthRoute
-  '/oos': typeof OosRoute
-  '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/stocks': typeof StocksRoute
   '/tahmin-takibi': typeof TahminTakibiRoute
-  '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-macro': typeof ApiPublicIngestMacroRoute
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
@@ -206,24 +101,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/ai-patterns': typeof AiPatternsRoute
-  '/backtest': typeof BacktestRoute
-  '/backtest-lab': typeof BacktestLabRoute
-  '/coverage': typeof CoverageRoute
-  '/ensemble-lab': typeof EnsembleLabRoute
-  '/events': typeof EventsRoute
-  '/feature-importance': typeof FeatureImportanceRoute
-  '/firsatlar': typeof FirsatlarRoute
-  '/market-intelligence': typeof MarketIntelligenceRoute
-  '/methodology': typeof MethodologyRoute
-  '/ml-lab': typeof MlLabRoute
   '/model-health': typeof ModelHealthRoute
-  '/oos': typeof OosRoute
-  '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/stocks': typeof StocksRoute
   '/tahmin-takibi': typeof TahminTakibiRoute
-  '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-macro': typeof ApiPublicIngestMacroRoute
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
@@ -236,24 +116,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/ai-patterns': typeof AiPatternsRoute
-  '/backtest': typeof BacktestRoute
-  '/backtest-lab': typeof BacktestLabRoute
-  '/coverage': typeof CoverageRoute
-  '/ensemble-lab': typeof EnsembleLabRoute
-  '/events': typeof EventsRoute
-  '/feature-importance': typeof FeatureImportanceRoute
-  '/firsatlar': typeof FirsatlarRoute
-  '/market-intelligence': typeof MarketIntelligenceRoute
-  '/methodology': typeof MethodologyRoute
-  '/ml-lab': typeof MlLabRoute
   '/model-health': typeof ModelHealthRoute
-  '/oos': typeof OosRoute
-  '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/stocks': typeof StocksRoute
   '/tahmin-takibi': typeof TahminTakibiRoute
-  '/watchlist': typeof WatchlistRoute
   '/hisse/$symbol': typeof HisseSymbolRoute
   '/api/public/ingest-macro': typeof ApiPublicIngestMacroRoute
   '/api/public/ingest-news': typeof ApiPublicIngestNewsRoute
@@ -267,24 +132,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/ai-patterns'
-    | '/backtest'
-    | '/backtest-lab'
-    | '/coverage'
-    | '/ensemble-lab'
-    | '/events'
-    | '/feature-importance'
-    | '/firsatlar'
-    | '/market-intelligence'
-    | '/methodology'
-    | '/ml-lab'
     | '/model-health'
-    | '/oos'
-    | '/signals'
     | '/sitemap.xml'
-    | '/stocks'
     | '/tahmin-takibi'
-    | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-macro'
     | '/api/public/ingest-news'
@@ -296,24 +146,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/ai-patterns'
-    | '/backtest'
-    | '/backtest-lab'
-    | '/coverage'
-    | '/ensemble-lab'
-    | '/events'
-    | '/feature-importance'
-    | '/firsatlar'
-    | '/market-intelligence'
-    | '/methodology'
-    | '/ml-lab'
     | '/model-health'
-    | '/oos'
-    | '/signals'
     | '/sitemap.xml'
-    | '/stocks'
     | '/tahmin-takibi'
-    | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-macro'
     | '/api/public/ingest-news'
@@ -325,24 +160,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/ai-patterns'
-    | '/backtest'
-    | '/backtest-lab'
-    | '/coverage'
-    | '/ensemble-lab'
-    | '/events'
-    | '/feature-importance'
-    | '/firsatlar'
-    | '/market-intelligence'
-    | '/methodology'
-    | '/ml-lab'
     | '/model-health'
-    | '/oos'
-    | '/signals'
     | '/sitemap.xml'
-    | '/stocks'
     | '/tahmin-takibi'
-    | '/watchlist'
     | '/hisse/$symbol'
     | '/api/public/ingest-macro'
     | '/api/public/ingest-news'
@@ -355,24 +175,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AiPatternsRoute: typeof AiPatternsRoute
-  BacktestRoute: typeof BacktestRoute
-  BacktestLabRoute: typeof BacktestLabRoute
-  CoverageRoute: typeof CoverageRoute
-  EnsembleLabRoute: typeof EnsembleLabRoute
-  EventsRoute: typeof EventsRoute
-  FeatureImportanceRoute: typeof FeatureImportanceRoute
-  FirsatlarRoute: typeof FirsatlarRoute
-  MarketIntelligenceRoute: typeof MarketIntelligenceRoute
-  MethodologyRoute: typeof MethodologyRoute
-  MlLabRoute: typeof MlLabRoute
   ModelHealthRoute: typeof ModelHealthRoute
-  OosRoute: typeof OosRoute
-  SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  StocksRoute: typeof StocksRoute
   TahminTakibiRoute: typeof TahminTakibiRoute
-  WatchlistRoute: typeof WatchlistRoute
   HisseSymbolRoute: typeof HisseSymbolRoute
   ApiPublicIngestMacroRoute: typeof ApiPublicIngestMacroRoute
   ApiPublicIngestNewsRoute: typeof ApiPublicIngestNewsRoute
@@ -385,25 +190,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/watchlist': {
-      id: '/watchlist'
-      path: '/watchlist'
-      fullPath: '/watchlist'
-      preLoaderRoute: typeof WatchlistRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/tahmin-takibi': {
       id: '/tahmin-takibi'
       path: '/tahmin-takibi'
       fullPath: '/tahmin-takibi'
       preLoaderRoute: typeof TahminTakibiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/stocks': {
-      id: '/stocks'
-      path: '/stocks'
-      fullPath: '/stocks'
-      preLoaderRoute: typeof StocksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -413,102 +204,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/signals': {
-      id: '/signals'
-      path: '/signals'
-      fullPath: '/signals'
-      preLoaderRoute: typeof SignalsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/oos': {
-      id: '/oos'
-      path: '/oos'
-      fullPath: '/oos'
-      preLoaderRoute: typeof OosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/model-health': {
       id: '/model-health'
       path: '/model-health'
       fullPath: '/model-health'
       preLoaderRoute: typeof ModelHealthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ml-lab': {
-      id: '/ml-lab'
-      path: '/ml-lab'
-      fullPath: '/ml-lab'
-      preLoaderRoute: typeof MlLabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/methodology': {
-      id: '/methodology'
-      path: '/methodology'
-      fullPath: '/methodology'
-      preLoaderRoute: typeof MethodologyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/market-intelligence': {
-      id: '/market-intelligence'
-      path: '/market-intelligence'
-      fullPath: '/market-intelligence'
-      preLoaderRoute: typeof MarketIntelligenceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/firsatlar': {
-      id: '/firsatlar'
-      path: '/firsatlar'
-      fullPath: '/firsatlar'
-      preLoaderRoute: typeof FirsatlarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/feature-importance': {
-      id: '/feature-importance'
-      path: '/feature-importance'
-      fullPath: '/feature-importance'
-      preLoaderRoute: typeof FeatureImportanceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ensemble-lab': {
-      id: '/ensemble-lab'
-      path: '/ensemble-lab'
-      fullPath: '/ensemble-lab'
-      preLoaderRoute: typeof EnsembleLabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/coverage': {
-      id: '/coverage'
-      path: '/coverage'
-      fullPath: '/coverage'
-      preLoaderRoute: typeof CoverageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/backtest-lab': {
-      id: '/backtest-lab'
-      path: '/backtest-lab'
-      fullPath: '/backtest-lab'
-      preLoaderRoute: typeof BacktestLabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/backtest': {
-      id: '/backtest'
-      path: '/backtest'
-      fullPath: '/backtest'
-      preLoaderRoute: typeof BacktestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ai-patterns': {
-      id: '/ai-patterns'
-      path: '/ai-patterns'
-      fullPath: '/ai-patterns'
-      preLoaderRoute: typeof AiPatternsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -579,24 +279,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AiPatternsRoute: AiPatternsRoute,
-  BacktestRoute: BacktestRoute,
-  BacktestLabRoute: BacktestLabRoute,
-  CoverageRoute: CoverageRoute,
-  EnsembleLabRoute: EnsembleLabRoute,
-  EventsRoute: EventsRoute,
-  FeatureImportanceRoute: FeatureImportanceRoute,
-  FirsatlarRoute: FirsatlarRoute,
-  MarketIntelligenceRoute: MarketIntelligenceRoute,
-  MethodologyRoute: MethodologyRoute,
-  MlLabRoute: MlLabRoute,
   ModelHealthRoute: ModelHealthRoute,
-  OosRoute: OosRoute,
-  SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  StocksRoute: StocksRoute,
   TahminTakibiRoute: TahminTakibiRoute,
-  WatchlistRoute: WatchlistRoute,
   HisseSymbolRoute: HisseSymbolRoute,
   ApiPublicIngestMacroRoute: ApiPublicIngestMacroRoute,
   ApiPublicIngestNewsRoute: ApiPublicIngestNewsRoute,
@@ -609,13 +294,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

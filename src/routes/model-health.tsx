@@ -5,6 +5,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { AppShell } from "@/components/app-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { detectRegime, REGIME_ADVICE, REGIME_LABEL, type Regime } from "@/lib/ml/regime";
@@ -43,15 +44,22 @@ function ModelHealthPage() {
       return (data ?? []) as any[];
     },
   });
-  const retrain = useQuery({
-    queryKey: ["mh", "retrain"],
+  const tune = useQuery({
+    queryKey: ["mh", "tune"],
     queryFn: async () => {
       const { data } = await sb
-        .from("retrain_history")
+        .from("auto_tune_history")
         .select("*")
-        .order("started_at", { ascending: false })
-        .limit(10);
+        .order("tuned_at", { ascending: false })
+        .limit(30);
       return (data ?? []) as any[];
+    },
+  });
+  const tuneState = useQuery({
+    queryKey: ["mh", "tuneState"],
+    queryFn: async () => {
+      const { data } = await sb.from("auto_tune_state").select("*").eq("id", 1).maybeSingle();
+      return data as any;
     },
   });
 
@@ -60,7 +68,8 @@ function ModelHealthPage() {
   const lastAudit = audit.data?.[0];
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8">
+    <AppShell>
+    <div className="flex w-full flex-col gap-6">
       <header>
         <h1 className="font-display text-2xl font-bold tracking-tight">Model Sağlığı</h1>
         <p className="text-sm text-muted-foreground">
@@ -209,30 +218,40 @@ function ModelHealthPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Otomatik yeniden ayar geçmişi</CardTitle>
+          <CardTitle>Otomatik ayar geçmişi</CardTitle>
+          {tuneState.data && (
+            <p className="text-xs text-muted-foreground">
+              Şu anki eşik: <b>{Number(tuneState.data.min_confidence).toFixed(0)}</b>
+              {tuneState.data.last_tuned_at && (
+                <> · Son ayar: {new Date(tuneState.data.last_tuned_at).toLocaleString("tr-TR")}</>
+              )}
+            </p>
+          )}
         </CardHeader>
         <CardContent>
-          {retrain.data && retrain.data.length > 0 ? (
+          {tune.data && tune.data.length > 0 ? (
             <ul className="space-y-2 text-sm">
-              {retrain.data.map((r) => (
-                <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-border/40 pb-2">
+              {tune.data.map((row: any) => (
+                <li key={row.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-border/40 pb-2">
                   <span className="font-mono text-xs text-muted-foreground">
-                    {new Date(r.started_at).toLocaleString("tr-TR")}
+                    {new Date(row.tuned_at).toLocaleString("tr-TR")}
                   </span>
-                  <Badge variant={r.status === "ok" ? "default" : r.status === "error" ? "destructive" : "secondary"}>
-                    {r.status}
+                  <Badge variant={row.action === "tighten" ? "destructive" : row.action === "loosen" ? "default" : "secondary"}>
+                    {row.action === "tighten" ? "sıkılaştır" : row.action === "loosen" ? "gevşet" : row.action}
                   </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {r.trigger} · {r.regime ?? "—"} · {r.duration_ms ?? "—"} ms
+                  <span className="font-mono text-xs">
+                    {row.prev_min_confidence} → <b>{row.new_min_confidence}</b>
                   </span>
+                  <span className="w-full text-xs text-muted-foreground">{row.reason}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground">Henüz yeniden ayar tetiklenmedi.</p>
+            <p className="text-sm text-muted-foreground">Henüz otomatik ayar yapılmadı. İlk gece denetimini bekleniyor.</p>
           )}
         </CardContent>
       </Card>
-    </main>
+    </div>
+    </AppShell>
   );
 }

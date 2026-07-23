@@ -1,12 +1,14 @@
 // Daily audit endpoint — cron-triggered. Computes hit-rate for the last window
-// of predictions, snapshots current market regime + drift, writes to
-// prediction_audit + model_health. Public endpoint (no PII returned).
+// of predictions, snapshots current market regime + drift, runs the auto-tuner
+// to update min_confidence, and writes to prediction_audit + model_health +
+// auto_tune_state / auto_tune_history. Public endpoint (no PII returned).
 
 import { createFileRoute } from "@tanstack/react-router";
 import { fetchPredictionReview } from "@/lib/prediction-review";
 import { detectRegime } from "@/lib/ml/regime";
 import { detectDrift } from "@/lib/ml/drift";
 import { computeCalibration } from "@/lib/ml/calibration";
+import { decideTune } from "@/lib/ml/auto-tuner";
 
 export const Route = createFileRoute("/api/public/hooks/daily-audit")({
   server: {
@@ -82,11 +84,48 @@ export const Route = createFileRoute("/api/public/hooks/daily-audit")({
             } as unknown as any,
           });
 
+          // ===== Auto-tuner: adjust min_confidence based on hit rate =====
+          const stateRes = await supabaseAdmin
+            .from("auto_tune_state")
+            .select("*")
+            .eq("id", 1)
+            .maybeSingle();
+          const currentMinConf = stateRes.data?.min_confidence != null ? Number(stateRes.data.min_confidence) : 60;
+          const decision = decideTune({
+            hitRate,
+            sampleSize: settled,
+            currentMinConfidence: currentMinConf,
+          });
+          if (decision.action !== "insufficient_data") {
+            await supabaseAdmin.from("auto_tune_state").upsert({
+              id: 1,
+              min_confidence: decision.newMinConfidence,
+              last_hit_rate: hitRate,
+              last_tuned_at: new Date().toISOString(),
+              notes: { action: decision.action, reason: decision.reason } as unknown as any,
+            });
+            await supabaseAdmin.from("auto_tune_history").insert({
+              prev_min_confidence: currentMinConf,
+              new_min_confidence: decision.newMinConfidence,
+              hit_rate: hitRate,
+              sample_size: settled,
+              action: decision.action,
+              reason: decision.reason,
+              disabled_patterns: decision.disablePatterns,
+            });
+          }
+
           return Response.json({
             ok: true,
             audit: { hits, misses, pending, hit_rate: hitRate },
             regime: regime.regime,
             drift: drift.level,
+            auto_tune: {
+              action: decision.action,
+              from: currentMinConf,
+              to: decision.newMinConfidence,
+              reason: decision.reason,
+            },
             alerts,
             duration_ms: Date.now() - started,
           });

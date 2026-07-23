@@ -11,23 +11,8 @@ import {
 
 const NAV = [
   { to: "/", label: "Ana Sayfa" },
-  { to: "/firsatlar", label: "Fırsatlar" },
   { to: "/tahmin-takibi", label: "Tahmin Takibi" },
   { to: "/model-health", label: "Model Sağlığı" },
-  { to: "/ai-patterns", label: "Yapay Zeka Analizi" },
-  { to: "/signals", label: "En Güçlü Sinyaller" },
-  { to: "/feature-importance", label: "Göstergeler" },
-  { to: "/watchlist", label: "İzleme Listesi" },
-  { to: "/backtest", label: "Geçmiş Performans" },
-  { to: "/backtest-lab", label: "Backtest Motoru" },
-  { to: "/ml-lab", label: "ML Lab" },
-  { to: "/ensemble-lab", label: "Ensemble Lab" },
-  { to: "/market-intelligence", label: "Market Intelligence" },
-  { to: "/oos", label: "Canlı Doğrulama" },
-  { to: "/events", label: "Olaylar" },
-  { to: "/stocks", label: "Evren" },
-  { to: "/coverage", label: "Veri Kapsamı" },
-  { to: "/methodology", label: "Yöntem" },
 ] as const;
 
 function Brand({ onClick }: { onClick?: () => void }) {
@@ -41,7 +26,7 @@ function Brand({ onClick }: { onClick?: () => void }) {
           BIST Sinyal Lab
         </span>
         <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-          Araştırma Modu
+          Otomatik Mod
         </span>
       </span>
     </Link>
@@ -57,8 +42,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <Brand />
 
-          {/* Desktop: full horizontal nav */}
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-1 md:flex">
             {NAV.map((item) => (
               <Link
                 key={item.to}
@@ -68,20 +52,19 @@ export function AppShell({ children }: { children: ReactNode }) {
                 inactiveProps={{
                   className: "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
                 }}
-                className="rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors xl:px-3 xl:text-sm"
+                className="rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          {/* Mobile / tablet: hamburger drawer */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <button
                 type="button"
                 aria-label="Menüyü aç"
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-secondary/40 text-foreground transition hover:bg-secondary lg:hidden"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-secondary/40 text-foreground transition hover:bg-secondary md:hidden"
               >
                 <Menu className="h-5 w-5" />
               </button>
@@ -116,15 +99,12 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">{children}</main>
+      <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">{children}</main>
 
       <footer className="border-t border-border">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-          <p className="max-w-3xl text-xs leading-relaxed text-muted-foreground">
-            <span className="font-semibold text-foreground">Yalnızca araştırma amaçlıdır — yatırım tavsiyesi değildir.</span>{" "}
-            Bu laboratuvar al/sat sinyali üretmez. Günlük verileri toplar, büyük hareketleri olay
-            olarak işaretler ve bu hareketlerden önce hangi koşulların tekrarlandığını ölçer. Gerçek
-            kalıpları incelemek için canlı bir BIST veri kaynağı bağlayın.
+        <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Yalnızca araştırma amaçlıdır — yatırım tavsiyesi değildir. Sistem her gece kendini değerlendirir ve parametrelerini otomatik günceller.
           </p>
         </div>
       </footer>

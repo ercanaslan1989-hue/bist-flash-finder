@@ -183,6 +183,8 @@ export interface OpportunitiesData {
   sectors: string[];
   /** Active ensemble metadata when one is serving, else null. */
   ensemble: { name: string; method: string; horizon: number } | null;
+  /** Auto-tuner state — current thresholds set by the nightly self-tuning job. */
+  autoTune: { minConfidence: number; minWeeklyTarget: number; lastTunedAt: string | null; lastHitRate: number | null };
 }
 
 /** Sum of the last `n` daily returns (already in percent). */
@@ -199,13 +201,21 @@ export async function fetchOpportunities(): Promise<OpportunitiesData> {
     .limit(1);
   const scoreDate: string | undefined = wlDateRes.data?.[0]?.score_date;
 
-  const [wlRes, history] = await Promise.all([
+  const [wlRes, history, tuneRes] = await Promise.all([
     scoreDate
       ? sb.from("ai_watchlist").select("*").eq("score_date", scoreDate)
       : Promise.resolve({ data: [] }),
     fetchRecentHistory(),
+    sb.from("auto_tune_state").select("*").eq("id", 1).limit(1),
   ]);
   const wl = (wlRes.data ?? []) as WatchlistRow[];
+  const tune = tuneRes.data?.[0] ?? null;
+  const autoTune = {
+    minConfidence: tune?.min_confidence != null ? Number(tune.min_confidence) : 60,
+    minWeeklyTarget: tune?.min_weekly_target != null ? Number(tune.min_weekly_target) : 10,
+    lastTunedAt: tune?.last_tuned_at ?? null,
+    lastHitRate: tune?.last_hit_rate != null ? Number(tune.last_hit_rate) : null,
+  };
 
   // Latest snapshot metrics for each symbol.
   const latest = history.latestDate;
@@ -407,7 +417,7 @@ export async function fetchOpportunities(): Promise<OpportunitiesData> {
     if (!u) return max;
     return !max || u > max ? u : max;
   }, null);
-  return { rows, scoreDate: scoreDate ?? null, latestDate: latest, updatedAt, sectors, ensemble };
+  return { rows, scoreDate: scoreDate ?? null, latestDate: latest, updatedAt, sectors, ensemble, autoTune };
 }
 
 export const opportunitiesQueryOptions = () =>

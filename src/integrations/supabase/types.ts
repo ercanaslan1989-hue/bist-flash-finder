@@ -863,6 +863,72 @@ export type Database = {
         }
         Relationships: []
       }
+      auto_tune_history: {
+        Row: {
+          action: string
+          disabled_patterns: string[] | null
+          hit_rate: number | null
+          id: string
+          new_min_confidence: number | null
+          prev_min_confidence: number | null
+          reason: string | null
+          sample_size: number | null
+          tuned_at: string
+        }
+        Insert: {
+          action: string
+          disabled_patterns?: string[] | null
+          hit_rate?: number | null
+          id?: string
+          new_min_confidence?: number | null
+          prev_min_confidence?: number | null
+          reason?: string | null
+          sample_size?: number | null
+          tuned_at?: string
+        }
+        Update: {
+          action?: string
+          disabled_patterns?: string[] | null
+          hit_rate?: number | null
+          id?: string
+          new_min_confidence?: number | null
+          prev_min_confidence?: number | null
+          reason?: string | null
+          sample_size?: number | null
+          tuned_at?: string
+        }
+        Relationships: []
+      }
+      auto_tune_state: {
+        Row: {
+          disabled_patterns: string[]
+          id: number
+          last_hit_rate: number | null
+          last_tuned_at: string
+          min_confidence: number
+          min_weekly_target: number
+          notes: Json | null
+        }
+        Insert: {
+          disabled_patterns?: string[]
+          id?: number
+          last_hit_rate?: number | null
+          last_tuned_at?: string
+          min_confidence?: number
+          min_weekly_target?: number
+          notes?: Json | null
+        }
+        Update: {
+          disabled_patterns?: string[]
+          id?: number
+          last_hit_rate?: number | null
+          last_tuned_at?: string
+          min_confidence?: number
+          min_weekly_target?: number
+          notes?: Json | null
+        }
+        Relationships: []
+      }
       backtest_metrics: {
         Row: {
           avg_holding: number | null

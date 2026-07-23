@@ -285,10 +285,10 @@ function DetailPage() {
 function BackLink() {
   return (
     <Link
-      to="/firsatlar"
+      to="/"
       className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
     >
-      <ArrowLeft className="h-4 w-4" /> Fırsat listesine dön
+      <ArrowLeft className="h-4 w-4" /> Ana sayfaya dön
     </Link>
   );
 }
