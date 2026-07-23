@@ -15,6 +15,7 @@ import { Route as StocksRouteImport } from './routes/stocks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as OosRouteImport } from './routes/oos'
+import { Route as ModelHealthRouteImport } from './routes/model-health'
 import { Route as MlLabRouteImport } from './routes/ml-lab'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as MarketIntelligenceRouteImport } from './routes/market-intelligence'
@@ -33,6 +34,8 @@ import { Route as ApiPublicLiveMoversRouteImport } from './routes/api/public/liv
 import { Route as ApiPublicIngestOhlcRouteImport } from './routes/api/public/ingest-ohlc'
 import { Route as ApiPublicIngestNewsRouteImport } from './routes/api/public/ingest-news'
 import { Route as ApiPublicIngestMacroRouteImport } from './routes/api/public/ingest-macro'
+import { Route as ApiPublicHooksWeeklyRetrainRouteImport } from './routes/api/public/hooks/weekly-retrain'
+import { Route as ApiPublicHooksDailyAuditRouteImport } from './routes/api/public/hooks/daily-audit'
 
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
@@ -62,6 +65,11 @@ const SignalsRoute = SignalsRouteImport.update({
 const OosRoute = OosRouteImport.update({
   id: '/oos',
   path: '/oos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModelHealthRoute = ModelHealthRouteImport.update({
+  id: '/model-health',
+  path: '/model-health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MlLabRoute = MlLabRouteImport.update({
@@ -154,6 +162,18 @@ const ApiPublicIngestMacroRoute = ApiPublicIngestMacroRouteImport.update({
   path: '/api/public/ingest-macro',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksWeeklyRetrainRoute =
+  ApiPublicHooksWeeklyRetrainRouteImport.update({
+    id: '/api/public/hooks/weekly-retrain',
+    path: '/api/public/hooks/weekly-retrain',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksDailyAuditRoute =
+  ApiPublicHooksDailyAuditRouteImport.update({
+    id: '/api/public/hooks/daily-audit',
+    path: '/api/public/hooks/daily-audit',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -168,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/market-intelligence': typeof MarketIntelligenceRoute
   '/methodology': typeof MethodologyRoute
   '/ml-lab': typeof MlLabRoute
+  '/model-health': typeof ModelHealthRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -180,6 +201,8 @@ export interface FileRoutesByFullPath {
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
   '/api/public/predictions': typeof ApiPublicPredictionsRoute
+  '/api/public/hooks/daily-audit': typeof ApiPublicHooksDailyAuditRoute
+  '/api/public/hooks/weekly-retrain': typeof ApiPublicHooksWeeklyRetrainRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -194,6 +217,7 @@ export interface FileRoutesByTo {
   '/market-intelligence': typeof MarketIntelligenceRoute
   '/methodology': typeof MethodologyRoute
   '/ml-lab': typeof MlLabRoute
+  '/model-health': typeof ModelHealthRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -206,6 +230,8 @@ export interface FileRoutesByTo {
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
   '/api/public/predictions': typeof ApiPublicPredictionsRoute
+  '/api/public/hooks/daily-audit': typeof ApiPublicHooksDailyAuditRoute
+  '/api/public/hooks/weekly-retrain': typeof ApiPublicHooksWeeklyRetrainRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -221,6 +247,7 @@ export interface FileRoutesById {
   '/market-intelligence': typeof MarketIntelligenceRoute
   '/methodology': typeof MethodologyRoute
   '/ml-lab': typeof MlLabRoute
+  '/model-health': typeof ModelHealthRoute
   '/oos': typeof OosRoute
   '/signals': typeof SignalsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -233,6 +260,8 @@ export interface FileRoutesById {
   '/api/public/ingest-ohlc': typeof ApiPublicIngestOhlcRoute
   '/api/public/live-movers': typeof ApiPublicLiveMoversRoute
   '/api/public/predictions': typeof ApiPublicPredictionsRoute
+  '/api/public/hooks/daily-audit': typeof ApiPublicHooksDailyAuditRoute
+  '/api/public/hooks/weekly-retrain': typeof ApiPublicHooksWeeklyRetrainRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -249,6 +278,7 @@ export interface FileRouteTypes {
     | '/market-intelligence'
     | '/methodology'
     | '/ml-lab'
+    | '/model-health'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
@@ -261,6 +291,8 @@ export interface FileRouteTypes {
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
     | '/api/public/predictions'
+    | '/api/public/hooks/daily-audit'
+    | '/api/public/hooks/weekly-retrain'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -275,6 +307,7 @@ export interface FileRouteTypes {
     | '/market-intelligence'
     | '/methodology'
     | '/ml-lab'
+    | '/model-health'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
@@ -287,6 +320,8 @@ export interface FileRouteTypes {
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
     | '/api/public/predictions'
+    | '/api/public/hooks/daily-audit'
+    | '/api/public/hooks/weekly-retrain'
   id:
     | '__root__'
     | '/'
@@ -301,6 +336,7 @@ export interface FileRouteTypes {
     | '/market-intelligence'
     | '/methodology'
     | '/ml-lab'
+    | '/model-health'
     | '/oos'
     | '/signals'
     | '/sitemap.xml'
@@ -313,6 +349,8 @@ export interface FileRouteTypes {
     | '/api/public/ingest-ohlc'
     | '/api/public/live-movers'
     | '/api/public/predictions'
+    | '/api/public/hooks/daily-audit'
+    | '/api/public/hooks/weekly-retrain'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -328,6 +366,7 @@ export interface RootRouteChildren {
   MarketIntelligenceRoute: typeof MarketIntelligenceRoute
   MethodologyRoute: typeof MethodologyRoute
   MlLabRoute: typeof MlLabRoute
+  ModelHealthRoute: typeof ModelHealthRoute
   OosRoute: typeof OosRoute
   SignalsRoute: typeof SignalsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -340,6 +379,8 @@ export interface RootRouteChildren {
   ApiPublicIngestOhlcRoute: typeof ApiPublicIngestOhlcRoute
   ApiPublicLiveMoversRoute: typeof ApiPublicLiveMoversRoute
   ApiPublicPredictionsRoute: typeof ApiPublicPredictionsRoute
+  ApiPublicHooksDailyAuditRoute: typeof ApiPublicHooksDailyAuditRoute
+  ApiPublicHooksWeeklyRetrainRoute: typeof ApiPublicHooksWeeklyRetrainRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -384,6 +425,13 @@ declare module '@tanstack/react-router' {
       path: '/oos'
       fullPath: '/oos'
       preLoaderRoute: typeof OosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/model-health': {
+      id: '/model-health'
+      path: '/model-health'
+      fullPath: '/model-health'
+      preLoaderRoute: typeof ModelHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ml-lab': {
@@ -512,6 +560,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicIngestMacroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/weekly-retrain': {
+      id: '/api/public/hooks/weekly-retrain'
+      path: '/api/public/hooks/weekly-retrain'
+      fullPath: '/api/public/hooks/weekly-retrain'
+      preLoaderRoute: typeof ApiPublicHooksWeeklyRetrainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/daily-audit': {
+      id: '/api/public/hooks/daily-audit'
+      path: '/api/public/hooks/daily-audit'
+      fullPath: '/api/public/hooks/daily-audit'
+      preLoaderRoute: typeof ApiPublicHooksDailyAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -528,6 +590,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarketIntelligenceRoute: MarketIntelligenceRoute,
   MethodologyRoute: MethodologyRoute,
   MlLabRoute: MlLabRoute,
+  ModelHealthRoute: ModelHealthRoute,
   OosRoute: OosRoute,
   SignalsRoute: SignalsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -540,6 +603,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicIngestOhlcRoute: ApiPublicIngestOhlcRoute,
   ApiPublicLiveMoversRoute: ApiPublicLiveMoversRoute,
   ApiPublicPredictionsRoute: ApiPublicPredictionsRoute,
+  ApiPublicHooksDailyAuditRoute: ApiPublicHooksDailyAuditRoute,
+  ApiPublicHooksWeeklyRetrainRoute: ApiPublicHooksWeeklyRetrainRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
