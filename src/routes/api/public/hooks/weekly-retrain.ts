@@ -25,12 +25,12 @@ export const Route = createFileRoute("/api/public/hooks/weekly-retrain")({
         const id = rec?.id as string | undefined;
 
         try {
-          const [regime, drift, outcomes] = await Promise.all([
+          const [regime, drift, review] = await Promise.all([
             detectRegime(20),
             detectDrift(20, 90),
-            fetchPredictionOutcomes(120),
+            fetchPredictionReview(),
           ]);
-          const settled = outcomes.filter((o) => o.status !== "pending" && o.probability != null);
+          const settled = review.outcomes.filter((o) => o.status !== "pending" && o.probability != null);
           const calibration = computeCalibration(
             settled.map((o) => ({
               predicted: (o.probability as number) / 100,
@@ -49,7 +49,7 @@ export const Route = createFileRoute("/api/public/hooks/weekly-retrain")({
               platt: calibration.platt,
             },
             settled_sample: settled.length,
-          };
+          } as unknown as any;
 
           if (id) {
             await supabaseAdmin

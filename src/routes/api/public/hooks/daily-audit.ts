@@ -16,11 +16,12 @@ export const Route = createFileRoute("/api/public/hooks/daily-audit")({
         try {
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-          const outcomes = await fetchPredictionOutcomes(60);
-          const window20 = outcomes.filter((o) => o.daysElapsed >= o.horizon);
+          const review = await fetchPredictionReview();
+          const outcomes = review.outcomes;
+          const window20 = outcomes.filter((o) => o.status !== "pending");
           const hits = window20.filter((o) => o.status === "hit").length;
           const misses = window20.filter((o) => o.status === "miss").length;
-          const pending = outcomes.length - window20.length;
+          const pending = outcomes.filter((o) => o.status === "pending").length;
           const settled = hits + misses;
           const hitRate = settled ? hits / settled : null;
           const avgRet = settled
@@ -32,7 +33,6 @@ export const Route = createFileRoute("/api/public/hooks/daily-audit")({
 
           const [regime, drift] = await Promise.all([detectRegime(20), detectDrift(20, 90)]);
 
-          // Calibration from settled outcomes (probability is 0-100 → /100).
           const calibPoints = window20
             .filter((o) => o.probability != null)
             .map((o) => ({
@@ -73,13 +73,13 @@ export const Route = createFileRoute("/api/public/hooks/daily-audit")({
             drift_psi: drift.psi,
             drift_level: drift.level,
             calibration_error: calibration.ece,
-            calibration_bins: calibration.bins,
+            calibration_bins: calibration.bins as unknown as any,
             alerts,
             meta: {
               regime_detail: regime,
               drift_features: drift.features,
               calibration: { brier: calibration.brier, sample: calibration.sample, platt: calibration.platt },
-            },
+            } as unknown as any,
           });
 
           return Response.json({
