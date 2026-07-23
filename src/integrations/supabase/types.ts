@@ -1939,6 +1939,51 @@ export type Database = {
         }
         Relationships: []
       }
+      model_health: {
+        Row: {
+          alerts: Json | null
+          bist_trend: number | null
+          bist_volatility: number | null
+          calibration_bins: Json | null
+          calibration_error: number | null
+          drift_level: string | null
+          drift_psi: number | null
+          id: string
+          meta: Json | null
+          regime: string
+          regime_score: number | null
+          snapshot_at: string
+        }
+        Insert: {
+          alerts?: Json | null
+          bist_trend?: number | null
+          bist_volatility?: number | null
+          calibration_bins?: Json | null
+          calibration_error?: number | null
+          drift_level?: string | null
+          drift_psi?: number | null
+          id?: string
+          meta?: Json | null
+          regime: string
+          regime_score?: number | null
+          snapshot_at?: string
+        }
+        Update: {
+          alerts?: Json | null
+          bist_trend?: number | null
+          bist_volatility?: number | null
+          calibration_bins?: Json | null
+          calibration_error?: number | null
+          drift_level?: string | null
+          drift_psi?: number | null
+          id?: string
+          meta?: Json | null
+          regime?: string
+          regime_score?: number | null
+          snapshot_at?: string
+        }
+        Relationships: []
+      }
       pred_catalog: {
         Row: {
           feature_group: string | null
@@ -1954,6 +1999,54 @@ export type Database = {
           feature_group?: string | null
           label?: string | null
           pred_key?: string
+        }
+        Relationships: []
+      }
+      prediction_audit: {
+        Row: {
+          audit_date: string
+          avg_max_return: number | null
+          avg_return: number | null
+          created_at: string
+          hit_rate: number | null
+          hits: number
+          id: string
+          misses: number
+          notes: Json | null
+          pending: number
+          regime: string | null
+          total_predictions: number
+          window_days: number
+        }
+        Insert: {
+          audit_date: string
+          avg_max_return?: number | null
+          avg_return?: number | null
+          created_at?: string
+          hit_rate?: number | null
+          hits?: number
+          id?: string
+          misses?: number
+          notes?: Json | null
+          pending?: number
+          regime?: string | null
+          total_predictions?: number
+          window_days?: number
+        }
+        Update: {
+          audit_date?: string
+          avg_max_return?: number | null
+          avg_return?: number | null
+          created_at?: string
+          hit_rate?: number | null
+          hits?: number
+          id?: string
+          misses?: number
+          notes?: Json | null
+          pending?: number
+          regime?: string | null
+          total_predictions?: number
+          window_days?: number
         }
         Relationships: []
       }
@@ -2215,6 +2308,42 @@ export type Database = {
           label?: string
           ord?: number
           pct?: number
+        }
+        Relationships: []
+      }
+      retrain_history: {
+        Row: {
+          duration_ms: number | null
+          error: string | null
+          finished_at: string | null
+          id: string
+          regime: string | null
+          started_at: string
+          status: string
+          summary: Json | null
+          trigger: string
+        }
+        Insert: {
+          duration_ms?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          regime?: string | null
+          started_at?: string
+          status?: string
+          summary?: Json | null
+          trigger: string
+        }
+        Update: {
+          duration_ms?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          regime?: string | null
+          started_at?: string
+          status?: string
+          summary?: Json | null
+          trigger?: string
         }
         Relationships: []
       }

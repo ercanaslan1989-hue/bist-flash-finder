@@ -13,6 +13,7 @@ const NAV = [
   { to: "/", label: "Ana Sayfa" },
   { to: "/firsatlar", label: "Fırsatlar" },
   { to: "/tahmin-takibi", label: "Tahmin Takibi" },
+  { to: "/model-health", label: "Model Sağlığı" },
   { to: "/ai-patterns", label: "Yapay Zeka Analizi" },
   { to: "/signals", label: "En Güçlü Sinyaller" },
   { to: "/feature-importance", label: "Göstergeler" },
